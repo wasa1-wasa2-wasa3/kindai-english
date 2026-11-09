@@ -10,6 +10,7 @@
   --bg:#fbf6ea;--grid:rgba(110,150,190,.13);--card:#fffdf8;--line:#eadfc8;
   --ink:#4a4038;--sub:#8a7d70;--accent:#ef8a5b;--accent2:#f6c27a;
   --ok:#5fae84;--okbg:#e9f6ee;--ng:#e0716b;--ngbg:#fdeceb;--blue:#6a9fd4;
+  --coffee:#a7785a;--coffeebg:#fbf3ea;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0}
@@ -124,6 +125,35 @@ details summary{cursor:pointer;padding:4px 0}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 .empty{text-align:center;color:var(--sub);padding:18px 0}
 .foot{text-align:center;font-size:.75rem;color:var(--sub);margin-top:24px}
+/* ☕ 単語帳 */
+.mbtn.wide{grid-column:1/-1;min-height:72px}
+.badge.cf{background:var(--coffee)}
+.lv b.cf{color:var(--coffee)}
+.bar>i.cf{background:linear-gradient(90deg,#d9b994,var(--coffee))}
+.btn.coffee{background:var(--coffee);box-shadow:0 3px 0 #85583d}
+.btn.coffee:active{box-shadow:0 1px 0 #85583d}
+.btn small{font-weight:normal;opacity:.9;font-size:.78rem}
+.vchips button.on{background:var(--coffee);border-color:var(--coffee);color:#fff;font-weight:bold}
+.vcard{background:var(--card);border:2px solid var(--coffee);border-radius:18px;padding:18px 16px;margin:12px 0;min-height:280px;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;cursor:pointer;
+  box-shadow:0 3px 0 rgba(167,120,90,.35);animation:vflip .3s ease-out;outline:none}
+.vcard.vback{display:block;text-align:left;background:var(--coffeebg);min-height:0}
+.vcard:active{transform:translateY(1px)}
+@keyframes vflip{from{transform:perspective(600px) rotateY(80deg);opacity:.2}to{transform:none;opacity:1}}
+.vhw{font-family:Georgia,"Times New Roman",serif;font-size:2.2rem;font-weight:bold;margin:18px 0 4px;word-break:break-word}
+.vpos{color:var(--sub)}
+.vhint{margin-top:16px}
+.vcard.vback .vhint{text-align:center;margin-top:8px}
+.vhw-s{font-family:Georgia,"Times New Roman",serif;font-size:1.1rem}
+.vja{font-size:1.25rem;font-weight:bold;color:var(--coffee);margin:4px 0 6px}
+.vsec{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 10px;margin:8px 0;font-size:.95rem}
+.vsec h4{margin:0 0 2px;font-size:.78rem;color:var(--sub)}
+.ven{font-family:Georgia,"Times New Roman",serif;font-size:1rem}
+.vdots{display:flex;justify-content:center;gap:8px;margin:2px 0 4px}
+.vdots i{width:12px;height:12px;border-radius:50%;background:#efe4d2;border:1.5px solid var(--line)}
+.vdots i.cur{background:var(--coffee);border-color:var(--coffee)}
+.vdots i.ok{background:var(--ok);border-color:var(--ok)}
+.vdots i.ng{background:var(--accent2);border-color:var(--accent2)}
 @media (max-width:380px){.menu{grid-template-columns:1fr}.navgrid{grid-template-columns:repeat(7,1fr)}}
 </style>
 </head>
@@ -359,6 +389,316 @@ VII: [
 };
 
 /* ============================================================
+   ☕ コーヒーブレイク単語帳（60語・定義文/例文はすべてオリジナル）
+   cat: V=定義語(大問V) / P=句動詞・同意語(大問IV) / T=長文テーマ語
+   ============================================================ */
+const VOCAB = [
+/* ---------- V 定義語（20） ---------- */
+ {w:"abundant", pos:"形容詞", ja:"豊富な、たくさんある", cat:"V",
+  en:"present in very large quantities; plentiful",
+  ety:"ラテン語 abundare（あふれ出る）から。ab-（離れて）＋unda（波）で、「波があふれ出るほど多い」イメージ。",
+  trivia:"名詞は abundance。反対語 scarce（乏しい）とペアで覚えよう。be abundant in ～（～が豊富だ）の形もある。",
+  ex:"Fresh water is abundant in this part of the country.", exja:"この地方では真水が豊富にある。"},
+ {w:"consider", pos:"動詞", ja:"よく考える、～とみなす", cat:"V",
+  en:"to think carefully about something before making a decision",
+  ety:"ラテン語 considerare（じっくり観察する・熟考する）から。sidus（星）と結びつけて「星をよく見る」とする説もあるが、確定はしていない。",
+  trivia:"consider ～ing（～することを検討する）で、to不定詞はとらないのが文法問題の定番。consider O C（OをCとみなす）の形もある。",
+  ex:"Please consider all the options before you choose a university.", exja:"大学を選ぶ前に、すべての選択肢をよく考えてください。"},
+ {w:"scarce", pos:"形容詞", ja:"乏しい、不足している", cat:"V",
+  en:"not easy to find or get because there is only a small amount",
+  ety:"古フランス語 escars（乏しい・出し惜しみする）から英語に入った語。",
+  trivia:"abundant の反対語。副詞 scarcely は「ほとんど～ない」（＝hardly）で、否定の意味になることに注意。",
+  ex:"Food was scarce during the long winter.", exja:"長い冬のあいだ、食料が乏しかった。"},
+ {w:"reluctant", pos:"形容詞", ja:"気が進まない、しぶしぶの", cat:"V",
+  en:"not willing to do something, so you do it slowly or unhappily",
+  ety:"ラテン語 reluctari（逆らってもがく）から。re-（反対に）＋luctari（もがく・格闘する）。",
+  trivia:"be reluctant to ～（～したがらない）の形で使う。反対は be eager to ～／be willing to ～。",
+  ex:"He was reluctant to speak in front of the whole class.", exja:"彼はクラス全員の前で話すのに気が進まなかった。"},
+ {w:"vague", pos:"形容詞", ja:"あいまいな、ぼんやりした", cat:"V",
+  en:"not clear or exact in meaning or shape",
+  ety:"ラテン語 vagus（さまよう）から。考えや形がふらふらして定まらない、というイメージ。",
+  trivia:"同じ語源に vagabond（放浪者）。vivid（鮮やかな）・vast（広大な）とつづりが似ていて、選択肢で並びやすい。",
+  ex:"Her answer was so vague that nobody understood her plan.", exja:"彼女の答えはとてもあいまいで、誰も彼女の計画を理解できなかった。"},
+ {w:"hesitate", pos:"動詞", ja:"ためらう", cat:"V",
+  en:"to wait a short time before acting because you feel worried or uncertain",
+  ety:"ラテン語 haesitare（くっついて動けない・口ごもる）から。もとは haerere（くっつく）。",
+  trivia:"同じ haerere から adhere（くっつく・固守する）。Don't hesitate to ～（遠慮なく～してね）はメールの定番表現。",
+  ex:"If you have any questions, don't hesitate to ask me.", exja:"質問があれば、遠慮なく私に聞いてください。"},
+ {w:"fragile", pos:"形容詞", ja:"壊れやすい、もろい", cat:"V",
+  en:"weak and likely to break if you are not careful with it",
+  ety:"ラテン語 fragilis（壊れやすい）から。もとは frangere（壊す）。",
+  trivia:"同じ語源に fragment（破片）・fraction（分数）。frail（か弱い）も fragilis がフランス語経由で入った語。",
+  ex:"Be careful with that box; the glasses inside are fragile.", exja:"その箱は気をつけて。中のグラスが壊れやすいから。"},
+ {w:"generous", pos:"形容詞", ja:"気前のよい、寛大な", cat:"V",
+  en:"happy to give money, time, or help to other people",
+  ety:"ラテン語 generosus（生まれの良い・高貴な）から。genus（生まれ・種族）が語根。",
+  trivia:"「育ちが良い」→「心が広い・気前がよい」へと意味が広がった。generation（世代）・general（一般の）も genus の仲間。",
+  ex:"My grandfather was generous enough to pay for my new bike.", exja:"祖父は気前よく、私の新しい自転車の代金を払ってくれた。"},
+ {w:"ancestor", pos:"名詞", ja:"祖先", cat:"V",
+  en:"a person in your family who lived a long time before you",
+  ety:"ラテン語 antecessor（先に行く者）から。ante-（前に）＋cedere（行く）。",
+  trivia:"反対語は descendant（子孫）。ante- は「前」で、a.m.（ante meridiem＝正午より前）の a もこれ。",
+  ex:"Our ancestors grew rice in this valley hundreds of years ago.", exja:"私たちの祖先は何百年も前、この谷で米を育てていた。"},
+ {w:"reveal", pos:"動詞", ja:"明らかにする、明かす", cat:"V",
+  en:"to show or tell something that was secret or hidden",
+  ety:"ラテン語 revelare（ベールをはがす）から。re-（逆に）＋velum（覆い・ベール）。",
+  trivia:"veil（ベール）と同じ語源。名詞は revelation。conceal（隠す）が反対語。",
+  ex:"The test results revealed a small problem with the engine.", exja:"テストの結果、エンジンの小さな問題が明らかになった。"},
+ {w:"temporary", pos:"形容詞", ja:"一時的な", cat:"V",
+  en:"lasting or used for only a short time",
+  ety:"ラテン語 tempus（時）から。「その時かぎりの」という意味。",
+  trivia:"反対語は permanent（永続的な）。音楽の tempo（テンポ）も同じ tempus からイタリア語経由で入った語。",
+  ex:"She found a temporary job during the summer vacation.", exja:"彼女は夏休みのあいだ、一時的な仕事を見つけた。"},
+ {w:"accurate", pos:"形容詞", ja:"正確な", cat:"V",
+  en:"correct and true in every detail",
+  ety:"ラテン語 accuratus（注意して作られた）から。ad-（～に）＋cura（注意・世話）。",
+  trivia:"cura は cure（治療）や curious（好奇心の強い）と同じ語源。名詞 accuracy、反対語 inaccurate。",
+  ex:"This watch is very accurate; it never loses a second.", exja:"この時計はとても正確で、1秒も遅れない。"},
+ {w:"obvious", pos:"形容詞", ja:"明らかな、見てすぐわかる", cat:"V",
+  en:"easy to see or understand",
+  ety:"ラテン語 obvius（道で出会う・目の前にある）から。ob-（～に向かって）＋via（道）で、「道の上にあって目に入る」イメージ。",
+  trivia:"via（～経由で）と同じ語源。It is obvious that ～ は It goes without saying that ～ の言いかえにもなる。",
+  ex:"It was obvious from his face that he was tired.", exja:"顔を見れば、彼が疲れているのは明らかだった。"},
+ {w:"permanent", pos:"形容詞", ja:"永続的な、永久の", cat:"V",
+  en:"lasting for a very long time or forever",
+  ety:"ラテン語 permanere（最後までとどまる）から。per-（通して）＋manere（とどまる）。",
+  trivia:"髪の「パーマ」は permanent wave の略で、「長持ちするウェーブ」のこと。反対語は temporary。",
+  ex:"After years of moving around, they finally found a permanent home.", exja:"何年も引っ越しを重ねたのち、彼らはついに永住の家を見つけた。"},
+ {w:"curious", pos:"形容詞", ja:"好奇心の強い、知りたがる", cat:"V",
+  en:"wanting to know or learn about something",
+  ety:"ラテン語 curiosus（注意深い・知りたがる）から。cura（注意・気づかい）が語根。",
+  trivia:"名詞 curiosity。“Curiosity killed the cat.”（好奇心は身を滅ぼす）ということわざが有名。",
+  ex:"Small children are curious about everything around them.", exja:"小さな子どもは身の回りのあらゆることに興味津々だ。"},
+ {w:"anxious", pos:"形容詞", ja:"心配な／切望して", cat:"V",
+  en:"worried or nervous about something that may happen",
+  ety:"ラテン語 anxius（不安な）から。angere（締めつける・苦しめる）と関係する語。",
+  trivia:"be anxious about ～＝～を心配する、be anxious to ～＝～したくてたまらない。形で意味を判断しよう。名詞は anxiety。",
+  ex:"She was anxious about the results of her entrance exam.", exja:"彼女は入試の結果が心配だった。"},
+ {w:"eager", pos:"形容詞", ja:"熱心な、しきりに～したがる", cat:"V",
+  en:"wanting very much to do or have something",
+  ety:"古フランス語 aigre（鋭い・すっぱい）から。さかのぼるとラテン語 acer（鋭い）。",
+  trivia:"vinegar（酢）は vin（ワイン）＋aigre（すっぱい）で同じ仲間。be eager to ～ は be reluctant to ～ の反対。",
+  ex:"The new students were eager to join the soccer club.", exja:"新入生たちはサッカー部に入りたくてたまらなかった。"},
+ {w:"humble", pos:"形容詞", ja:"謙虚な、つつましい", cat:"V",
+  en:"not thinking that you are better or more important than other people",
+  ety:"ラテン語 humilis（低い）から。humus（大地・土）が語根で、「地面に近い・低い」が元の意味。",
+  trivia:"humiliate（恥をかかせる）も同じ語源。反対の意味の語は arrogant（傲慢な）。",
+  ex:"Even after winning the prize, she stayed humble and thanked her team.", exja:"賞を取ったあとも、彼女は謙虚なままでチームに感謝した。"},
+ {w:"predict", pos:"動詞", ja:"予測する", cat:"V",
+  en:"to say what will happen in the future",
+  ety:"ラテン語 praedicere（前もって言う）から。pre-（前に）＋dicere（言う）。",
+  trivia:"dict は「言う」で、dictionary（辞書）や contradict（反論する）と同じ仲間。名詞は prediction。",
+  ex:"Scientists predict that summers will become even hotter.", exja:"科学者たちは夏がさらに暑くなると予測している。"},
+ {w:"expand", pos:"動詞", ja:"広がる、拡大する", cat:"V",
+  en:"to become larger in size, number, or amount",
+  ety:"ラテン語 expandere（広げる）から。ex-（外へ）＋pandere（広げる）。",
+  trivia:"名詞は expansion。反対の意味は shrink（縮む）や reduce（減らす）。",
+  ex:"The company plans to expand its business to Asia next year.", exja:"その会社は来年、事業をアジアに拡大する予定だ。"},
+/* ---------- P 句動詞・同意語（15） ---------- */
+ {w:"put off", pos:"句動詞", ja:"延期する（＝postpone）", cat:"P",
+  en:"to move an event or action to a later time",
+  ety:"put（置く）＋off（離れて）で、予定を今から離れた先へ置くイメージ。同意語 postpone もラテン語 post（後に）＋ponere（置く）で、「後ろに置く」と中身がほぼ同じ。",
+  trivia:"put off ～ing（～するのを先のばしにする）と動名詞をとる。call off（中止する）との区別は大問IVの定番ひっかけ。",
+  ex:"We put off the barbecue because of the heavy rain.", exja:"大雨のため、私たちはバーベキューを延期した。"},
+ {w:"call off", pos:"句動詞", ja:"中止する（＝cancel）", cat:"P",
+  en:"to decide that a planned event will not happen",
+  ety:"call（声に出して言う）＋off（離れて）。「やめ！」と宣言して予定から切り離すイメージ。",
+  trivia:"put off（延期）は「あとでやる」、call off（中止）は「やらない」。同意語 cancel とセットで。",
+  ex:"The concert was called off because the singer was sick.", exja:"歌手が体調をくずしたため、コンサートは中止になった。"},
+ {w:"look after", pos:"句動詞", ja:"世話をする（＝take care of）", cat:"P",
+  en:"to keep someone or something safe and healthy",
+  ety:"look（見る）＋after（後ろから・あとを追って）。後ろから見守り続けるイメージ。",
+  trivia:"take after（似ている）とまちがえやすい。同意語は take care of / care for。",
+  ex:"Could you look after my dog while I'm away?", exja:"留守のあいだ、うちの犬の世話をしてくれる？"},
+ {w:"give up", pos:"句動詞", ja:"あきらめる、やめる（＝quit / abandon）", cat:"P",
+  en:"to stop trying to do something, or to stop a habit",
+  ety:"give（手放す）＋up（すっかり）。持っていたものを完全に手放すイメージ。",
+  trivia:"give up ～ing（～するのをやめる）と動名詞をとる。give up smoking（禁煙する）は定番。同意語 quit, abandon。",
+  ex:"Don't give up your dream just because it is difficult.", exja:"難しいからといって夢をあきらめないで。"},
+ {w:"carry out", pos:"句動詞", ja:"実行する（＝conduct / perform）", cat:"P",
+  en:"to do a task, plan, or experiment",
+  ety:"carry（運ぶ）＋out（外へ・最後まで）。計画を最後まで運びきるイメージ。",
+  trivia:"carry out an experiment / a survey（実験・調査を行う）は長文でも頻出。同意語 conduct, perform。",
+  ex:"The students carried out a survey about sleeping habits.", exja:"生徒たちは睡眠習慣についての調査を行った。"},
+ {w:"figure out", pos:"句動詞", ja:"理解する、解き明かす（＝understand / solve）", cat:"P",
+  en:"to understand something or find the answer after thinking about it",
+  ety:"figure（計算する・考える）＋out（解き明かして外に出す）。考えて答えをはじき出すイメージ。",
+  trivia:"work out / make out も「理解する・解く」の仲間。understand, solve への言いかえで出やすい。",
+  ex:"I finally figured out how to use the new app.", exja:"やっと新しいアプリの使い方がわかった。"},
+ {w:"come across", pos:"句動詞", ja:"偶然見つける・出会う（＝find by chance）", cat:"P",
+  en:"to find or meet someone or something by chance",
+  ety:"come（来る）＋across（横切って）。歩いている道に、横から偶然ものが現れるイメージ。",
+  trivia:"run into / bump into は主に「人」に偶然会うとき。come across は物にも人にも使える。",
+  ex:"I came across an old photo of my parents in a drawer.", exja:"引き出しの中で、両親の古い写真を偶然見つけた。"},
+ {w:"set up", pos:"句動詞", ja:"設立する、準備する（＝establish）", cat:"P",
+  en:"to start a company or group, or to make something ready to use",
+  ety:"set（置く・すえる）＋up（立てて・できあがって）。ものを立てて使える状態にするイメージ。",
+  trivia:"名詞 setup（設定・準備）はパソコン用語でもおなじみ。「設立する」の意味では establish / found と言いかえられる。",
+  ex:"My uncle set up a small café near the station.", exja:"おじは駅の近くに小さなカフェを開いた。"},
+ {w:"get over", pos:"句動詞", ja:"乗り越える、（病気から）回復する（＝recover from）", cat:"P",
+  en:"to become healthy or happy again after an illness or a bad experience",
+  ety:"get（ある状態になる）＋over（越えて）。困難の山を越えて向こう側へ行くイメージ。",
+  trivia:"同意語 recover from / overcome。get over a cold（かぜが治る）、get over the shock（ショックから立ち直る）。",
+  ex:"It took her a week to get over her cold.", exja:"彼女はかぜが治るのに1週間かかった。"},
+ {w:"look up to", pos:"句動詞", ja:"尊敬する（＝respect）", cat:"P",
+  en:"to admire and respect someone",
+  ety:"look（見る）＋up（上を）＋to（～に向かって）。相手を下から見上げるイメージ。",
+  trivia:"反対は look down on（見下す＝despise）。上下の向きで覚えるとセットで忘れない。",
+  ex:"Many young players look up to the team captain.", exja:"多くの若い選手がチームのキャプテンを尊敬している。"},
+ {w:"point out", pos:"句動詞", ja:"指摘する（＝indicate）", cat:"P",
+  en:"to tell someone about a fact or mistake that they had not noticed",
+  ety:"point（指さす）＋out（外に・はっきりと）。指をさして目立たせるイメージ。",
+  trivia:"point out that ～（～だと指摘する）の形で長文に頻出。誰の意見かを示すサインになる。",
+  ex:"My teacher pointed out a few spelling mistakes in my essay.", exja:"先生は私の作文のつづりの誤りをいくつか指摘してくれた。"},
+ {w:"run out of", pos:"句動詞", ja:"使い果たす、切らす（＝use up）", cat:"P",
+  en:"to use all of something so that none is left",
+  ety:"run（流れる・進む）＋out（外へ・尽きて）＋of。中身が流れ出てなくなるイメージ。",
+  trivia:"物が主語なら run out（尽きる）：Time is running out.（時間がなくなってきた）。人が主語なら run out of ～。",
+  ex:"We ran out of milk, so I went to the convenience store.", exja:"牛乳を切らしたので、コンビニに行った。"},
+ {w:"make up for", pos:"句動詞", ja:"埋め合わせる、補う（＝compensate for）", cat:"P",
+  en:"to do something good to balance a loss or a mistake",
+  ety:"make up（作りそろえる）＋for（～の代わりに）。足りない分を作り足すイメージ。",
+  trivia:"make up には「化粧する」「仲直りする」「でっち上げる」など意味が多いが、for がつけば「埋め合わせる」。",
+  ex:"He studied hard on Sunday to make up for the time he had lost.", exja:"彼は失った時間を埋め合わせるため、日曜日に一生けんめい勉強した。"},
+ {w:"hand in", pos:"句動詞", ja:"提出する（＝submit）", cat:"P",
+  en:"to give your work or a document to a teacher or the person in charge",
+  ety:"hand（手渡す）＋in（中へ）。相手の手の中へ渡すイメージ。",
+  trivia:"同意語 submit / turn in。fill in（記入する）→ hand in（提出する）と、書類の流れで覚えると便利。",
+  ex:"Please hand in your report by Friday.", exja:"金曜日までにレポートを提出してください。"},
+ {w:"bring up", pos:"句動詞", ja:"育てる／（話題を）持ち出す（＝raise）", cat:"P",
+  en:"to care for a child until he or she becomes an adult",
+  ety:"bring（持ってくる）＋up（上へ）。子どもを上へ（大きく）持ち上げていくイメージ。",
+  trivia:"受け身 be brought up in ～（～で育つ）が頻出。「話題を持ち出す」の意味もあり、どちらも raise で言いかえられる。",
+  ex:"She was brought up by her grandparents in Osaka.", exja:"彼女は大阪で祖父母に育てられた。"},
+/* ---------- T 長文テーマ語（25） ---------- */
+ {w:"environment", pos:"名詞", ja:"環境", cat:"T",
+  en:"the air, water, and land in which people, animals, and plants live",
+  ety:"フランス語 environner（取り囲む）から。environ（周りに）＋-ment（名詞を作る）で、「自分を取り囲むもの」。",
+  trivia:"形容詞 environmental（環境の）、environmentally friendly（環境にやさしい）は環境系長文の常連。",
+  ex:"Plastic waste is a serious threat to the ocean environment.", exja:"プラスチックごみは海洋環境にとって深刻な脅威だ。"},
+ {w:"climate", pos:"名詞", ja:"気候", cat:"T",
+  en:"the usual weather conditions in a place over a long period of time",
+  ety:"ギリシャ語 klima（傾き）から。古代の地理学で地表の傾き（緯度）によって地域を区分したことから、「地帯」→「気候」の意味になった。",
+  trivia:"climate change（気候変動）は環境系長文の最重要語。weather は「その日の天気」、climate は「長期の気候」と区別。",
+  ex:"Climate change is causing stronger storms around the world.", exja:"気候変動により、世界中で嵐が強まっている。"},
+ {w:"pollution", pos:"名詞", ja:"汚染、公害", cat:"T",
+  en:"damage to air, water, or land caused by harmful substances",
+  ety:"ラテン語 polluere（汚す・けがす）から。動詞 pollute（汚染する）に名詞語尾 -tion がついた形。",
+  trivia:"air pollution（大気汚染）、water pollution（水質汚染）。pollutant は「汚染物質」。",
+  ex:"Air pollution in big cities can cause health problems.", exja:"大都市の大気汚染は健康問題を引き起こしうる。"},
+ {w:"species", pos:"名詞", ja:"（生物の）種", cat:"T",
+  en:"a group of animals or plants of the same type that can produce young together",
+  ety:"ラテン語 species（見た目・種類）から。specere（見る）が語根で、「見た目で分けた種類」。",
+  trivia:"単数も複数も species（単複同形）。endangered species＝絶滅危惧種。special（特別な）も同じ species から。",
+  ex:"Many species of birds visit this lake in winter.", exja:"冬になると、多くの種類の鳥がこの湖にやってくる。"},
+ {w:"extinct", pos:"形容詞", ja:"絶滅した", cat:"T",
+  en:"no longer existing because all of its members have died",
+  ety:"ラテン語 exstinguere（火を消す）の過去分詞から。命の火が消えたイメージ。",
+  trivia:"extinguish（消火する）、fire extinguisher（消火器）と同じ語源。名詞 extinction、go extinct（絶滅する）。",
+  ex:"Dinosaurs became extinct about 66 million years ago.", exja:"恐竜は約6600万年前に絶滅した。"},
+ {w:"resource", pos:"名詞", ja:"資源、財源", cat:"T",
+  en:"something useful, such as water, oil, or money, that people can use",
+  ety:"古フランス語 resourdre（再びわき上がる）から。さかのぼるとラテン語 resurgere（再び起き上がる）。",
+  trivia:"source（源）と同じ仲間。natural resources（天然資源）、human resources（人材・人事部＝HR）。",
+  ex:"Japan has few natural resources such as oil and gas.", exja:"日本には石油やガスなどの天然資源が少ない。"},
+ {w:"technology", pos:"名詞", ja:"科学技術", cat:"T",
+  en:"the use of scientific knowledge to make tools and machines",
+  ety:"ギリシャ語 tekhnē（技術・技）＋-logia（学問・論）から。",
+  trivia:"technique（技術・技法）も同じ tekhnē から。information technology の略が IT。",
+  ex:"Technology has changed the way we study and work.", exja:"科学技術は私たちの学び方や働き方を変えた。"},
+ {w:"artificial", pos:"形容詞", ja:"人工の", cat:"T",
+  en:"made by people instead of happening naturally",
+  ety:"ラテン語 artificium（技術による作品）から。ars（技術）＋facere（作る）。",
+  trivia:"AI は artificial intelligence（人工知能）の略。反対語は natural（自然の）。art ももともと「技術」の意味。",
+  ex:"Artificial intelligence can now translate many languages.", exja:"人工知能は今では多くの言語を翻訳できる。"},
+ {w:"digital", pos:"形容詞", ja:"デジタルの", cat:"T",
+  en:"using information in the form of numbers, especially on computers",
+  ety:"ラテン語 digitus（指）から。指で数を数えたことから、digit が「数字」を意味するようになった。",
+  trivia:"digit は「（0〜9の）数字」や「指」。反対の意味は analog（アナログの）。digital native＝デジタル機器に囲まれて育った世代。",
+  ex:"Many students now read digital textbooks on tablets.", exja:"今では多くの生徒がタブレットでデジタル教科書を読んでいる。"},
+ {w:"robot", pos:"名詞", ja:"ロボット", cat:"T",
+  en:"a machine that can do work automatically, often in place of people",
+  ety:"チェコ語 robota（強制労働）から。作家カレル・チャペックの戯曲『R.U.R.』（1920年）で広まり、この語は兄ヨゼフの提案だったとチャペック自身が語っている。",
+  trivia:"長文では「ロボットが人間の仕事を奪うか」というテーマがよく扱われる。robotics＝ロボット工学。",
+  ex:"Robots are used in factories to build cars.", exja:"工場では車を組み立てるのにロボットが使われている。"},
+ {w:"innovation", pos:"名詞", ja:"革新、新しい工夫", cat:"T",
+  en:"a new idea, method, or invention",
+  ety:"ラテン語 innovare（新しくする）から。in-（中に）＋novus（新しい）。",
+  trivia:"novel（小説・目新しい）も novus の仲間。動詞 innovate、形容詞 innovative（革新的な）。",
+  ex:"The smartphone was one of the biggest innovations of this century.", exja:"スマートフォンは今世紀最大の革新の一つだった。"},
+ {w:"population", pos:"名詞", ja:"人口", cat:"T",
+  en:"the number of people who live in a particular place",
+  ety:"ラテン語 populus（人々・民衆）から。",
+  trivia:"popular（人気のある）も同じ populus から。人口の多い・少ないは large / small で表し、many / few は使わない。",
+  ex:"The population of the town has fallen by half in thirty years.", exja:"その町の人口は30年で半分に減った。"},
+ {w:"community", pos:"名詞", ja:"地域社会、共同体", cat:"T",
+  en:"a group of people who live in the same area or share the same interests",
+  ety:"ラテン語 communis（共通の・共有の）から。",
+  trivia:"common（共通の）、communicate（伝え合う）も同じ仲間。local community（地域社会）は社会系長文の頻出語。",
+  ex:"Volunteers cleaned the park for the local community.", exja:"ボランティアが地域社会のために公園を掃除した。"},
+ {w:"diversity", pos:"名詞", ja:"多様性", cat:"T",
+  en:"the state of having many different kinds of people or things",
+  ety:"ラテン語 diversus（別々の方向を向いた）から。di-（離れて）＋vertere（向ける）。",
+  trivia:"形容詞 diverse（多様な）。biodiversity（生物多様性）は環境系長文の重要語。",
+  ex:"Our school values diversity and welcomes students from many countries.", exja:"私たちの学校は多様性を大切にし、多くの国からの生徒を歓迎している。"},
+ {w:"rural", pos:"形容詞", ja:"田舎の、農村の", cat:"T",
+  en:"connected with the countryside, not with towns or cities",
+  ety:"ラテン語 rus（田舎）から。",
+  trivia:"反対語は urban（都市の）で、ペアで覚えよう。rural areas＝農村部。",
+  ex:"More young people are moving from rural areas to cities.", exja:"農村部から都市へ移る若者が増えている。"},
+ {w:"urban", pos:"形容詞", ja:"都市の", cat:"T",
+  en:"connected with a town or city",
+  ety:"ラテン語 urbs（都市）から。",
+  trivia:"suburb（郊外）は sub-（近くの）＋urbs で「都市のそば」。urbanization＝都市化。",
+  ex:"Urban life is convenient, but it can be stressful.", exja:"都会の生活は便利だが、ストレスがたまることもある。"},
+ {w:"economy", pos:"名詞", ja:"経済；節約", cat:"T",
+  en:"the system of making, buying, and selling goods and services in a country",
+  ety:"ギリシャ語 oikonomia（家の管理）から。oikos（家）＋nomos（管理・きまり）。",
+  trivia:"ecology（生態学）も oikos（家）から。economic は「経済の」、economical は「節約になる」で、意味の違いがねらわれやすい。",
+  ex:"Tourism plays an important role in the local economy.", exja:"観光は地域経済で重要な役割を果たしている。"},
+ {w:"welfare", pos:"名詞", ja:"福祉、幸福", cat:"T",
+  en:"help and care given to people who need it, such as the old or the poor",
+  ety:"中英語 wel（よく）＋fare（やっていく・暮らす）から。「うまく暮らしていくこと」が元の意味。",
+  trivia:"farewell（別れのあいさつ）も fare と well の組み合わせ。welfare state＝福祉国家、social welfare＝社会福祉。",
+  ex:"The city spends a lot of money on welfare for elderly people.", exja:"その市は高齢者の福祉に多くのお金を使っている。"},
+ {w:"immigrant", pos:"名詞", ja:"（外国からの）移民", cat:"T",
+  en:"a person who comes to live in a new country",
+  ety:"ラテン語 immigrare（移り住む）から。im-（中へ）＋migrare（移動する）。",
+  trivia:"外から入ってくるのが immigrant、外へ出ていくのが emigrant（e-＝外へ）。migrate（移住する・渡る）も同じ仲間。",
+  ex:"Many immigrants work in the food industry in this country.", exja:"この国では多くの移民が食品業界で働いている。"},
+ {w:"curriculum", pos:"名詞", ja:"教育課程、カリキュラム", cat:"T",
+  en:"all the subjects that are taught in a school or course",
+  ety:"ラテン語 curriculum（走ること・走路）から。currere（走る）が語根で、「学びの走路」のイメージ。",
+  trivia:"複数形は curricula（curriculums も可）。履歴書の CV は curriculum vitae（人生の走路）の略。",
+  ex:"Programming has been added to the school curriculum.", exja:"プログラミングが学校のカリキュラムに加えられた。"},
+ {w:"graduate", pos:"動詞・名詞", ja:"卒業する／卒業生", cat:"T",
+  en:"to finish your studies at a school or university successfully",
+  ety:"中世ラテン語 graduare（学位を授ける）から。gradus（段階・一歩）が語根。",
+  trivia:"graduate from ～（～を卒業する）の from を忘れずに。grade（学年・等級）や gradual（徐々の）も gradus の仲間。",
+  ex:"My sister will graduate from university next March.", exja:"姉は来年の3月に大学を卒業する。"},
+ {w:"literacy", pos:"名詞", ja:"読み書きの能力", cat:"T",
+  en:"the ability to read and write",
+  ety:"literate（読み書きのできる）の名詞形。ラテン語 littera（文字）が語根。",
+  trivia:"letter（文字・手紙）、literature（文学）も同じ仲間。media literacy（情報を読み解く力）もよく出る。",
+  ex:"Literacy rates have risen greatly in many countries.", exja:"多くの国で識字率が大きく上がった。"},
+ {w:"nutrition", pos:"名詞", ja:"栄養（の摂取）", cat:"T",
+  en:"the food that your body needs to stay healthy and grow",
+  ety:"ラテン語 nutrire（養う・育てる）から。",
+  trivia:"nurse（看護師・乳母）も nutrire にさかのぼる仲間。nutrient＝栄養素、nutritious＝栄養のある。",
+  ex:"Good nutrition is important for growing children.", exja:"成長期の子どもには十分な栄養が大切だ。"},
+ {w:"symptom", pos:"名詞", ja:"症状、兆候", cat:"T",
+  en:"a change in your body that shows you may have an illness",
+  ety:"ギリシャ語 symptōma（起こったこと）から。syn-（いっしょに）＋piptein（落ちる）からなる sympiptein（ふりかかる・起こる）が元。",
+  trivia:"symptoms of a cold（かぜの症状）。syn-/sym- は「いっしょに」で、symphony（交響曲）、sympathy（共感）も同じ接頭辞。",
+  ex:"A high fever is one of the symptoms of the flu.", exja:"高熱はインフルエンザの症状の一つだ。"},
+ {w:"vaccine", pos:"名詞", ja:"ワクチン", cat:"T",
+  en:"a substance put into the body to protect people from a disease",
+  ety:"ラテン語 vacca（雌牛）から。18世紀末、ジェンナーが牛痘（cowpox）を使って天然痘を予防したことにちなむ。",
+  trivia:"天然痘はワクチンの普及によって、1980年にWHOが根絶を宣言した。vaccination＝予防接種。",
+  ex:"Scientists are working hard to develop a new vaccine.", exja:"科学者たちは新しいワクチンの開発に懸命に取り組んでいる。"}
+];
+
+/* ============================================================
    定数
    ============================================================ */
 const SEC_ORDER = ["I","II","III","IV","V","VI","VII"];
@@ -384,6 +724,14 @@ const LINES = [
   "仮定法は「時制を1つ過去にずらす」だけ思い出して。","連続記録、のんびり伸ばしていこ〜。","会話文は、空所の“直後”の反応がヒントだよ。"
 ];
 const markPts = m => m<=37 ? 2 : (m<=43 ? 3 : 4);
+const VCAT = {
+  V:{name:"定義語",     color:SEC.V.color},
+  P:{name:"句動詞",     color:SEC.IV.color},
+  T:{name:"長文テーマ", color:SEC.VII.color}
+};
+const VFILTER = [["all","全部"],["V","定義語(V)"],["P","句動詞(P)"],["T","長文テーマ(T)"],["todo","まだのだけ"]];
+const VSIZE = 5;
+const VW = {}; VOCAB.forEach(v => VW[v.w] = v);
 
 /* ============================================================
    問題データの展開
@@ -428,10 +776,11 @@ let S = null;      // 現在のセッション / 画面状態
 let VIEW = "home";
 let timerId = null;
 let showGrid = false;
+let vocabCat = "all";
 
 function blank(){
   const sec = {}; SEC_ORDER.forEach(s => sec[s] = {a:0,c:0});
-  return {xp:0, streak:0, lastDay:"", solved:0, correct:0, sec, qs:{}, missed:[], mock:null, mockHist:[]};
+  return {xp:0, streak:0, lastDay:"", solved:0, correct:0, sec, qs:{}, missed:[], mock:null, mockHist:[], vocab:{}};
 }
 function load(name){
   try {
@@ -440,6 +789,7 @@ function load(name){
     const d = Object.assign(blank(), JSON.parse(raw));
     SEC_ORDER.forEach(s => { if (!d.sec[s]) d.sec[s] = {a:0,c:0}; });
     d.missed = d.missed.filter(id => Q[id]);
+    if (!d.vocab || typeof d.vocab !== "object" || Array.isArray(d.vocab)) d.vocab = {};
     return d;
   } catch(e){ return blank(); }
 }
@@ -609,7 +959,8 @@ function mascotSVG(){
 function go(v){ VIEW = v; render(); window.scrollTo(0,0); }
 function render(){
   if (VIEW !== "mock") stopTimer();
-  const f = {home:vHome, select:vSelect, quiz:vQuiz, result:vResult, mockIntro:vMockIntro, mock:vMock, mockResult:vMockResult, analysis:vAnalysis, review:vReview}[VIEW] || vHome;
+  const f = {home:vHome, select:vSelect, quiz:vQuiz, result:vResult, mockIntro:vMockIntro, mock:vMock, mockResult:vMockResult, analysis:vAnalysis, review:vReview,
+             vocab:vVocab, vocabCards:vVocabCards, vocabDone:vVocabDone}[VIEW] || vHome;
   $app.innerHTML = f();
   if (VIEW === "mock") startTimer();
 }
@@ -651,6 +1002,8 @@ function vHome(){
     "<button class='mbtn' onclick=\"go('mockIntro')\"><span class='ic'>⏱</span><b>通し模試</b><small>45マーク・60分・100点</small></button>"+
     "<button class='mbtn' onclick=\"go('analysis')\"><span class='ic'>📊</span><b>苦手分析</b><small>大問別の正答率</small></button>"+
     "<button class='mbtn' onclick=\"go('review')\"><span class='ic'>🔁</span><b>復習リスト</b><small>まちがえた問題</small>"+(D.missed.length ? "<span class='badge'>"+D.missed.length+"</span>" : "")+"</button>"+
+    "<button class='mbtn wide' onclick=\"go('vocab')\"><span class='ic'>☕</span><b>コーヒーブレイク単語帳</b><small>5枚だけ・語源と雑学つき</small>"+
+      "<span class='badge cf'>覚えた "+vKnownCount()+"/"+VOCAB.length+"</span></button>"+
   "</div>"+
   "<div class='card'><h3>🌼 今日のおすすめ</h3><div>"+secTag(rec.s)+"<b>大問"+rec.s+" "+SEC[rec.s].name+"</b></div><div class='small'>"+rec.why+"</div>"+
     "<button class='btn' onclick=\"startPractice('"+rec.s+"')\">これをやる</button></div>"+
@@ -867,6 +1220,118 @@ function vReview(){
     "<div class='card'><b>"+D.missed.length+"問</b> たまっています。正解するとリストから消えます。"+
     "<button class='btn' onclick='startReview()'>まとめて解き直す（最大10問）</button><div class='small' style='margin-top:8px'>大問ごとに解き直す：</div><div class='chips'>"+chips+"</div></div>"+
     "<div class='card'>"+rows+"</div>";
+}
+
+/* ---------- ☕ コーヒーブレイク単語帳 ---------- */
+function vst(w){ return D.vocab[w] || {seen:0, known:false}; }
+function vKnownCount(cat){ return VOCAB.filter(v => (!cat || v.cat === cat) && vst(v.w).known).length; }
+function vPool(cat){ return VOCAB.filter(v => cat === "all" ? true : cat === "todo" ? !vst(v.w).known : v.cat === cat); }
+function vTag(c){ return "<span class='tag' style='background:"+VCAT[c].color+"'>"+c+"</span>"; }
+function setVocabCat(c){ vocabCat = c; render(); }
+
+function startVocab(cat){
+  if (cat) vocabCat = cat;
+  const pool = shuffle(vPool(vocabCat).slice());
+  // 未見（seen が少ない）優先、同数ならまだ覚えていない語を先に
+  pool.sort((a,b) => vst(a.w).seen-vst(b.w).seen || (vst(a.w).known ? 1 : 0)-(vst(b.w).known ? 1 : 0));
+  const words = pool.slice(0, VSIZE).map(v => v.w);
+  if (!words.length) { toast("この中に残っている単語はないよ 🌸"); go("vocab"); return; }
+  S = {mode:"vocab", cat:vocabCat, words, i:0, flip:false, flipped:{}, knownXP:{}, res:{}, gained:0};
+  go("vocabCards");
+}
+function flipCard(){
+  if (!S || S.mode !== "vocab") return;
+  const w = S.words[S.i];
+  S.flip = !S.flip;
+  if (S.flip && !S.flipped[w]) {
+    S.flipped[w] = true;
+    touchDay();
+    const st = D.vocab[w] || (D.vocab[w] = {seen:0, known:false});
+    st.seen++;
+    addXP(2); S.gained += 2;
+    save();
+  }
+  render();
+}
+function vocabMark(ok){
+  if (!S || S.mode !== "vocab" || !S.flip) return;
+  const w = S.words[S.i];
+  const st = D.vocab[w] || (D.vocab[w] = {seen:0, known:false});
+  st.known = ok;
+  S.res[w] = ok;
+  if (ok && !S.knownXP[w]) { S.knownXP[w] = true; touchDay(); addXP(3); S.gained += 3; }
+  save();
+  if (S.i+1 < S.words.length) { S.i++; S.flip = false; go("vocabCards"); }
+  else go("vocabDone");
+}
+
+function vVocab(){
+  const known = vKnownCount(), total = VOCAB.length;
+  const chips = VFILTER.map(([k,label]) =>
+    "<button class='"+(k === vocabCat ? "on" : "")+"' onclick=\"setVocabCat('"+k+"')\">"+label+"</button>").join("");
+  const pool = vPool(vocabCat);
+  const catRows = ["V","P","T"].map(c => {
+    const n = VOCAB.filter(v => v.cat === c).length, k = vKnownCount(c);
+    return "<div class='abar'><span class='nm'>"+vTag(c)+VCAT[c].name+"</span><span class='track'><i style='width:"+pct(k,n)+"%;background:var(--coffee)'></i></span>"+
+      "<span class='pc'>"+k+" / "+n+"</span></div>";
+  }).join("");
+  const list = pool.map(v => {
+    const st = vst(v.w);
+    return "<div class='rv'><span class='mk "+(st.known ? "o" : "")+"'>"+(st.known ? "✓" : (st.seen ? "・" : "　"))+"</span>"+vTag(v.cat)+
+      "<b class='vhw-s'>"+esc(v.w)+"</b> <span class='small'>"+esc(v.ja)+"</span></div>";
+  }).join("");
+  return "<button class='back' onclick=\"go('home')\">← もどる</button><h2>☕ コーヒーブレイク単語帳</h2>"+
+    "<div class='small'>タイマーなし・点数なし。1回5枚だけ、語源と雑学でゆるっと覚えよう。</div>"+
+    "<div class='card tape'><div class='lv'><b class='cf'>"+known+"</b><span>/ "+total+" 語 覚えた（"+esc(P)+"）</span></div>"+
+      "<div class='bar'><i class='cf' style='width:"+pct(known,total)+"%'></i></div>"+catRows+"</div>"+
+    "<div class='card'><h3>どれをめくる？</h3><div class='chips vchips'>"+chips+"</div>"+
+      "<div class='small' style='margin-top:8px'>この中に "+pool.length+" 語（まだ見ていない語から優先して出るよ）</div>"+
+      "<button class='btn coffee' onclick='startVocab()' "+(pool.length ? "" : "disabled")+">☕ 5枚めくる</button></div>"+
+    "<details class='card'><summary><b>単語リスト</b> <span class='small'>✓ 覚えた · ・ 見た</span></summary>"+
+      (list || "<div class='empty'>まだの単語はありません 🌸</div>")+"</details>";
+}
+
+function vVocabCards(){
+  if (!S || S.mode !== "vocab") return vVocab();
+  const w = S.words[S.i], v = VW[w];
+  let html = "<div class='topbar'><button class='back' onclick=\"go('vocab')\">✕ やめる</button><span>☕ コーヒーブレイク</span><span class='small'>"+(S.i+1)+" / "+S.words.length+"</span></div>";
+  html += "<div class='vdots'>"+S.words.map((x,k) => "<i class='"+(k < S.i ? (S.res[x] ? "ok" : "ng") : (k === S.i ? "cur" : ""))+"'></i>").join("")+"</div>";
+  if (!S.flip) {
+    html += "<div class='vcard' role='button' tabindex='0' onclick='flipCard()'>"+
+      "<div>"+vTag(v.cat)+"<span class='small'>"+VCAT[v.cat].name+"</span></div>"+
+      "<div class='vhw'>"+esc(v.w)+"</div><div class='vpos'>"+esc(v.pos)+"</div>"+
+      "<div class='small vhint'>👆 タップで裏返す（+2 XP）</div></div>";
+  } else {
+    html += "<div class='vcard vback' role='button' tabindex='0' onclick='flipCard()'>"+
+      "<div class='vtop'><span class='vhw-s'>"+esc(v.w)+"</span> <span class='small'>"+esc(v.pos)+"</span></div>"+
+      "<div class='vja'>"+esc(v.ja)+"</div>"+
+      "<div class='vsec'><h4>📖 英語の定義</h4><div class='ven'>“"+esc(v.en)+"”</div></div>"+
+      "<div class='vsec'><h4>🌱 語源</h4><div>"+esc(v.ety)+"</div></div>"+
+      "<div class='vsec'><h4>💡 雑学・覚え方</h4><div>"+esc(v.trivia)+"</div></div>"+
+      "<div class='vsec'><h4>✏️ 例文</h4><div class='ven'>"+esc(v.ex)+"</div><div class='small'>"+esc(v.exja)+"</div></div>"+
+      "<div class='small vhint'>タップで表にもどる</div></div>"+
+      "<div class='row'><button class='btn sub' onclick='vocabMark(false)'>まだ</button>"+
+      "<button class='btn green' onclick='vocabMark(true)'>覚えた ✓ <small>+3 XP</small></button></div>";
+  }
+  return html;
+}
+
+function vVocabDone(){
+  if (!S || S.mode !== "vocab") return vVocab();
+  const ok = S.words.filter(w => S.res[w]).length, n = S.words.length;
+  const msg = ok === n ? "ぜんぶ覚えた！コーヒーおかわりしちゃう？☕" : ok > 0 ? "いいペース。まだの語は、またそのうち出てくるよ。" : "めくっただけでも前進だよ。ゆるっといこ〜。";
+  const rows = S.words.map(w => {
+    const v = VW[w], k = S.res[w];
+    return "<div class='rv'><span class='mk "+(k ? "o" : "x")+"'>"+(k ? "✓" : "…")+"</span>"+vTag(v.cat)+
+      "<b class='vhw-s'>"+esc(w)+"</b> <span class='small'>"+esc(v.ja)+"</span></div>";
+  }).join("");
+  const left = vPool(S.cat).length;
+  return "<h2>☕ ひと休み完了！</h2><div class='card tape'><div class='score'>"+ok+"<small> / "+n+" 語 覚えた</small></div>"+
+    "<div style='text-align:center' class='small'>獲得 "+S.gained+" XP · 通算 "+vKnownCount()+" / "+VOCAB.length+" 語</div>"+
+    "<div class='mascot'>"+mascotSVG()+"<div class='bubble'><b>まぐたん</b>：「"+msg+"」</div></div></div>"+
+    "<div class='card'>"+rows+"</div>"+
+    "<button class='btn coffee' onclick=\"startVocab('"+S.cat+"')\" "+(left ? "" : "disabled")+">☕ もう5枚</button>"+
+    "<div class='row'><button class='btn sub' onclick=\"go('vocab')\">単語帳トップへ</button><button class='btn sub' onclick=\"go('home')\">ホームへ</button></div>";
 }
 
 /* ---------- トースト ---------- */
