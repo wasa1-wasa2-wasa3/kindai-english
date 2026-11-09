@@ -103,6 +103,20 @@ h3{font-size:1rem;margin:.2em 0 .4em}
 .navgrid button.done{background:#eef5fc;border-color:var(--blue)}
 .navgrid button.cur{background:var(--accent);border-color:var(--accent);color:#fff}
 .navgrid .gl{grid-column:1/-1;font-size:.75rem;color:var(--sub);margin-top:4px}
+.bdots{display:flex;gap:6px;align-items:center;margin:2px 0 8px;flex-wrap:wrap}
+.bdots button{border:1.5px solid var(--line);background:#fff;border-radius:8px;min-width:40px;min-height:34px;font-size:.8rem;padding:0 6px}
+.bdots button.done{background:#eef5fc;border-color:var(--blue)}
+.bdots button.cur{background:var(--accent);border-color:var(--accent);color:#fff}
+.bdots button.miss{border-color:var(--ng);border-style:dashed}
+.brv{border-bottom:1px dashed var(--line);padding:10px 0}
+.brv:last-child{border-bottom:none}
+.brv .mk{font-weight:bold;margin-right:6px;font-size:1.1rem}
+.brv .mk.o{color:var(--ok)}.brv .mk.x{color:var(--ng)}
+.brv .en{font-family:Georgia,serif;margin:4px 0}
+.brv .ans{font-family:Georgia,serif}
+.brv .you.ng{color:var(--ng)}
+.brv .exp{margin-top:6px;border-radius:10px;padding:8px 10px;background:#fbf6ea;font-size:.92rem}
+.brv.o .exp{background:var(--okbg)}.brv.x .exp{background:var(--ngbg)}
 .score{font-size:2.6rem;font-weight:bold;color:var(--accent);text-align:center;line-height:1.2}
 .score small{font-size:1rem;color:var(--sub)}
 table.brk{width:100%;border-collapse:collapse;font-size:.92rem}
@@ -901,8 +915,22 @@ function newSeed(){ return Math.floor(Math.random()*1e9); }
 function startPractice(sec){
   const pl = PRACTICE[sec];
   const qids = pl.g ? groupQids(pickGroups(sec, pl.g, true)) : pickQs(sec, pl.n, true);
-  S = {mode:"practice", sec, qids, i:0, ans:{}, seed:newSeed(), gained:0};
+  const batches = makeBatches(qids);
+  const bstart = []; let k = 0;
+  batches.forEach(b => { bstart.push(k); k += b.length; });
+  S = {mode:"practice", sec, qids, i:0, ans:{}, seed:newSeed(), gained:0,
+       batches, bstart, bi:0, revealed:{}, bxp:0, tried:false};
   go("quiz");
+}
+/* 同じグループ内で連続する最大3問を1バッチに（グループなしは3問ずつ） */
+function makeBatches(qids){
+  const out = [];
+  qids.forEach(id => {
+    const last = out[out.length-1];
+    if (last && last.length < 3 && Q[last[0]].gid === Q[id].gid) last.push(id);
+    else out.push([id]);
+  });
+  return out;
 }
 function startReview(sec){
   let list = D.missed.filter(id => !sec || Q[id].sec === sec);
@@ -999,7 +1027,7 @@ function mascotSVG(){
 function go(v){ VIEW = v; render(); window.scrollTo(0,0); }
 function render(){
   if (VIEW !== "mock") stopTimer();
-  const f = {home:vHome, select:vSelect, quiz:vQuiz, result:vResult, mockIntro:vMockIntro, mock:vMock, mockResult:vMockResult, analysis:vAnalysis, review:vReview,
+  const f = {home:vHome, select:vSelect, quiz:vQuiz, batch:vBatch, result:vResult, mockIntro:vMockIntro, mock:vMock, mockResult:vMockResult, analysis:vAnalysis, review:vReview,
              vocab:vVocab, vocabCards:vVocabCards, vocabDone:vVocabDone}[VIEW] || vHome;
   $app.innerHTML = f();
   if (VIEW === "mock") startTimer();
@@ -1060,10 +1088,11 @@ function vSelect(){
       "<span class='acc'>"+(st.a ? pct(st.c,st.a)+"%" : "未挑戦")+"</span></button>";
   }).join("");
   return "<button class='back' onclick=\"go('home')\">← もどる</button><h2>📒 大問別練習</h2>"+
-    "<div class='small'>やりたい大問をタップ。解いた直後に答えと解説が出ます。</div><div class='seclist'>"+list+"</div>";
+    "<div class='small'>やりたい大問をタップ。3問ずつ（会話・文章のまとまりごと）解いてから、まとめて答え合わせします。</div><div class='seclist'>"+list+"</div>";
 }
 
 function vQuiz(){
+  if (S.mode === "practice") return vPracticeQuiz();
   const id = S.qids[S.i], q = Q[id];
   const done = S.ans[id] !== undefined;
   const order = choiceOrder(id, S.seed);
@@ -1088,6 +1117,10 @@ function vQuiz(){
 }
 function answer(o){
   const id = S.qids[S.i];
+  if (S.mode === "practice") {           // 練習：選択だけ（答え合わせまで変更可）
+    if (S.revealed[id]) return;
+    S.ans[id] = o; render(); return;
+  }
   if (S.ans[id] !== undefined) return;
   S.ans[id] = o;
   S.gained += record(id, o === 0, ptsFor(id));
@@ -1097,13 +1130,16 @@ function answer(o){
 }
 function nextQ(){ if (S.i+1 < S.qids.length) { S.i++; go("quiz"); } else go("result"); }
 function quitQuiz(){
+  if (S.mode === "practice") {           // 未答え合わせの回答は破棄
+    Object.keys(S.ans).forEach(id => { if (!S.revealed[id]) delete S.ans[id]; });
+  }
   const n = Object.keys(S.ans).length;
   if (n === 0) { go("home"); return; }
   go("result");
 }
 
 function vResult(){
-  const answered = S.qids.filter(id => S.ans[id] !== undefined);
+  const answered = S.qids.filter(id => S.ans[id] !== undefined && (S.mode !== "practice" || S.revealed[id]));
   const ok = answered.filter(id => S.ans[id] === 0).length;
   const rows = answered.map(id => {
     const q = Q[id], c = S.ans[id] === 0;
@@ -1118,6 +1154,80 @@ function vResult(){
     "<div style='text-align:center' class='small'>獲得 "+S.gained+" XP · "+msg+"</div></div>"+
     "<div class='card'>"+rows+"</div>"+again+
     "<div class='row'><button class='btn sub' onclick=\"go('select')\">大問をえらぶ</button><button class='btn sub' onclick=\"go('home')\">ホームへ</button></div>";
+}
+/* ---------- 練習：まとめ答え合わせ ---------- */
+function vPracticeQuiz(){
+  const batch = S.batches[S.bi], b0 = S.bstart[S.bi], pos = S.i - b0;
+  const id = S.qids[S.i], q = Q[id];
+  const order = choiceOrder(id, S.seed);
+  let html = "<div class='topbar'><button class='back' onclick='quitQuiz()'>✕ やめる</button><span>大問"+q.sec+" "+SEC[q.sec].name+"</span>"+
+    "<span class='small'>"+(S.i+1)+" / "+S.qids.length+"問</span></div>";
+  const dots = batch.map((qid,k) => {
+    const cls = k === pos ? "cur" : (S.ans[qid] !== undefined ? "done" : (S.tried ? "miss" : ""));
+    return "<button class='"+cls+"' onclick='batchGo("+k+")'>"+(k+1)+(S.ans[qid] !== undefined && k !== pos ? " ✓" : "")+"</button>";
+  }).join("");
+  html += "<div class='bdots'><span class='small'>セット "+(S.bi+1)+"/"+S.batches.length+"　</span>"+dots+"</div>";
+  if (q.gid) html += groupHTML(q.gid, curBlank(q), true);
+  html += "<div class='card'><div class='qstem'><span class='small'>"+(pos+1)+"/"+batch.length+"問目　</span>"+stemHTML(q)+"</div>";
+  order.forEach((o,k) => {
+    html += "<button class='choice"+(S.ans[id] === o ? " sel" : "")+"' onclick='answer("+o+")'><span class='lb'>"+(k+1)+"</span><span>"+esc(q.ch[o])+"</span></button>";
+  });
+  html += "<div class='row'><button class='btn sub' onclick='batchGo("+(pos-1)+")' "+(pos===0?"disabled":"")+">← 前へ</button>"+
+          "<button class='btn sub' onclick='batchGo("+(pos+1)+")' "+(pos===batch.length-1?"disabled":"")+">次へ →</button></div></div>";
+  const miss = batch.map((qid,k) => S.ans[qid] === undefined ? k+1 : 0).filter(n => n);
+  html += "<button class='btn green' onclick='revealBatch()'"+(miss.length?" style='opacity:.5'":"")+">✔ 答え合わせ</button>";
+  html += "<div class='small' style='text-align:center;margin-top:6px'>"+(miss.length
+    ? "未回答: "+miss.map(n => n+"問目").join("・")+"（ぜんぶ選ぶと答え合わせできるよ）"
+    : "答え合わせまでは、選びなおしOK。")+"</div>";
+  return html;
+}
+function batchGo(k){
+  const batch = S.batches[S.bi];
+  if (k < 0 || k >= batch.length) return;
+  S.i = S.bstart[S.bi] + k; go("quiz");
+}
+function revealBatch(){
+  const batch = S.batches[S.bi];
+  const miss = batch.findIndex(id => S.ans[id] === undefined);
+  if (miss >= 0) { S.tried = true; batchGo(miss); return; }
+  S.bxp = 0;
+  batch.forEach(id => {
+    if (S.revealed[id]) return;
+    S.revealed[id] = true;
+    S.bxp += record(id, S.ans[id] === 0, ptsFor(id));
+  });
+  S.gained += S.bxp;
+  go("batch");
+}
+function nextBatch(){
+  S.tried = false;
+  if (S.bi+1 < S.batches.length) { S.bi++; S.i = S.bstart[S.bi]; go("quiz"); }
+  else go("result");
+}
+function vBatch(){
+  if (!S || S.mode !== "practice") return vHome();
+  const batch = S.batches[S.bi];
+  const ok = batch.filter(id => S.ans[id] === 0).length;
+  const rows = batch.map((id,k) => {
+    const q = Q[id], c = S.ans[id] === 0;
+    let qtext = "";
+    if (!q.gid) qtext = "<div class='en'>"+esc(q.q)+"</div>";
+    else if (q.sec === "VII") qtext = "<div>"+esc(q.q)+"</div>";
+    return "<div class='brv "+(c?"o":"x")+"'><div><span class='mk "+(c?"o":"x")+"'>"+(c?"⭕":"❌")+"</span>"+
+      "<b>"+(k+1)+"問目</b> <span class='small'>"+esc(shortLabel(q))+"</span>"+(c ? " <span class='small'>+"+ptsFor(id)*5+" XP</span>" : "")+"</div>"+
+      qtext+
+      "<div class='small'>あなたの答え: <span class='ans you"+(c?"":" ng")+"'>"+esc(q.ch[S.ans[id]])+"</span></div>"+
+      "<div class='small'>正解: <span class='ans'>"+esc(q.ch[0])+"</span></div>"+
+      "<div class='exp'>"+q.ex+"</div></div>";
+  }).join("");
+  const last = S.bi+1 >= S.batches.length;
+  const msg = ok === batch.length ? "ぜんぶ正解！🎉" : ok ? "おしい！解説を読んでおこう。" : "まちがえた所は復習リストに入れたよ。";
+  return "<div class='topbar'><button class='back' onclick='quitQuiz()'>✕ やめる</button><span>答え合わせ（セット "+(S.bi+1)+"/"+S.batches.length+"）</span>"+
+    "<span class='small'>"+(S.bstart[S.bi]+batch.length)+" / "+S.qids.length+"問</span></div>"+
+    "<div class='card tape'><div class='score'>"+ok+"<small> / "+batch.length+" 問正解</small></div>"+
+    "<div style='text-align:center' class='small'>このセット +"+S.bxp+" XP · "+msg+"</div></div>"+
+    "<div class='card'>"+rows+"</div>"+
+    "<button class='btn' onclick='nextBatch()'>"+(last ? "結果を見る" : "次のセットへ →")+"</button>";
 }
 function shortLabel(q){
   if (q.sec==="I"||q.sec==="II") return G[q.gid].title+" 空所"+(q.n+1);
