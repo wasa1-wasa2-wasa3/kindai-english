@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#fbf6ea">
+<title>ゆるっと近大英語</title>
+<style>
+:root{
+  --bg:#fbf6ea;--grid:rgba(110,150,190,.13);--card:#fffdf8;--line:#eadfc8;
+  --ink:#4a4038;--sub:#8a7d70;--accent:#ef8a5b;--accent2:#f6c27a;
+  --ok:#5fae84;--okbg:#e9f6ee;--ng:#e0716b;--ngbg:#fdeceb;--blue:#6a9fd4;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0}
+body{
+  font-family:"Hiragino Maru Gothic ProN","Hiragino Sans","Yu Gothic UI","Meiryo",system-ui,sans-serif;
+  color:var(--ink);background-color:var(--bg);
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:22px 22px;min-height:100vh;line-height:1.65;font-size:16px;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+#app{max-width:640px;margin:0 auto;padding:14px 14px 60px}
+button{font-family:inherit;font-size:inherit;color:inherit;cursor:pointer}
+h1{font-size:1.35rem;margin:0;letter-spacing:.04em}
+h2{font-size:1.15rem;margin:.2em 0 .6em}
+h3{font-size:1rem;margin:.2em 0 .4em}
+.small{font-size:.85rem;color:var(--sub)}
+.card{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:14px 16px;margin:12px 0;box-shadow:0 2px 0 rgba(180,160,120,.18)}
+.tape{position:relative}
+.tape:before{content:"";position:absolute;top:-9px;left:50%;width:70px;height:18px;margin-left:-35px;background:rgba(246,194,122,.55);transform:rotate(-2deg);border-radius:3px}
+.header{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.pills{display:flex;gap:6px}
+.pill{border:1.5px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px;min-height:38px;font-weight:bold;color:var(--sub)}
+.pill.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.mascot{display:flex;align-items:flex-end;gap:10px;margin-top:10px}
+.mascot svg{flex:0 0 74px}
+.bubble{position:relative;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:9px 12px;font-size:.92rem;flex:1}
+.bubble:after{content:"";position:absolute;left:-8px;bottom:14px;width:12px;height:12px;background:#fff;border-left:1.5px solid var(--line);border-bottom:1.5px solid var(--line);transform:rotate(45deg)}
+.lv{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.lv b{font-size:1.5rem;color:var(--accent)}
+.title-badge{display:inline-block;background:#fff4e2;border:1px dashed var(--accent2);border-radius:8px;padding:1px 9px;font-size:.88rem}
+.bar{height:12px;background:#f1e8d6;border-radius:99px;overflow:hidden;margin:6px 0}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:99px;transition:width .5s}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;text-align:center}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 4px}
+.stat b{display:block;font-size:1.25rem}
+.stat span{font-size:.75rem;color:var(--sub)}
+.menu{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mbtn{background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:14px 10px;min-height:84px;text-align:left;box-shadow:0 2px 0 rgba(180,160,120,.2);position:relative}
+.mbtn:active{transform:translateY(1px);box-shadow:none}
+.mbtn .ic{font-size:1.4rem;display:block}
+.mbtn b{display:block}
+.mbtn small{color:var(--sub);font-size:.78rem}
+.badge{position:absolute;top:8px;right:10px;background:var(--ng);color:#fff;border-radius:99px;font-size:.75rem;padding:0 8px;font-weight:bold}
+.btn{display:block;width:100%;border:none;border-radius:14px;padding:13px;min-height:50px;font-weight:bold;background:var(--accent);color:#fff;margin-top:10px;box-shadow:0 3px 0 #d06e42}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 #d06e42}
+.btn.sub{background:#fff;color:var(--ink);border:1.5px solid var(--line);box-shadow:0 2px 0 var(--line)}
+.btn.green{background:var(--ok);box-shadow:0 3px 0 #458a65}
+.btn:disabled{opacity:.5}
+.row{display:flex;gap:8px}
+.row>.btn{flex:1}
+.back{background:none;border:none;color:var(--sub);padding:8px 4px;min-height:40px}
+.seclist .sec{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:12px;margin:8px 0;min-height:64px}
+.secno{flex:0 0 46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:bold;color:#fff;font-size:1.05rem}
+.sec .meta{flex:1}
+.sec .meta small{display:block;color:var(--sub);font-size:.8rem}
+.acc{font-size:.85rem;color:var(--sub);white-space:nowrap}
+.topbar{position:sticky;top:0;z-index:5;background:rgba(251,246,234,.95);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1.5px dashed var(--line);margin:-14px -14px 10px;padding:8px 14px}
+.timer{font-weight:bold;font-variant-numeric:tabular-nums;background:#fff;border:1.5px solid var(--line);border-radius:10px;padding:3px 10px}
+.timer.warn{color:#fff;background:var(--ng);border-color:var(--ng)}
+.passage{background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:12px 14px;margin:10px 0;font-family:Georgia,"Times New Roman","Hiragino Mincho ProN",serif;font-size:1rem;line-height:1.8}
+.passage.scroll{max-height:46vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.passage p{margin:.3em 0 .7em}
+.passage .pn{display:inline-block;font-family:sans-serif;font-size:.75rem;background:#f1e8d6;border-radius:6px;padding:0 6px;margin-right:6px;color:var(--sub)}
+.passage h4{margin:0 0 6px;font-family:sans-serif;font-size:.85rem;color:var(--sub)}
+.dl{display:flex;gap:8px;margin:4px 0}
+.dl .sp{flex:0 0 auto;font-weight:bold;font-family:sans-serif;font-size:.9rem;color:var(--blue);min-width:4.2em}
+.blank{display:inline-block;min-width:2.2em;text-align:center;border-bottom:2px solid var(--sub);font-family:sans-serif;font-size:.85rem;font-weight:bold;color:var(--sub);margin:0 2px;line-height:1.3}
+.blank.cur{color:#fff;background:var(--accent);border-color:var(--accent);border-radius:6px 6px 0 0}
+.jp{font-family:sans-serif;font-size:.95rem;background:#fff8ec;border-radius:10px;padding:8px 10px;margin-bottom:8px}
+.words{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;font-family:sans-serif}
+.words span{background:#f5efe2;border:1px solid var(--line);border-radius:8px;padding:2px 9px;font-size:.92rem}
+.qstem{font-weight:bold;margin:4px 0 10px}
+.qstem .en{font-family:Georgia,serif;font-weight:normal;font-size:1.05rem;display:block;margin-top:4px}
+.choice{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;background:#fff;border:1.5px solid var(--line);border-radius:12px;padding:11px 12px;margin:7px 0;min-height:50px;font-family:Georgia,"Hiragino Sans",serif;font-size:1rem}
+.choice .lb{flex:0 0 26px;height:26px;border-radius:50%;background:#f1e8d6;display:flex;align-items:center;justify-content:center;font-family:sans-serif;font-size:.85rem;font-weight:bold}
+.choice.sel{border-color:var(--blue);background:#eef5fc}
+.choice.sel .lb{background:var(--blue);color:#fff}
+.choice.ok{border-color:var(--ok);background:var(--okbg)}
+.choice.ok .lb{background:var(--ok);color:#fff}
+.choice.ng{border-color:var(--ng);background:var(--ngbg)}
+.choice.ng .lb{background:var(--ng);color:#fff}
+.choice:disabled{cursor:default;color:inherit}
+.fb{border-radius:12px;padding:10px 12px;margin-top:10px}
+.fb.ok{background:var(--okbg);border:1.5px solid #bfe2cd}
+.fb.ng{background:var(--ngbg);border:1.5px solid #f3c4c1}
+.fb b{font-size:1.05rem}
+.fb .ans{font-family:Georgia,serif}
+.navgrid{display:grid;grid-template-columns:repeat(9,1fr);gap:5px;margin-top:8px}
+.navgrid button{border:1.5px solid var(--line);background:#fff;border-radius:8px;min-height:34px;font-size:.8rem;padding:0}
+.navgrid button.done{background:#eef5fc;border-color:var(--blue)}
+.navgrid button.cur{background:var(--accent);border-color:var(--accent);color:#fff}
+.navgrid .gl{grid-column:1/-1;font-size:.75rem;color:var(--sub);margin-top:4px}
+.score{font-size:2.6rem;font-weight:bold;color:var(--accent);text-align:center;line-height:1.2}
+.score small{font-size:1rem;color:var(--sub)}
+table.brk{width:100%;border-collapse:collapse;font-size:.92rem}
+table.brk td,table.brk th{padding:6px 4px;border-bottom:1px dashed var(--line);text-align:left}
+table.brk td.r,table.brk th.r{text-align:right}
+.abar{display:flex;align-items:center;gap:8px;margin:9px 0}
+.abar .nm{flex:0 0 92px;font-size:.88rem}
+.abar .track{flex:1;height:16px;background:#f1e8d6;border-radius:99px;overflow:hidden}
+.abar .track i{display:block;height:100%;border-radius:99px}
+.abar .pc{flex:0 0 66px;text-align:right;font-size:.85rem;color:var(--sub)}
+.rv{border-bottom:1px dashed var(--line);padding:9px 0}
+.rv:last-child{border-bottom:none}
+.rv .mk{font-weight:bold;margin-right:6px}
+.rv .mk.o{color:var(--ok)}.rv .mk.x{color:var(--ng)}
+details summary{cursor:pointer;padding:4px 0}
+.tag{display:inline-block;font-size:.72rem;border-radius:6px;padding:0 6px;color:#fff;margin-right:4px;vertical-align:middle}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.chips button{border:1.5px solid var(--line);background:#fff;border-radius:99px;padding:6px 12px;min-height:38px;font-size:.88rem}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(30px);background:#fff;border:1.5px solid var(--accent2);border-radius:14px;padding:10px 18px;box-shadow:0 4px 14px rgba(120,90,40,.15);opacity:0;transition:all .35s;pointer-events:none;z-index:20;font-weight:bold;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.empty{text-align:center;color:var(--sub);padding:18px 0}
+.foot{text-align:center;font-size:.75rem;color:var(--sub);margin-top:24px}
+@media (max-width:380px){.menu{grid-template-columns:1fr}.navgrid{grid-template-columns:repeat(7,1fr)}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div id="toast"></div>
+<script>
+"use strict";
+/* ============================================================
+   ゆるっと近大英語 — 問題バンク（すべてオリジナル）
+   ルール: ch[0] が常に正解（表示時にシャッフル）
+   ============================================================ */
+const BANK = {
+/* ---------- 大問I 会話文（3セット×3問） ---------- */
+I: [
+ {id:"I-1", title:"図書館で", text:
+"Student: Excuse me. I'd like to borrow this book, but I left my student ID at home.\nLibrarian: I'm sorry, but ( 1 )\nStudent: Oh, no. My report is due tomorrow morning.\nLibrarian: Well, you can read it here until we close at eight. ( 2 )\nStudent: Really? That would help a lot. Can I copy a few pages, too?\nLibrarian: Sure. The copy machine is next to the entrance. ( 3 )\nStudent: Thanks. I'll make sure to bring my ID next time.",
+ qs:[
+  {ch:["we can't lend books without it.","you can take as many as you like.","the library is closed on Sundays.","I've never seen this book before."],
+   ex:"学生証を忘れた→「それがないと貸し出せない」が自然。直後の「レポートは明日締め切りなのに…」という困った反応にもつながる。it＝student ID。"},
+  {ch:["Just leave it on the desk when you're finished.","Nobody is allowed to read books in the library.","I'm afraid someone else has already borrowed it.","You should have returned it last week."],
+   ex:"「閉館まで館内で読んでいい」に続くのは「読み終わったら机に置いておいて」。本は今手元にあるので「もう貸し出し中」は矛盾。返却期限の話も無関係。"},
+  {ch:["It costs ten yen a page.","It's been broken since last year.","Copying isn't allowed at all.","I don't know where it is."],
+   ex:"直前で Sure.（いいですよ）と許可し、場所まで教えているので「1ページ10円です」が自然。「壊れている」「禁止」「場所がわからない」はすべて前の発言と矛盾。"}
+ ]},
+ {id:"I-2", title:"週末の予定", text:
+"Ken: Hey, Mika. Are you free this Saturday? A few of us are going to the aquarium.\nMika: That sounds fun, but ( 1 ) I have to work at the café until three.\nKen: No problem. ( 2 )\nMika: Perfect. Then I can join you after work. Should I bring anything?\nKen: ( 3 ) It's supposed to rain in the afternoon.\nMika: Got it. See you on Saturday!",
+ qs:[
+  {ch:["I'm not sure I can make it in the morning.","I'm free all day.","I've never wanted to go there.","I don't like going out with you."],
+   ex:"but のあとに「3時までバイト」と続くので、「午前中は行けるかわからない」が合う。make it＝都合をつけて行く。「一日中ひま」は but と矛盾。"},
+  {ch:["We're actually planning to meet at the station at four.","We'll be leaving at nine, so you can't come.","You should quit that job.","The aquarium closes at noon on Saturdays."],
+   ex:"直後にミカが「完璧！じゃあバイトの後に合流できる」と言っているので、3時以降の集合を伝える選択肢が正解。9時出発や正午閉館では合流できない。"},
+  {ch:["Just an umbrella, maybe.","Nothing. The weather will be perfect.","You need to buy tickets for everyone.","Bring your swimsuit."],
+   ex:"後ろの「午後は雨らしい」が理由になっているのは「傘くらいかな」。天気が完璧だという選択肢は次の文と矛盾する。"}
+ ]},
+ {id:"I-3", title:"お店で返品", text:
+"Clerk: Good afternoon. How can I help you?\nCustomer: I bought this shirt here yesterday, but ( 1 )\nClerk: I see. Would you like to exchange it for a bigger one?\nCustomer: Yes, please. Do you have it in large?\nClerk: Let me check... ( 2 ) We have it in blue, though.\nCustomer: Hmm. Blue isn't really my color. ( 3 )\nClerk: Of course. Just show me the receipt, please.",
+ qs:[
+  {ch:["it's a little too small for me.","it's too expensive to buy.","my sister loved it so much.","I lost it on the train."],
+   ex:"店員が「大きいものと交換しますか」と返しているので「少し小さすぎる」が正解。lost（なくした）なら手元にシャツがないはず。"},
+  {ch:["I'm afraid the white ones in that size are sold out.","Here you are. A large white one.","We don't sell shirts here.","You can try it on over there."],
+   ex:"直後の though（でも）で「青ならあります」と続くので、「（白の）そのサイズは売り切れ」が自然。I'm afraid ～ は残念なことを伝える丁寧な言い方。"},
+  {ch:["Could I just get my money back instead?","I'll take two blue ones, then.","Could you make it smaller?","I'd like to buy another one in medium."],
+   ex:"青は好みでない→「代わりに返金してもらえますか」。店員が「レシートを見せて」と言っているのも返金の流れに合う。get one's money back＝返金してもらう。"}
+ ]}
+],
+/* ---------- 大問II 中文空所補充（2題×6問） ---------- */
+II: [
+ {id:"II-1", title:"10代の睡眠", text:
+"Many high school students do not get enough sleep. Experts say that teenagers need about nine hours a night, but most of them sleep ( 1 ) seven hours or even less. One reason is that the body clock of teenagers naturally ( 2 ) later at night, so they do not feel sleepy until around eleven. ( 3 ), school starts early in the morning. As a result, many students go to class feeling tired, which makes it difficult for them to ( 4 ) on their lessons. Some schools in the United States have tried starting classes an hour later. Surprisingly, students at these schools not only slept longer but also got better grades and were ( 5 ) likely to be late. These results suggest that a small change in the school schedule can make a big ( 6 ) to students' health and learning.",
+ qs:[
+  {ch:["only about","far more than","at least","no less than"],
+   ex:"後ろに or even less（あるいはもっと少なく）とあるので「たった7時間ほど」。at least / no less than（少なくとも）は「もっと少なく」と矛盾する。"},
+  {ch:["shifts","stays","wakes","falls"],
+   ex:"体内時計が「夜遅い方へずれる」→ shift later。だから11時ごろまで眠くならない、という因果につながる。"},
+  {ch:["However","Therefore","For example","Similarly"],
+   ex:"「夜遅くまで眠くならない」と「学校は朝早く始まる」は対立する内容なので逆接の However。"},
+  {ch:["concentrate","insist","agree","object"],
+   ex:"concentrate on ～＝～に集中する。insist on（言い張る）、object to（反対する）は意味も前置詞も合わない。"},
+  {ch:["less","more","much","very"],
+   ex:"良い結果が並んでいるので「遅刻しにくかった」＝ less likely to be late。be likely to ～ に比較の less/more が付く形。"},
+  {ch:["difference","mistake","decision","progress"],
+   ex:"make a difference (to ～)＝（～に）違いを生む・大きな効果がある。progress は不可算名詞で a big progress とは言えない。"}
+ ]},
+ {id:"II-2", title:"フードロス", text:
+"In Japan, millions of tons of food that could still be eaten are thrown away every year. This problem is called “food loss.” ( 1 ) half of it comes from homes, while the rest comes from restaurants, supermarkets, and factories. One cause is that shops often remove products from their shelves long before the “best-before” date. This date shows when food tastes best, but it does not mean the food becomes dangerous ( 2 ) after that. To reduce waste, some supermarkets now sell such products at lower prices, and a growing number of apps let customers ( 3 ) leftover food from bakeries and restaurants at a discount. At home, we can also take simple steps, ( 4 ) checking the refrigerator before shopping and buying only what we need. If each of us is ( 5 ) careful, the total amount of waste will decrease. After all, food loss is not just someone else's problem; it is something we are all ( 6 ) for.",
+ qs:[
+  {ch:["Nearly","Most","Almost of","Mostly"],
+   ex:"Nearly half ＝ 半分近く。Most half / Almost of half は文法的に不可。almost は of を直接とらない（almost all of ～ ならOK）。"},
+  {ch:["immediately","never","ever","yet"],
+   ex:"「期限を過ぎてすぐに危険になるわけではない」＝ immediately after that。not と never の二重否定はおかしい。"},
+  {ch:["buy","to buy","buying","bought"],
+   ex:"使役動詞 let は〈let＋O＋動詞の原形〉。to不定詞にしないのがひっかけポイント。"},
+  {ch:["such as","because of","instead of","in spite of"],
+   ex:"simple steps（簡単な手段）の具体例を挙げているので such as（～のような）。"},
+  {ch:["a little more","much less","not","so"],
+   ex:"「一人ひとりがもう少し気をつければ、全体の量は減る」。much less careful（ずっと不注意）では減らない。"},
+  {ch:["responsible","proud","famous","absent"],
+   ex:"be responsible for ～＝～に責任がある。something we are all responsible for で「みんなが責任を負うもの」。"}
+ ]}
+],
+/* ---------- 大問III 文法・語法（16問） ---------- */
+III: [
+ {id:"III-1", q:"If I ( ) more time yesterday, I would have finished the report.", ch:["had had","have had","would have","had"],
+  ex:"yesterday＝過去の事実に反する仮定 → 仮定法過去完了〈If S had p.p., S would have p.p.〉。have の過去完了なので had had。"},
+ {id:"III-2", q:"If she had taken the medicine last night, she ( ) better now.", ch:["would feel","would have felt","felt","will feel"],
+  ex:"if節は過去（last night）、主節は現在（now）の混合仮定法。主節は would＋原形。now を見落とさないこと。"},
+ {id:"III-3", q:"Never ( ) such a beautiful sunset.", ch:["have I seen","I have seen","I saw","did I saw"],
+  ex:"否定語 Never が文頭に出ると倒置が起こり、疑問文の語順になる。did I saw は did の後が過去形なので誤り。"},
+ {id:"III-4", q:"Hardly ( ) the station when it began to rain.", ch:["had I reached","I had reached","did I reached","I reached"],
+  ex:"Hardly had S p.p. when ～＝SがVするとすぐに～。Hardly が文頭なので倒置して had I reached。"},
+ {id:"III-5", q:"( ) comes to the party will be welcome.", ch:["Whoever","Whomever","Whatever","However"],
+  ex:"「パーティーに来る人は誰でも」。comes の主語になるので主格の Whoever。Whomever は目的格。"},
+ {id:"III-6", q:"( ) hard you try, you can't finish it in a day.", ch:["However","Whatever","Whenever","Wherever"],
+  ex:"〈However＋形容詞/副詞＋S V〉＝どんなに～しても。直後に hard（副詞）があるのが目印。"},
+ {id:"III-7", q:"( ) from the hill, the town looks like a toy.", ch:["Seen","Seeing","To see","Having seen"],
+  ex:"主語 the town は「見られる」側なので受け身の分詞構文 Seen。「町が見る」わけではない点がひっかけ。"},
+ {id:"III-8", q:"( ) nothing to do, I went to bed early.", ch:["Having","Had","To have","Have"],
+  ex:"分詞構文「することがなかったので」＝ As I had nothing to do。能動なので現在分詞 Having。"},
+ {id:"III-9", q:"This bridge is three times ( ) that one.", ch:["as long as","longer as","as longer than","long as"],
+  ex:"倍数表現〈X times as ～ as …〉＝…のX倍～。as と than を混ぜた形は誤り。"},
+ {id:"III-10", q:"No other student in the class runs ( ) Ken.", ch:["faster than","fastest","as fast","more fast than"],
+  ex:"〈No other＋単数名詞＋比較級 than ～〉で最上級の意味（ケンがいちばん速い）。fast の比較級は faster。"},
+ {id:"III-11", q:"I ( ) here for ten years by next April.", ch:["will have lived","will live","have lived","am living"],
+  ex:"by next April（来年4月までに）＋ for ten years → 未来のある時点までの継続は未来完了 will have p.p.。"},
+ {id:"III-12", q:"Call me as soon as you ( ) at the airport.", ch:["arrive","will arrive","arrived","will have arrived"],
+  ex:"時・条件を表す副詞節（as soon as ～）の中では、未来のことも現在形で表す。will を入れたくなるのがワナ。"},
+ {id:"III-13", q:"The new library is ( ) built near the station now.", ch:["being","been","be","having"],
+  ex:"「今建てられているところ」＝進行形の受動態〈be being p.p.〉。"},
+ {id:"III-14", q:"I was spoken ( ) a stranger on the train.", ch:["to by","by","to","with"],
+  ex:"speak to ～ の受動態は be spoken to by ～。句動詞の前置詞 to を落とさないこと。"},
+ {id:"III-15", q:"This is the town ( ) I was born.", ch:["where","which","what","when"],
+  ex:"I was born in the town → 場所を表す関係副詞 where（＝in which）。which だけでは in が足りない。"},
+ {id:"III-16", q:"( ) surprised me most was his calm voice.", ch:["What","That","Which","It"],
+  ex:"「私を最も驚かせたもの」＝先行詞を含む関係代名詞 What。文全体の主語になる名詞節をつくる。"}
+],
+/* ---------- 大問IV 同意文選択（10問） ---------- */
+IV: [
+ {id:"IV-1", q:"I can't put up with this noise any longer.", ch:["I can't stand this noise any longer.","I can't hear this noise anymore.","I can't make this noise any louder.","I can't stop making this noise."],
+  ex:"put up with ～＝～を我慢する（＝stand, tolerate, bear）。can't stand で「我慢できない」。"},
+ {id:"IV-2", q:"The meeting was called off because of the typhoon.", ch:["The meeting was cancelled because of the typhoon.","The meeting was put off until the next day because of the typhoon.","The meeting was held online because of the typhoon.","The meeting went on in spite of the typhoon."],
+  ex:"call off＝中止する（cancel）。put off は「延期する（postpone）」で意味が違う。似た句動詞の区別が狙われる。"},
+ {id:"IV-3", q:"She takes after her grandmother.", ch:["She resembles her grandmother.","She looks after her grandmother.","She follows her grandmother everywhere.","She lives with her grandmother."],
+  ex:"take after ～＝（親族に）似ている＝resemble。look after は「世話をする」でひっかけ。"},
+ {id:"IV-4", q:"He turned down the job offer.", ch:["He refused the job offer.","He accepted the job offer.","He applied for the job.","He was surprised by the job offer."],
+  ex:"turn down＝断る（refuse, reject）。accept は正反対。"},
+ {id:"IV-5", q:"I ran into an old friend at the station.", ch:["I met an old friend by chance at the station.","I had a fight with an old friend at the station.","I waited for an old friend at the station.","I said goodbye to an old friend at the station."],
+  ex:"run into ～＝～に偶然出会う（＝come across, bump into）。"},
+ {id:"IV-6", q:"You should make the most of this chance.", ch:["You should use this chance as well as you can.","You should give this chance to someone else.","You should wait for a better chance than this.","You should think about this chance later."],
+  ex:"make the most of ～＝～を最大限に活用する。"},
+ {id:"IV-7", q:"It goes without saying that health is important.", ch:["It is obvious that health is important.","Nobody says that health is important.","It is not true that health is important.","People often forget that health is important."],
+  ex:"It goes without saying that ～＝～は言うまでもない（＝It is obvious / Needless to say）。"},
+ {id:"IV-8", q:"I'm looking forward to seeing you.", ch:["I can't wait to see you.","I'm afraid of seeing you.","I'm looking for you.","I've already seen you."],
+  ex:"look forward to ～ing＝～を楽しみに待つ。can't wait to ～ も「待ちきれない＝楽しみ」。look for（探す）と混同しない。"},
+ {id:"IV-9", q:"Please fill in this form.", ch:["Please complete this form.","Please read this form carefully.","Please make a copy of this form.","Please throw away this form."],
+  ex:"fill in (out)＝（書類に）記入する → 書類を完成させる complete。"},
+ {id:"IV-10", q:"He came up with a great idea.", ch:["He thought of a great idea.","He agreed with a great idea.","He heard about a great idea.","He gave up a great idea."],
+  ex:"come up with ～＝（考え・案を）思いつく＝think of。"}
+],
+/* ---------- 大問V 定義指定語選択（12問） ---------- */
+V: [
+ {id:"V-1", q:"to make pain, worry, or a problem less serious", ch:["relieve","reveal","retire","reject"],
+  ex:"relieve＝和らげる（relief は名詞）。reveal＝明らかにする、reject＝拒絶する。"},
+ {id:"V-2", q:"existing in very large amounts; more than enough", ch:["abundant","scarce","fragile","modest"],
+  ex:"abundant＝豊富な。scarce（乏しい）は反対語で頻出ペア。"},
+ {id:"V-3", q:"not wanting to do something and therefore slow to do it", ch:["reluctant","eager","curious","loyal"],
+  ex:"reluctant＝気が進まない（be reluctant to ～）。eager は「熱心な」で反対の意味。"},
+ {id:"V-4", q:"to change an event to a later time or date", ch:["postpone","proceed","predict","protect"],
+  ex:"postpone＝延期する（＝put off）。大問IVの句動詞とセットで覚えよう。"},
+ {id:"V-5", q:"something that blocks your way or makes it difficult to achieve something", ch:["obstacle","outcome","option","origin"],
+  ex:"obstacle＝障害（物）。outcome＝結果、origin＝起源。"},
+ {id:"V-6", q:"certain to happen and impossible to avoid", ch:["inevitable","invisible","incredible","indifferent"],
+  ex:"inevitable＝避けられない。in- で始まる形の似た語に注意（invisible＝目に見えない、indifferent＝無関心な）。"},
+ {id:"V-7", q:"to say the opposite of what someone else has said", ch:["contradict","contribute","consult","convince"],
+  ex:"contradict＝反論する・矛盾する（contra＝反対＋dict＝言う）。語源で覚えると強い。"},
+ {id:"V-8", q:"easily broken or damaged", ch:["fragile","flexible","solid","durable"],
+  ex:"fragile＝壊れやすい（荷物の「ワレモノ注意」）。durable＝丈夫な、は反対語。"},
+ {id:"V-9", q:"not clearly expressed, known, or described", ch:["vague","vivid","vast","valid"],
+  ex:"vague＝あいまいな。vivid＝鮮やかな、vast＝広大な、valid＝有効な。"},
+ {id:"V-10", q:"to copy the way someone behaves, speaks, or moves", ch:["imitate","irritate","initiate","indicate"],
+  ex:"imitate＝まねる。irritate＝いらいらさせる、initiate＝始める。つづりが似ている語のひっかけ。"},
+ {id:"V-11", q:"able to continue for a long time without harming the environment", ch:["sustainable","disposable","temporary","artificial"],
+  ex:"sustainable＝持続可能な（SDGs の S）。disposable＝使い捨ての。"},
+ {id:"V-12", q:"to pause before doing or saying something because you are not sure", ch:["hesitate","insist","persist","estimate"],
+  ex:"hesitate＝ためらう。insist＝主張する、persist＝固執する。"}
+],
+/* ---------- 大問VI 語句整序（10文×2箇所） ---------- */
+VI: [
+ {id:"VI-1", jp:"彼女は私に、そのコンピュータの使い方を教えてくれた。", pre:"She", post:"computer.", words:["showed","me","how","to","use","the"], pos:[2,5],
+  ex:"〈show＋人＋how to ～〉＝人に～の仕方を（やって見せて）教える。"},
+ {id:"VI-2", jp:"雨のせいで、私たちは試合を延期せざるを得なかった。", pre:"The rain", post:"game.", words:["forced","us","to","put","off","the"], pos:[2,5],
+  ex:"無生物主語構文〈force＋O＋to ～〉＝Oに～させる（～せざるを得なくする）。put off＝延期する。"},
+ {id:"VI-3", jp:"彼ほど親切な人に会ったことがない。", pre:"I have", post:"him.", words:["never","met","a","kinder","person","than"], pos:[2,4],
+  ex:"〈never＋現在完了＋比較級 than ～〉で最上級の意味。「彼より親切な人に会ったことがない」。"},
+ {id:"VI-4", jp:"この本を読めば、日本の歴史がよくわかるだろう。", pre:"This book", post:"of Japanese history.", words:["will","give","you","a","good","understanding"], pos:[3,6],
+  ex:"無生物主語＋give＋人＋物。「この本はあなたに日本史のよい理解を与えるだろう」と考える。"},
+ {id:"VI-5", jp:"駅までどれくらい時間がかかるか教えていただけますか。", pre:"Could you tell me", post:"to the station?", words:["how","long","it","takes","to","get"], pos:[2,4],
+  ex:"間接疑問は〈疑問詞＋S＋V〉の語順。It takes (時間) to ～ の形。how long does it take としないのがポイント。"},
+ {id:"VI-6", jp:"彼はとても疲れていたので、宿題を終えることができなかった。", pre:"He was", post:"his homework.", words:["so","tired","that","he","couldn't","finish"], pos:[3,5],
+  ex:"〈so＋形容詞＋that S V〉＝とても～なので…。too tired to finish と同じ意味。"},
+ {id:"VI-7", jp:"健康ほど大切なものはない。", pre:"", post:".", words:["Nothing","is","more","important","than","health"], pos:[3,5],
+  ex:"〈Nothing is＋比較級＋than ～〉＝～ほど…なものはない（最上級の意味）。"},
+ {id:"VI-8", jp:"私が昨日なくした鍵が、机の下で見つかった。", pre:"The key", post:"the desk.", words:["I","lost","yesterday","was","found","under"], pos:[2,5],
+  ex:"The key (which) I lost yesterday で目的格の関係代名詞が省略。主語のかたまりの後に述語 was found が来る。"},
+ {id:"VI-9", jp:"外出するときは、窓を開けたままにしないでください。", pre:"Please", post:"go out.", words:["don't","leave","the","windows","open","when","you"], pos:[2,5],
+  ex:"〈leave＋O＋形容詞〉＝Oを～のままにしておく。open はここでは形容詞「開いている」。"},
+ {id:"VI-10", jp:"彼女が言ったことは本当だとわかった。", pre:"", post:"true.", words:["What","she","said","turned","out","to","be"], pos:[3,5],
+  ex:"What she said（彼女が言ったこと）が主語。turn out to be ～＝～だとわかる・判明する。"}
+],
+/* ---------- 大問VII 長文読解（2題×8問） ---------- */
+VII: [
+ {id:"VII-1", title:"Talking to Strangers", text:
+"Every morning, millions of people ride crowded trains in silence. Most of them look at their smartphones and avoid eye contact with the people sitting next to them. Many people believe that talking to strangers would be awkward or even annoying. However, recent research in psychology suggests that this belief may be wrong, and that we are missing out on something valuable.\n\nIn one well-known experiment, researchers asked commuters in a large city to do one of three things on their way to work: talk to the person next to them, sit quietly, or do whatever they usually did. Before the experiment, most participants predicted that talking to a stranger would be the least pleasant choice. They worried that the other person would not want to talk, or that they would not know what to say. Surprisingly, the results showed the opposite. People who talked with a stranger reported having the most enjoyable journey, and almost no one was rejected.\n\nWhy do we misjudge these situations so badly? One explanation is that we underestimate how much other people want to connect with us. We tend to assume that others are less interested in us than they really are. Because everyone holds the same assumption, nobody makes the first move, and the silence continues. Researchers describe this as a kind of shared misunderstanding: each person is waiting for someone else to speak first. It is a little like a room full of people who all want to dance but are too shy to be the first one on the floor.\n\nSmall conversations with strangers may also have benefits beyond a pleasant moment. Sociologists point out that our social lives consist not only of “strong ties,” such as family members and close friends, but also of “weak ties,” such as the shop clerk we greet every day or a neighbor we chat with occasionally. These weak ties can give us a sense of belonging to a community. They can also bring us new information, such as job opportunities, that our close friends, who tend to know the same things we do, cannot provide.\n\nOf course, not every situation is suitable for a conversation. Some people need quiet time to rest or to prepare for the day, and it is important to respect that. Still, the next time you are waiting in line or sitting next to someone on a bench, you might try a simple comment about the weather. The other person may be just as glad to talk as you are, and that small exchange could brighten both of your days.",
+ qs:[
+  {q:"［第1段落］According to the first paragraph, many people on trains do not talk to strangers because", ch:["they think it would be uncomfortable or unwelcome.","they are not allowed to talk on trains.","they are too tired after work.","they cannot hear each other on crowded trains."],
+   ex:"第1段落 Many people believe that talking to strangers would be awkward or even annoying. より。awkward＝気まずい、annoying＝迷惑な。"},
+  {q:"［第2段落］The word “commuters” is closest in meaning to", ch:["people who travel regularly to work or school","people who live near a station","people who drive trains","people who visit a city as tourists"],
+   ex:"commuter＝通勤・通学者。on their way to work（職場へ向かう途中）がヒントになる。"},
+  {q:"［第2段落］What did the experiment show?", ch:["People who talked to a stranger enjoyed their trip the most.","Most people who tried to talk were refused.","People who sat quietly were the happiest.","Most participants' predictions turned out to be correct."],
+   ex:"the results showed the opposite（予想と逆）、話しかけた人が最も楽しい移動だったと報告し、ほとんど拒まれなかった。"},
+  {q:"［第3段落］According to the third paragraph, why does the silence continue?", ch:["Everyone wrongly assumes that others do not want to talk.","People are too busy with their phones to notice others.","Talking to strangers is often dangerous.","People do not like talking about the weather."],
+   ex:"全員が「相手は自分に興味がない」と同じ思い込みをしているので誰も最初に話しかけない。underestimate＝過小評価する。"},
+  {q:"［第4段落］Which of the following is an example of a “weak tie”?", ch:["a shop clerk you greet every day","your brother","your best friend from childhood","your parents"],
+   ex:"weak ties の例として the shop clerk we greet every day が挙げられている。家族や親友は strong ties。"},
+  {q:"［第4段落］Why can weak ties give us new information?", ch:["Because our close friends tend to know the same things we do.","Because people with weak ties are more intelligent.","Because close friends usually keep secrets from us.","Because weak ties use the internet more often."],
+   ex:"文末 our close friends, who tend to know the same things we do, cannot provide より。親しい人は自分と同じ情報を持ちがち。"},
+  {q:"［全体］Which of the following is true according to the passage?", ch:["Participants expected talking to a stranger to be unpleasant, but it went well.","The writer says we should always talk to the person next to us.","Sociologists think strong ties are not important at all.","Most commuters in the experiment were rejected by strangers."],
+   ex:"第2段落の内容と一致。第5段落で「会話に向かない場面もある」と述べているので always は言い過ぎ。always / never などの強い語は要注意。"},
+  {q:"［全体］Which of the following is true according to the passage?", ch:["The writer admits that some people prefer quiet time and should be respected.","Weak ties can never help people find jobs.","The experiment was carried out in a small village.","People usually overestimate how interested others are in them."],
+   ex:"第5段落 Some people need quiet time ... it is important to respect that と一致。実験は large city、人は他人の関心を「過小評価」している。"}
+ ]},
+ {id:"VII-2", title:"A New Way to Support Rural Towns", text:
+"Many rural towns in Japan are facing a serious problem: their populations are shrinking and growing older. Young people move to big cities to study or work, and few of them come back. As a result, schools close, local shops disappear, and traditional festivals become difficult to continue. For a long time, the main solution was to encourage people to move permanently to the countryside, but this has proved to be difficult for many families.\n\nIn recent years, a different idea has attracted attention. Instead of counting only the people who live in a town, some local governments now pay attention to people who are involved with the town in various ways. These people may visit regularly, help with events, buy local products online, or work on projects with residents from a distance. This group is sometimes called the “related population,” and it lies somewhere between tourists, who visit only once, and residents, who live there all the time.\n\nOne example comes from a small mountain village that was famous for its rice terraces. Because the farmers were getting too old to take care of the fields, many terraces were abandoned. The village then started a program in which city people could become “owners” of a terrace. For a yearly fee, they visit several times a year to plant and harvest rice with local farmers, and they receive the rice they grow. The program has helped preserve the beautiful landscape, and some participants have become so attached to the village that they eventually moved there.\n\nThe internet has made this kind of involvement much easier. Thanks to video calls, a designer in Tokyo can help a fishing town create labels for its products without leaving her office. Online “hometown tax” donations also allow people to support a place they care about and receive local goods in return. Through these connections, people who have never lived in a town can still feel that they are part of it.\n\nCritics point out that the related population cannot completely replace residents. Someone still has to clear the snow from the roads in winter and take care of elderly neighbors every day. However, supporters argue that the goal is not to replace residents but to give them partners. When people from outside bring new skills and fresh ideas, residents often rediscover the value of their own community. In this sense, the future of rural towns may depend less on how many people live there and more on how many people care about them.",
+ qs:[
+  {q:"［第1段落］According to the first paragraph, which is a result of population decline in rural towns?", ch:["Traditional festivals become hard to continue.","More schools are built.","Many young people return from big cities.","Local shops become more popular."],
+   ex:"As a result, schools close, local shops disappear, and traditional festivals become difficult to continue. と一致。"},
+  {q:"［第1段落］What does “this” in “this has proved to be difficult” refer to?", ch:["moving permanently to the countryside","closing schools in rural towns","studying in big cities","holding traditional festivals"],
+   ex:"指示語は直前を見る。直前の to encourage people to move permanently to the countryside（田舎への永住）を指す。"},
+  {q:"［第2段落］How is the “related population” described?", ch:["People whose connection to a town lies between that of tourists and residents","People who have moved to a town permanently","Tourists who visit a town only once","Government workers who manage a town"],
+   ex:"it lies somewhere between tourists ... and residents より。観光客と住民の中間にあたる人々。"},
+  {q:"［第3段落］Why were many rice terraces abandoned?", ch:["The farmers had become too old to take care of them.","The price of rice had fallen sharply.","City people had bought all of them.","The government had stopped rice farming."],
+   ex:"Because the farmers were getting too old to take care of the fields より。too ～ to …＝…するには～すぎる。"},
+  {q:"［第3段落］The phrase “attached to” is closest in meaning to", ch:["fond of","tired of","afraid of","ignorant of"],
+   ex:"be attached to ～＝～に愛着がある。「愛着がわいて最終的に移住した」という流れからも fond of（～が好きな）。"},
+  {q:"［第4段落］What does the fourth paragraph say about the internet?", ch:["It allows people to support a town without living there.","It has made people stop visiting rural towns.","It forces designers to move to fishing towns.","It lets only residents make hometown tax donations."],
+   ex:"ビデオ通話やふるさと納税で、住んでいなくても町を支え「一員だと感じられる」と述べている。designer は without leaving her office（職場を離れずに）。"},
+  {q:"［全体］Which of the following is true according to the passage?", ch:["Some participants in the rice-terrace program later moved to the village.","Critics believe that the related population can fully replace residents.","People who donate online receive nothing in return.","The village program is free for city people."],
+   ex:"第3段落 some participants ... eventually moved there と一致。批判派は「完全には代われない」、寄付者は地元の品を受け取る、参加は For a yearly fee（年会費制）。"},
+  {q:"［全体］Which best expresses the writer's main point?", ch:["A town's future may depend on how many people care about it, not only on how many live there.","Rural towns should give up their traditional festivals.","Everyone should move from big cities to the countryside.","The internet is the main cause of rural decline."],
+   ex:"最終文 depend less on how many people live there and more on how many people care about them が筆者の主張。最終段落の「In this sense」以降は要旨になりやすい。"}
+ ]}
+]
+};
+
+/* ============================================================
+   定数
+   ============================================================ */
+const SEC_ORDER = ["I","II","III","IV","V","VI","VII"];
+const SEC = {
+  I:  {name:"会話文",       desc:"会話の流れに合う発言を選ぶ",       color:"#f2a65a", mock:6},
+  II: {name:"中文空所補充", desc:"約150語の文の空所を埋める",        color:"#e88f8f", mock:6},
+  III:{name:"文法・語法",   desc:"仮定法・倒置・分詞構文・比較など", color:"#7bb38f", mock:8},
+  IV: {name:"同意文選択",   desc:"句動詞・慣用表現の言いかえ",       color:"#6fa6d6", mock:4},
+  V:  {name:"定義語選択",   desc:"英語の定義に合う単語を選ぶ",       color:"#a48ad1", mock:5},
+  VI: {name:"語句整序",     desc:"2つの位置に来る語を選ぶ（配点大）",color:"#d99a6c", mock:8},
+  VII:{name:"長文読解",     desc:"400〜500語の英文・8問",            color:"#5fa8a0", mock:8}
+};
+const PRACTICE = {I:{g:1},II:{g:1},III:{n:8},IV:{n:5},V:{n:5},VI:{g:2},VII:{g:1}};
+const PROFILES = ["kota","naoki"];
+const STORE = "yurutto-kindai-eng-v1:";
+const LV = [0,100,250,450,700,1000,1400,1900,2500,3200];
+const TITLES = ["入学願書をながめる人","単語帳をひらいた人","文法の森の旅人","会話文となかよしさん","並べ替えの見習い職人",
+  "長文をこわがらない人","マーク塗りの達人","模試のベテラン","近大の門をくぐる人","マグロもうなる英語マスター"];
+const MOCK_SEC = 60*60;
+const LINES = [
+  "きょうも1問からでいいよ〜。","大問VIは配点が大きいから、ちょっとずつ慣れよ。","まちがえた問題は、伸びしろってことだよ。",
+  "長文はまず設問をちらっと見るのがコツかも。","句動詞は前置詞のイメージで覚えるとラクだよ。","つかれたら、水のんで深呼吸ね。",
+  "仮定法は「時制を1つ過去にずらす」だけ思い出して。","連続記録、のんびり伸ばしていこ〜。","会話文は、空所の“直後”の反応がヒントだよ。"
+];
+const markPts = m => m<=37 ? 2 : (m<=43 ? 3 : 4);
+
+/* ============================================================
+   問題データの展開
+   ============================================================ */
+const Q = {}, G = {}, SECQ = {}, SECG = {};
+SEC_ORDER.forEach(s => { SECQ[s] = []; SECG[s] = []; });
+
+function hashStr(s){ let h = 2166136261; for (let i=0;i<s.length;i++){ h ^= s.charCodeAt(i); h = Math.imul(h,16777619); } return h>>>0; }
+function rng(seed){ let a = seed>>>0; return function(){ a = (a+0x6D2B79F5)>>>0; let t = a; t = Math.imul(t ^ (t>>>15), t|1); t ^= t + Math.imul(t ^ (t>>>7), t|61); return ((t ^ (t>>>14))>>>0)/4294967296; }; }
+function shuffle(arr, r){ r = r || Math.random; for (let i=arr.length-1;i>0;i--){ const j = Math.floor(r()*(i+1)); [arr[i],arr[j]] = [arr[j],arr[i]]; } return arr; }
+
+function addQ(o){ Q[o.id] = o; SECQ[o.sec].push(o.id); if (o.gid) G[o.gid].qids.push(o.id); }
+
+["I","II","VII"].forEach(sec => {
+  BANK[sec].forEach(g => {
+    G[g.id] = {id:g.id, sec, title:g.title, text:g.text, qids:[]};
+    SECG[sec].push(g.id);
+    g.qs.forEach((q,i) => addQ({id:g.id+"-"+(i+1), sec, gid:g.id, n:i, q:q.q||"", ch:q.ch, ex:q.ex}));
+  });
+});
+["III","IV","V"].forEach(sec => BANK[sec].forEach(q => addQ({id:q.id, sec, q:q.q, ch:q.ch, ex:q.ex})));
+const lc = w => w === "I" ? w : w.toLowerCase();
+BANK.VI.forEach(g => {
+  const full = (g.pre ? g.pre+" " : "") + g.words.join(" ") + (/^[.?!]/.test(g.post) ? "" : " ") + g.post;
+  G[g.id] = {id:g.id, sec:"VI", jp:g.jp, pre:g.pre, post:g.post, words:g.words, pos:g.pos, full, qids:[]};
+  SECG.VI.push(g.id);
+  g.pos.forEach((p,i) => {
+    const correct = g.words[p-1];
+    const others = shuffle(g.words.filter(w => w !== correct), rng(hashStr(g.id+p))).slice(0,3);
+    addQ({id:g.id+"-"+(i+1), sec:"VI", gid:g.id, n:i, p, q:"", ch:[correct].concat(others).map(lc),
+          ex:g.ex+"<br>完成文: <span class='ans'>"+full+"</span>"});
+  });
+});
+
+/* ============================================================
+   プロフィール・保存
+   ============================================================ */
+let P = localStorage.getItem(STORE+"current") || "kota";
+if (PROFILES.indexOf(P) < 0) P = "kota";
+let D = load(P);
+let S = null;      // 現在のセッション / 画面状態
+let VIEW = "home";
+let timerId = null;
+let showGrid = false;
+
+function blank(){
+  const sec = {}; SEC_ORDER.forEach(s => sec[s] = {a:0,c:0});
+  return {xp:0, streak:0, lastDay:"", solved:0, correct:0, sec, qs:{}, missed:[], mock:null, mockHist:[]};
+}
+function load(name){
+  try {
+    const raw = localStorage.getItem(STORE+name);
+    if (!raw) return blank();
+    const d = Object.assign(blank(), JSON.parse(raw));
+    SEC_ORDER.forEach(s => { if (!d.sec[s]) d.sec[s] = {a:0,c:0}; });
+    d.missed = d.missed.filter(id => Q[id]);
+    return d;
+  } catch(e){ return blank(); }
+}
+function save(){ try { localStorage.setItem(STORE+P, JSON.stringify(D)); } catch(e){} }
+function switchProfile(name){
+  if (name === P) return;
+  stopTimer(); save();
+  P = name; localStorage.setItem(STORE+"current", P);
+  D = load(P); S = null; go("home");
+  toast(P+" に切りかえたよ");
+}
+
+/* ============================================================
+   日付・ストリーク・XP
+   ============================================================ */
+function ymd(d){ return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function todayStr(){ return ymd(new Date()); }
+function yesterdayStr(){ const d = new Date(); d.setDate(d.getDate()-1); return ymd(d); }
+function touchDay(){
+  const t = todayStr();
+  if (D.lastDay === t) return;
+  D.streak = (D.lastDay === yesterdayStr()) ? D.streak+1 : 1;
+  D.lastDay = t;
+}
+function curStreak(){ return (D.lastDay === todayStr() || D.lastDay === yesterdayStr()) ? D.streak : 0; }
+function levelOf(xp){ let l = 0; LV.forEach((t,i) => { if (xp >= t) l = i; }); return l+1; }
+function addXP(n){
+  const before = levelOf(D.xp);
+  D.xp += n;
+  const after = levelOf(D.xp);
+  if (after > before) setTimeout(() => toast("Lv."+after+"「"+TITLES[after-1]+"」になったよ 🌱"), 400);
+}
+function ptsFor(id){ const q = Q[id]; return q.sec === "VII" ? (q.n < 6 ? 3 : 4) : 2; }
+
+function record(id, ok, pts){
+  touchDay();
+  const q = Q[id];
+  const s = D.qs[id] || (D.qs[id] = {a:0,c:0});
+  s.a++; if (ok) s.c++;
+  D.sec[q.sec].a++; if (ok) D.sec[q.sec].c++;
+  D.solved++; if (ok) D.correct++;
+  const mi = D.missed.indexOf(id);
+  if (ok) { if (mi >= 0) D.missed.splice(mi,1); }
+  else if (mi < 0) D.missed.push(id);
+  let xp = 0;
+  if (ok) { xp = pts*5; addXP(xp); }
+  save();
+  return xp;
+}
+
+/* ============================================================
+   出題の組み立て
+   ============================================================ */
+function qAtt(id){ return (D.qs[id]||{}).a || 0; }
+function gAtt(gid){ return G[gid].qids.reduce((s,q) => s+qAtt(q), 0); }
+function pickGroups(sec, k, byAtt){
+  const gs = shuffle(SECG[sec].slice());
+  if (byAtt) gs.sort((a,b) => gAtt(a)-gAtt(b));
+  return gs.slice(0,k);
+}
+function pickQs(sec, k, byAtt){
+  const qs = shuffle(SECQ[sec].slice());
+  if (byAtt) qs.sort((a,b) => qAtt(a)-qAtt(b));
+  return qs.slice(0,k);
+}
+function groupQids(gids){ return gids.reduce((a,g) => a.concat(G[g].qids), []); }
+function newSeed(){ return Math.floor(Math.random()*1e9); }
+
+function startPractice(sec){
+  const pl = PRACTICE[sec];
+  const qids = pl.g ? groupQids(pickGroups(sec, pl.g, true)) : pickQs(sec, pl.n, true);
+  S = {mode:"practice", sec, qids, i:0, ans:{}, seed:newSeed(), gained:0};
+  go("quiz");
+}
+function startReview(sec){
+  let list = D.missed.filter(id => !sec || Q[id].sec === sec);
+  list.sort((a,b) => SEC_ORDER.indexOf(Q[a].sec)-SEC_ORDER.indexOf(Q[b].sec) || a.localeCompare(b, "en", {numeric:true}));
+  list = list.slice(0,10);
+  if (!list.length) return;
+  S = {mode:"review", sec:sec||null, qids:list, i:0, ans:{}, seed:newSeed(), gained:0};
+  go("quiz");
+}
+function buildMock(){
+  let qids = [];
+  qids = qids.concat(groupQids(pickGroups("I",2)));
+  qids = qids.concat(groupQids(pickGroups("II",1)));
+  ["III","IV","V"].forEach(s => {
+    const picked = pickQs(s, SEC[s].mock);
+    picked.sort((a,b) => SECQ[s].indexOf(a)-SECQ[s].indexOf(b));
+    qids = qids.concat(picked);
+  });
+  qids = qids.concat(groupQids(pickGroups("VI",4)));
+  qids = qids.concat(groupQids(pickGroups("VII",1)));
+  return qids;
+}
+function startMock(){
+  if (D.mock && !confirm("途中の模試があります。破棄して新しく始めますか？")) return;
+  D.mock = {qids:buildMock(), ans:{}, start:Date.now(), seed:newSeed(), i:0};
+  save();
+  S = {mode:"mock"}; showGrid = false;
+  go("mock");
+}
+function resumeMock(){ S = {mode:"mock"}; showGrid = false; go("mock"); }
+
+/* ============================================================
+   描画ヘルパー
+   ============================================================ */
+const $app = document.getElementById("app");
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function pct(c,a){ return a ? Math.round(c/a*100) : 0; }
+function secTag(s){ return "<span class='tag' style='background:"+SEC[s].color+"'>"+s+"</span>"; }
+function blanks(html, cur){
+  return html.replace(/\(\s?(\d)\s?\)/g, (m,n) => "<span class='blank"+(cur && +n===cur ? " cur" : "")+"'>"+n+"</span>");
+}
+function choiceOrder(id, seed){ return shuffle([0,1,2,3], rng(hashStr(id+":"+seed))); }
+
+function groupHTML(gid, curN, scroll){
+  const g = G[gid];
+  if (g.sec === "I") {
+    const rows = g.text.split("\n").map(l => {
+      const k = l.indexOf(":");
+      return "<div class='dl'><span class='sp'>"+esc(l.slice(0,k))+"</span><span>"+blanks(esc(l.slice(k+1)), curN)+"</span></div>";
+    }).join("");
+    return "<div class='passage'><h4>会話：「"+esc(g.title)+"」</h4>"+rows+"</div>";
+  }
+  if (g.sec === "II") {
+    return "<div class='passage'><h4>"+esc(g.title)+"</h4><p>"+blanks(esc(g.text), curN)+"</p></div>";
+  }
+  if (g.sec === "VII") {
+    const ps = g.text.split("\n\n").map((p,i) => "<p><span class='pn'>"+(i+1)+"</span>"+esc(p)+"</p>").join("");
+    return "<div class='passage"+(scroll ? " scroll" : "")+"'><h4>"+esc(g.title)+"</h4>"+ps+"</div>";
+  }
+  if (g.sec === "VI") {
+    let bl = g.words.map((w,i) => "<span class='blank"+(curN===i+1 ? " cur" : "")+"'>"+(i+1)+"</span>").join(" ");
+    const sent = (g.pre ? esc(g.pre)+" " : "") + bl + (/^[.?!]/.test(g.post) ? "" : " ") + esc(g.post);
+    const ws = shuffle(g.words.slice(), rng(hashStr(g.id+"bank"))).map(w => "<span>"+esc(lc(w))+"</span>").join("");
+    return "<div class='passage'><div class='jp'>"+esc(g.jp)+"</div><div>"+sent+"</div><div class='words'>"+ws+"</div>"+
+      "<div class='small' style='margin-top:6px;font-family:sans-serif'>※文頭に来る語も小文字で示しています。各語は1回ずつ使います。</div></div>";
+  }
+  return "";
+}
+function stemHTML(q){
+  if (q.sec === "I" || q.sec === "II") return "空所 <span class='blank cur'>"+(q.n+1)+"</span> に入れるのに最も適切なものを選びなさい。";
+  if (q.sec === "III") return "空所に入れるのに最も適切なものを選びなさい。<span class='en'>"+esc(q.q).replace(/\(\s*\)/g,"<span class='blank'>　</span>")+"</span>";
+  if (q.sec === "IV") return "次の文とほぼ同じ意味の文を選びなさい。<span class='en'>"+esc(q.q)+"</span>";
+  if (q.sec === "V") return "次の定義に合う語を選びなさい。<span class='en'>“"+esc(q.q)+"”</span>";
+  if (q.sec === "VI") return "日本文の意味になるように並べかえたとき、<span class='blank cur'>"+q.p+"</span> 番目に来る語は？";
+  if (q.sec === "VII") return esc(q.q);
+  return "";
+}
+function curBlank(q){ return (q.sec==="I"||q.sec==="II") ? q.n+1 : (q.sec==="VI" ? q.p : 0); }
+
+function mascotSVG(){
+  return "<svg viewBox='0 0 80 70' width='74' height='65' aria-hidden='true'>"+
+    "<path d='M62 35 L78 22 L76 48 Z' fill='#8fb3d1'/>"+
+    "<ellipse cx='36' cy='36' rx='30' ry='22' fill='#a9c8e2'/>"+
+    "<ellipse cx='34' cy='44' rx='22' ry='11' fill='#e9f1f8'/>"+
+    "<path d='M30 15 Q38 4 46 15' fill='#8fb3d1'/>"+
+    "<circle cx='20' cy='31' r='3.4' fill='#4a4038'/><circle cx='21' cy='30' r='1' fill='#fff'/>"+
+    "<ellipse cx='14' cy='39' rx='4' ry='2.4' fill='#f4b6a6' opacity='.8'/>"+
+    "<path d='M9 33 Q12 36 9 38' stroke='#4a4038' stroke-width='1.6' fill='none' stroke-linecap='round'/></svg>";
+}
+
+/* ============================================================
+   画面
+   ============================================================ */
+function go(v){ VIEW = v; render(); window.scrollTo(0,0); }
+function render(){
+  if (VIEW !== "mock") stopTimer();
+  const f = {home:vHome, select:vSelect, quiz:vQuiz, result:vResult, mockIntro:vMockIntro, mock:vMock, mockResult:vMockResult, analysis:vAnalysis, review:vReview}[VIEW] || vHome;
+  $app.innerHTML = f();
+  if (VIEW === "mock") startTimer();
+}
+
+function recommend(){
+  const tried = SEC_ORDER.filter(s => D.sec[s].a >= 3);
+  const untried = SEC_ORDER.filter(s => D.sec[s].a === 0);
+  if (tried.length) {
+    tried.sort((a,b) => pct(D.sec[a].c,D.sec[a].a)-pct(D.sec[b].c,D.sec[b].a));
+    const s = tried[0], p = pct(D.sec[s].c, D.sec[s].a);
+    if (p < 80 || !untried.length) return {s, why:"正答率 "+p+"%。いちばん伸びしろがある大問だよ。"};
+  }
+  if (untried.length) return {s:untried[0], why:"まだ解いていない大問。まずは1セットだけ。"};
+  return {s:"VI", why:"配点の大きい語句整序で得点を固めよう。"};
+}
+
+function vHome(){
+  const lv = levelOf(D.xp), cur = LV[lv-1], nxt = LV[lv] ;
+  const prog = nxt ? Math.round((D.xp-cur)/(nxt-cur)*100) : 100;
+  const line = LINES[Math.floor(Math.random()*LINES.length)];
+  const rec = recommend();
+  const pills = PROFILES.map(p => "<button class='pill"+(p===P?" on":"")+"' onclick=\"switchProfile('"+p+"')\">"+p+"</button>").join("");
+  const mockBtn = D.mock ? "<button class='btn green' onclick='resumeMock()'>⏱ 途中の模試をつづける</button>" : "";
+  return ""+
+  "<div class='header'><h1>ゆるっと近大英語</h1><div class='pills'>"+pills+"</div></div>"+
+  "<div class='mascot'>"+mascotSVG()+"<div class='bubble'><b>まぐたん</b>：「"+esc(line)+"」</div></div>"+
+  "<div class='card tape'>"+
+    "<div class='lv'><b>Lv."+lv+"</b><span class='title-badge'>"+TITLES[lv-1]+"</span></div>"+
+    "<div class='bar'><i style='width:"+prog+"%'></i></div>"+
+    "<div class='small'>"+D.xp+" XP"+(nxt ? "（次のレベルまで あと "+(nxt-D.xp)+" XP）" : "（最高レベル！）")+"</div>"+
+    "<div class='stats'>"+
+      "<div class='stat'><b>🔥 "+curStreak()+"</b><span>連続日数</span></div>"+
+      "<div class='stat'><b>"+D.solved+"</b><span>解いた問題</span></div>"+
+      "<div class='stat'><b>"+(D.solved ? pct(D.correct,D.solved)+"%" : "–")+"</b><span>正答率</span></div>"+
+    "</div></div>"+
+  mockBtn+
+  "<div class='menu' style='margin-top:12px'>"+
+    "<button class='mbtn' onclick=\"go('select')\"><span class='ic'>📒</span><b>大問別練習</b><small>I〜VIIをえらんで解く</small></button>"+
+    "<button class='mbtn' onclick=\"go('mockIntro')\"><span class='ic'>⏱</span><b>通し模試</b><small>45マーク・60分・100点</small></button>"+
+    "<button class='mbtn' onclick=\"go('analysis')\"><span class='ic'>📊</span><b>苦手分析</b><small>大問別の正答率</small></button>"+
+    "<button class='mbtn' onclick=\"go('review')\"><span class='ic'>🔁</span><b>復習リスト</b><small>まちがえた問題</small>"+(D.missed.length ? "<span class='badge'>"+D.missed.length+"</span>" : "")+"</button>"+
+  "</div>"+
+  "<div class='card'><h3>🌼 今日のおすすめ</h3><div>"+secTag(rec.s)+"<b>大問"+rec.s+" "+SEC[rec.s].name+"</b></div><div class='small'>"+rec.why+"</div>"+
+    "<button class='btn' onclick=\"startPractice('"+rec.s+"')\">これをやる</button></div>"+
+  "<div class='foot'>記録はこの端末（"+esc(P)+"）に保存されます · 問題はすべてオリジナルです</div>";
+}
+
+function vSelect(){
+  const list = SEC_ORDER.map(s => {
+    const st = D.sec[s];
+    const pl = PRACTICE[s];
+    const size = pl.g ? (s==="VI" ? pl.g+"文（"+pl.g*2+"マーク）" : "1題（"+G[SECG[s][0]].qids.length+"問）") : pl.n+"問";
+    return "<button class='sec' onclick=\"startPractice('"+s+"')\"><span class='secno' style='background:"+SEC[s].color+"'>"+s+"</span>"+
+      "<span class='meta'><b>"+SEC[s].name+"</b><small>"+SEC[s].desc+" · 1回 "+size+"</small></span>"+
+      "<span class='acc'>"+(st.a ? pct(st.c,st.a)+"%" : "未挑戦")+"</span></button>";
+  }).join("");
+  return "<button class='back' onclick=\"go('home')\">← もどる</button><h2>📒 大問別練習</h2>"+
+    "<div class='small'>やりたい大問をタップ。解いた直後に答えと解説が出ます。</div><div class='seclist'>"+list+"</div>";
+}
+
+function vQuiz(){
+  const id = S.qids[S.i], q = Q[id];
+  const done = S.ans[id] !== undefined;
+  const order = choiceOrder(id, S.seed);
+  const label = S.mode === "review" ? "🔁 復習" : "大問"+q.sec+" "+SEC[q.sec].name;
+  let html = "<div class='topbar'><button class='back' onclick='quitQuiz()'>✕ やめる</button><span>"+label+"</span><span class='small'>"+(S.i+1)+" / "+S.qids.length+"</span></div>";
+  if (S.mode === "review") html += "<div>"+secTag(q.sec)+"<span class='small'>大問"+q.sec+" "+SEC[q.sec].name+"</span></div>";
+  if (q.gid) html += groupHTML(q.gid, curBlank(q), true);
+  html += "<div class='card'><div class='qstem'>"+stemHTML(q)+"</div>";
+  order.forEach((o,k) => {
+    let cls = "choice";
+    if (done) { if (o === 0) cls += " ok"; else if (S.ans[id] === o) cls += " ng"; }
+    html += "<button class='"+cls+"' "+(done ? "disabled" : "onclick='answer("+o+")'")+"><span class='lb'>"+(k+1)+"</span><span>"+esc(q.ch[o])+"</span></button>";
+  });
+  if (done) {
+    const ok = S.ans[id] === 0;
+    html += "<div class='fb "+(ok ? "ok" : "ng")+"'><b>"+(ok ? "⭕ 正解！" : "❌ おしい！")+"</b>"+(ok ? " <span class='small'>+"+ptsFor(id)*5+" XP</span>" : "")+
+      "<div>正解: <span class='ans'>"+esc(q.ch[0])+"</span></div><div style='margin-top:4px'>"+q.ex+"</div></div>";
+    html += "<button class='btn' onclick='nextQ()'>"+(S.i+1 < S.qids.length ? "次へ →" : "結果を見る")+"</button>";
+  }
+  html += "</div>";
+  return html;
+}
+function answer(o){
+  const id = S.qids[S.i];
+  if (S.ans[id] !== undefined) return;
+  S.ans[id] = o;
+  S.gained += record(id, o === 0, ptsFor(id));
+  render();
+  const fb = document.querySelector(".fb");
+  if (fb) fb.scrollIntoView({behavior:"smooth", block:"center"});
+}
+function nextQ(){ if (S.i+1 < S.qids.length) { S.i++; go("quiz"); } else go("result"); }
+function quitQuiz(){
+  const n = Object.keys(S.ans).length;
+  if (n === 0) { go("home"); return; }
+  go("result");
+}
+
+function vResult(){
+  const answered = S.qids.filter(id => S.ans[id] !== undefined);
+  const ok = answered.filter(id => S.ans[id] === 0).length;
+  const rows = answered.map(id => {
+    const q = Q[id], c = S.ans[id] === 0;
+    return "<div class='rv'><span class='mk "+(c?"o":"x")+"'>"+(c?"○":"×")+"</span>"+secTag(q.sec)+
+      "<span class='small'>"+esc(shortLabel(q))+"</span><div class='small'>正解: "+esc(q.ch[0])+"</div></div>";
+  }).join("");
+  const again = S.mode === "practice"
+    ? "<button class='btn' onclick=\"startPractice('"+S.sec+"')\">もう1セット（大問"+S.sec+"）</button>"
+    : (D.missed.length ? "<button class='btn' onclick='startReview()'>つづけて復習する</button>" : "");
+  const msg = !answered.length ? "" : (ok === answered.length ? "全問正解！すごい〜🎉" : ok/answered.length >= .6 ? "いい感じ！この調子。" : "まちがえた所は復習リストに入れておいたよ。");
+  return "<h2>📝 おつかれさま！</h2><div class='card tape'><div class='score'>"+ok+"<small> / "+answered.length+" 問正解</small></div>"+
+    "<div style='text-align:center' class='small'>獲得 "+S.gained+" XP · "+msg+"</div></div>"+
+    "<div class='card'>"+rows+"</div>"+again+
+    "<div class='row'><button class='btn sub' onclick=\"go('select')\">大問をえらぶ</button><button class='btn sub' onclick=\"go('home')\">ホームへ</button></div>";
+}
+function shortLabel(q){
+  if (q.sec==="I"||q.sec==="II") return G[q.gid].title+" 空所"+(q.n+1);
+  if (q.sec==="VI") return G[q.gid].jp.slice(0,14)+"…（"+q.p+"番目）";
+  if (q.sec==="VII") return G[q.gid].title+" 問"+(q.n+1);
+  return q.q.length > 40 ? q.q.slice(0,40)+"…" : q.q;
+}
+
+/* ---------- 模試 ---------- */
+function vMockIntro(){
+  const rows = SEC_ORDER.map((s,i) => {
+    const start = SEC_ORDER.slice(0,i).reduce((a,t) => a+SEC[t].mock, 0)+1, end = start+SEC[s].mock-1;
+    let pts = 0; for (let m=start;m<=end;m++) pts += markPts(m);
+    return "<tr><td>"+secTag(s)+SEC[s].name+"</td><td class='r'>"+start+"–"+end+"</td><td class='r'>"+pts+"点</td></tr>";
+  }).join("");
+  const hist = D.mockHist.slice(-5).reverse().map(h => "<div class='small'>"+h.date+"　<b>"+h.score+"</b> / 100</div>").join("");
+  return "<button class='back' onclick=\"go('home')\">← もどる</button><h2>⏱ 通し模試</h2>"+
+    "<div class='card'>本番と同じ <b>45マーク・60分・100点満点</b>。<br>マーク1〜37は各2点、38〜43は各3点、44・45は各4点。<br>途中で閉じても続きから再開できます（タイマーは進みます）。"+
+    "<table class='brk' style='margin-top:8px'><tr><th>大問</th><th class='r'>マーク</th><th class='r'>配点</th></tr>"+rows+"</table></div>"+
+    (hist ? "<div class='card'><h3>最近の模試</h3>"+hist+"</div>" : "")+
+    (D.mock ? "<button class='btn green' onclick='resumeMock()'>途中の模試をつづける</button>" : "")+
+    "<button class='btn' onclick='startMock()'>"+(D.mock ? "新しく始める" : "スタート！")+"</button>";
+}
+function mockRemain(){ return Math.max(0, MOCK_SEC - Math.floor((Date.now()-D.mock.start)/1000)); }
+function fmtTime(s){ return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0"); }
+function startTimer(){
+  stopTimer();
+  const tick = () => {
+    if (!D.mock) { stopTimer(); return; }
+    const r = mockRemain();
+    const el = document.getElementById("timer");
+    if (el) { el.textContent = "⏱ "+fmtTime(r); el.className = "timer"+(r <= 300 ? " warn" : ""); }
+    if (r <= 0) { stopTimer(); toast("時間です！採点するね"); finishMock(); }
+  };
+  tick();
+  timerId = setInterval(tick, 1000);
+}
+function stopTimer(){ if (timerId) { clearInterval(timerId); timerId = null; } }
+
+function vMock(){
+  if (!D.mock) return vHome();
+  const M = D.mock, i = M.i, id = M.qids[i], q = Q[id];
+  const order = choiceOrder(id, M.seed);
+  const answered = Object.keys(M.ans).length;
+  let html = "<div class='topbar'><button class='back' onclick=\"go('home')\">⏸ 中断</button><span id='timer' class='timer'>⏱ "+fmtTime(mockRemain())+"</span><span class='small'>回答 "+answered+"/45</span></div>";
+  html += "<div>"+secTag(q.sec)+"<b>マーク "+(i+1)+"</b> <span class='small'>（大問"+q.sec+" "+SEC[q.sec].name+" · "+markPts(i+1)+"点）</span></div>";
+  if (q.gid) html += groupHTML(q.gid, curBlank(q), true);
+  html += "<div class='card'><div class='qstem'>"+stemHTML(q)+"</div>";
+  order.forEach((o,k) => {
+    html += "<button class='choice"+(M.ans[id] === o ? " sel" : "")+"' onclick='mockAnswer("+o+")'><span class='lb'>"+(k+1)+"</span><span>"+esc(q.ch[o])+"</span></button>";
+  });
+  html += "<div class='row'><button class='btn sub' onclick='mockGo("+(i-1)+")' "+(i===0?"disabled":"")+">← 前へ</button>"+
+          "<button class='btn sub' onclick='mockGo("+(i+1)+")' "+(i===44?"disabled":"")+">次へ →</button></div></div>";
+  html += "<button class='btn sub' onclick='toggleGrid()'>"+(showGrid ? "マーク一覧をとじる" : "📋 マーク一覧をひらく")+"</button>";
+  if (showGrid) {
+    let grid = "", last = "";
+    M.qids.forEach((qid,k) => {
+      const s = Q[qid].sec;
+      if (s !== last) { grid += "<div class='gl'>大問"+s+" "+SEC[s].name+"</div>"; last = s; }
+      grid += "<button class='"+(k===i ? "cur" : (M.ans[qid] !== undefined ? "done" : ""))+"' onclick='mockGo("+k+")'>"+(k+1)+"</button>";
+    });
+    html += "<div class='card'><div class='navgrid'>"+grid+"</div></div>";
+  }
+  html += "<button class='btn green' onclick='submitMock()'>提出して採点する</button>";
+  return html;
+}
+function mockAnswer(o){ const M = D.mock, id = M.qids[M.i]; M.ans[id] = o; save(); render(); }
+function mockGo(k){ if (k < 0 || k > 44) return; D.mock.i = k; save(); render(); window.scrollTo(0,0); }
+function toggleGrid(){ showGrid = !showGrid; render(); }
+function submitMock(){
+  const left = 45 - Object.keys(D.mock.ans).length;
+  if (!confirm(left ? "未回答が "+left+" 問あります。提出しますか？" : "提出して採点しますか？")) return;
+  finishMock();
+}
+function finishMock(){
+  stopTimer();
+  const M = D.mock; if (!M) return;
+  const bySec = {}; SEC_ORDER.forEach(s => bySec[s] = {got:0, max:0, ok:0, n:0});
+  let score = 0, gained = 0;
+  M.qids.forEach((id,k) => {
+    const pts = markPts(k+1), q = Q[id], ok = M.ans[id] === 0;
+    bySec[q.sec].max += pts; bySec[q.sec].n++;
+    if (ok) { score += pts; bySec[q.sec].got += pts; bySec[q.sec].ok++; }
+    gained += record(id, ok, pts);
+  });
+  const used = Math.min(MOCK_SEC, Math.floor((Date.now()-M.start)/1000));
+  addXP(30); gained += 30;
+  D.mockHist.push({date:todayStr(), score});
+  if (D.mockHist.length > 30) D.mockHist.shift();
+  S = {mode:"mockResult", qids:M.qids, ans:M.ans, seed:M.seed, score, bySec, gained, used};
+  D.mock = null; save();
+  go("mockResult");
+}
+function vMockResult(){
+  const R = S;
+  const rows = SEC_ORDER.map(s => {
+    const b = R.bySec[s];
+    return "<tr><td>"+secTag(s)+SEC[s].name+"</td><td class='r'>"+b.ok+"/"+b.n+"</td><td class='r'><b>"+b.got+"</b> / "+b.max+"</td></tr>";
+  }).join("");
+  const list = R.qids.map((id,k) => {
+    const q = Q[id], ok = R.ans[id] === 0, a = R.ans[id];
+    return "<details class='rv'><summary><span class='mk "+(ok?"o":"x")+"'>"+(ok?"○":"×")+"</span>マーク"+(k+1)+" "+secTag(q.sec)+"<span class='small'>"+esc(shortLabel(q))+"</span></summary>"+
+      "<div class='small'>あなたの答え: "+(a === undefined ? "未回答" : esc(q.ch[a]))+"</div><div>正解: <b>"+esc(q.ch[0])+"</b></div><div class='small'>"+q.ex+"</div></details>";
+  }).join("");
+  const comment = R.score >= 80 ? "合格圏の手ごたえ！この感覚をキープ。" : R.score >= 60 ? "あと少し！配点の大きいVI・VIIを固めよう。" : "まずは大問別練習で形式に慣れていこ〜。";
+  return "<h2>🎓 模試の結果</h2><div class='card tape'><div class='score'>"+R.score+"<small> / 100 点</small></div>"+
+    "<div class='small' style='text-align:center'>所要時間 "+fmtTime(R.used)+" · 獲得 "+R.gained+" XP</div><div style='text-align:center;margin-top:6px'>"+comment+"</div></div>"+
+    "<div class='card'><h3>大問別の得点</h3><table class='brk'><tr><th>大問</th><th class='r'>正解</th><th class='r'>得点</th></tr>"+rows+"</table></div>"+
+    "<div class='card'><h3>答えあわせ</h3><div class='small'>タップで解説がひらきます。</div>"+list+"</div>"+
+    "<div class='row'><button class='btn sub' onclick=\"go('analysis')\">苦手分析へ</button><button class='btn sub' onclick=\"go('home')\">ホームへ</button></div>";
+}
+
+/* ---------- 分析・復習 ---------- */
+function vAnalysis(){
+  const bars = SEC_ORDER.map(s => {
+    const st = D.sec[s], p = pct(st.c, st.a);
+    const col = !st.a ? "#ddd" : p >= 80 ? "var(--ok)" : p >= 60 ? "var(--accent2)" : "var(--ng)";
+    return "<div class='abar'><span class='nm'>"+secTag(s)+SEC[s].name+"</span><span class='track'><i style='width:"+(st.a ? Math.max(p,3) : 0)+"%;background:"+col+"'></i></span>"+
+      "<span class='pc'>"+(st.a ? p+"% <span style='font-size:.72rem'>("+st.c+"/"+st.a+")</span>" : "未挑戦")+"</span></div>";
+  }).join("");
+  const rec = recommend();
+  const hist = D.mockHist.slice(-8);
+  const histHTML = hist.length ? hist.map(h => "<div class='abar'><span class='nm small'>"+h.date.slice(5)+"</span><span class='track'><i style='width:"+Math.max(h.score,2)+"%;background:var(--blue)'></i></span><span class='pc'>"+h.score+"点</span></div>").join("")
+    : "<div class='empty'>まだ模試の記録はありません</div>";
+  return "<button class='back' onclick=\"go('home')\">← もどる</button><h2>📊 苦手分析</h2>"+
+    "<div class='card'><h3>大問別 累計正答率</h3>"+bars+"<div class='small'>緑 80%以上 · 黄 60%以上 · 赤 60%未満</div></div>"+
+    "<div class='card'><h3>🌼 今日のおすすめ</h3><div>"+secTag(rec.s)+"<b>大問"+rec.s+" "+SEC[rec.s].name+"</b></div><div class='small'>"+rec.why+"</div>"+
+      "<button class='btn' onclick=\"startPractice('"+rec.s+"')\">練習する</button></div>"+
+    "<div class='card'><h3>模試の得点の推移</h3>"+histHTML+"</div>";
+}
+function vReview(){
+  if (!D.missed.length) return "<button class='back' onclick=\"go('home')\">← もどる</button><h2>🔁 復習リスト</h2><div class='card empty'>まちがえた問題はありません 🌸<br>練習や模試でまちがえると、ここにたまります。</div>";
+  const counts = {}; D.missed.forEach(id => { const s = Q[id].sec; counts[s] = (counts[s]||0)+1; });
+  const chips = SEC_ORDER.filter(s => counts[s]).map(s => "<button onclick=\"startReview('"+s+"')\">"+secTag(s)+SEC[s].name+" "+counts[s]+"</button>").join("");
+  const rows = D.missed.slice().sort((a,b) => SEC_ORDER.indexOf(Q[a].sec)-SEC_ORDER.indexOf(Q[b].sec)).map(id => {
+    const q = Q[id];
+    return "<div class='rv'>"+secTag(q.sec)+"<span class='small'>"+esc(shortLabel(q))+"</span></div>";
+  }).join("");
+  return "<button class='back' onclick=\"go('home')\">← もどる</button><h2>🔁 復習リスト</h2>"+
+    "<div class='card'><b>"+D.missed.length+"問</b> たまっています。正解するとリストから消えます。"+
+    "<button class='btn' onclick='startReview()'>まとめて解き直す（最大10問）</button><div class='small' style='margin-top:8px'>大問ごとに解き直す：</div><div class='chips'>"+chips+"</div></div>"+
+    "<div class='card'>"+rows+"</div>";
+}
+
+/* ---------- トースト ---------- */
+let toastId = null;
+function toast(msg){
+  const t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("show");
+  clearTimeout(toastId); toastId = setTimeout(() => t.classList.remove("show"), 2600);
+}
+
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") save(); });
+render();
+</script>
+</body>
+</html>
