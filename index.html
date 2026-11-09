@@ -167,7 +167,7 @@ details summary{cursor:pointer;padding:4px 0}
    ルール: ch[0] が常に正解（表示時にシャッフル）
    ============================================================ */
 const BANK = {
-/* ---------- 大問I 会話文（3セット×3問） ---------- */
+/* ---------- 大問I 会話文（7セット×3問：I-1〜3標準 / I-4〜7発展） ---------- */
 I: [
  {id:"I-1", title:"図書館で", text:
 "Student: Excuse me. I'd like to borrow this book, but I left my student ID at home.\nLibrarian: I'm sorry, but ( 1 )\nStudent: Oh, no. My report is due tomorrow morning.\nLibrarian: Well, you can read it here until we close at eight. ( 2 )\nStudent: Really? That would help a lot. Can I copy a few pages, too?\nLibrarian: Sure. The copy machine is next to the entrance. ( 3 )\nStudent: Thanks. I'll make sure to bring my ID next time.",
@@ -198,6 +198,46 @@ I: [
    ex:"直後の though（でも）で「青ならあります」と続くので、「（白の）そのサイズは売り切れ」が自然。I'm afraid ～ は残念なことを伝える丁寧な言い方。"},
   {ch:["Could I just get my money back instead?","I'll take two blue ones, then.","Could you make it smaller?","I'd like to buy another one in medium."],
    ex:"青は好みでない→「代わりに返金してもらえますか」。店員が「レシートを見せて」と言っているのも返金の流れに合う。get one's money back＝返金してもらう。"}
+ ]},
+ {id:"I-4", title:"教授のオフィスアワー", text:
+"Professor Hill: Come in, Yuta. What can I do for you?\nYuta: I wanted to ask about my final report. I've been reading a lot of articles, but ( 1 )\nProfessor Hill: That's a common problem. What's your topic right now?\nYuta: Climate change and food. Honestly, it feels way too big.\nProfessor Hill: It is. Why not focus on one crop in one country? Rice in Japan, for example.\nYuta: That makes a lot of sense. But I'm also worried about time. The report is due next Friday, right?\nProfessor Hill: Actually, I changed that in class on Tuesday. It's now due the following Monday, so you have three extra days.\nYuta: ( 2 ) I must have missed that announcement. Should I send you an outline first?\nProfessor Hill: Yes, please. Email it to me by this Thursday, and I'll give you some feedback.\nYuta: Thank you so much. ( 3 )\nProfessor Hill: Good. And remember, my door is always open on Wednesday afternoons.",
+ qs:[
+  {ch:["I can't seem to narrow down my topic.","I can't seem to find any articles on it.","I've already finished writing the first draft.","I'm not sure the deadline is fair to everyone."],
+   ex:"教授が「よくある悩みだね。今のテーマは？」と聞き、ユウタが「大きすぎる」と答えているので「テーマを絞り込めない」が正解。narrow down＝絞り込む。「記事が見つからない」は直前の「たくさん記事を読んでいる」と矛盾するひっかけ。"},
+  {ch:["What a relief!","What a pity!","I'm sorry to hear that.","That's too bad."],
+   ex:"締め切りが3日延びた＝うれしい知らせなので What a relief!（ほっとした！）。ほかの3つはどれも「残念だ」という反応で、良い知らせへの返事としては不自然。"},
+  {ch:["I'll start narrowing it down to rice tonight.","I'll hand in the whole report next Friday, then.","I'll email you my outline next Monday, then.","I'll add a few more crops to compare, then."],
+   ex:"推論問題。教授の助言（1つの作物に絞る）を受けて「今夜から米に絞って始めます」が自然。締め切りは途中で「翌週の月曜」に訂正され、アウトラインは「今週木曜まで」なので、Friday・Monday の選択肢はどちらも数字のひっかけ。作物を増やすのは助言と逆。"}
+ ]},
+ {id:"I-5", title:"アルバイトの面接", text:
+"Manager: So, Aya, you'd like to work at our bakery. When are you usually available?\nAya: Weekdays after five, and all day on Sundays.\nManager: Hmm. To be honest, we really need someone on Saturday mornings. ( 1 )\nAya: I'm afraid not. I have a swimming lesson every Saturday until noon.\nManager: I see. Then how about Tuesday and Thursday evenings, from five to nine?\nAya: Thursday is fine, but on Tuesdays I have a club meeting until six.\nManager: OK, then Tuesday from six-thirty to nine... oh, wait. We close early on Tuesdays, at eight. Let's make it six to eight instead.\nAya: ( 2 ) The meeting room is only five minutes from here.\nManager: Great. The pay is 1,100 yen an hour, and you can take home any bread that's left at closing time.\nAya: That sounds wonderful. ( 3 )\nManager: Next Thursday. Come at a quarter to five so I can show you around before your shift.",
+ qs:[
+  {ch:["Is there any chance you could work then?","Have you ever worked at a bakery before?","Would you rather work on Sundays instead?","Do you live anywhere near the shop?"],
+   ex:"直後に「残念ながら無理です。土曜は昼まで水泳がある」と答えているので、「（土曜の朝に）働ける可能性はある？」が正解。「パン屋の経験は？」も I'm afraid not. には続くが、その後の土曜の水泳の話とつながらない。"},
+  {ch:["That works for me.","I can't make it, sorry.","Can I take a rain check?","That's a bit early for me."],
+   ex:"That works for me.＝「それで大丈夫です」。クラブは6時までで会場は5分の距離、という後ろの説明は「間に合う」理由になっている。can't make it（行けない）や take a rain check（また今度にする）は断りの表現なので逆。時間は途中で6時半→6時に訂正されている点にも注意。"},
+  {ch:["When would you like me to start?","How much will I be paid an hour?","Can I work on Saturdays, then?","Do I need to bring my own apron?"],
+   ex:"店長が Next Thursday.（来週の木曜）と答えているので「いつから始めればいいですか」が正解。時給はすでに説明済み、土曜は無理だと話がついている。エプロンの質問に「来週木曜」では答えにならない。"}
+ ]},
+ {id:"I-6", title:"電車の遅延と約束の変更", text:
+"Rina: Hi, Daniel? It's Rina. I'm on the train, but it's stopped between two stations.\nDaniel: Oh, no. Was there an accident or something?\nRina: They said something about strong winds, but nobody knows any details yet. ( 1 )\nDaniel: Don't worry. The movie doesn't start until 6:40, so we still have plenty of time.\nRina: Actually, they just announced we'll be delayed about forty minutes. I won't get there until seven at the earliest.\nDaniel: Hmm, then we'll definitely miss the beginning, and that's the most important part. ( 2 )\nRina: Good idea. Is there one later tonight?\nDaniel: Let me check on my phone... There's one at 8:15. Wait, no, that's only on weekends. Tonight it's at 8:50.\nRina: That's a little late, but it's fine with me. We could have dinner first.\nDaniel: Sure. ( 3 )\nRina: Perfect. I'll text you as soon as the train starts moving again. Sorry about all this.",
+ qs:[
+  {ch:["I'm afraid I'm going to be late.","I'm afraid the movie has been canceled.","I'm glad I left home so early today.","I'm sorry I forgot to buy the tickets."],
+   ex:"電車が止まっている→「遅れそう」。ダニエルの「心配しないで、まだ時間はたっぷりある」という返事にもぴったり合う。「映画が中止」なら上映時刻の話は続かないし、「早く出てよかった」は Don't worry とかみ合わない。"},
+  {ch:["Why don't we see a later showing instead?","Why don't we just go in after it starts?","Why don't you go and see it without me?","Why don't we meet at the station at seven?"],
+   ex:"Why don't we ～?＝「～しない？」という提案の表現。リナが「今夜このあとの回はある？」と返しているので、「遅い回を見よう」が正解。one＝a showing（上映回）。ほかの提案では Is there one later tonight? につながらない。"},
+  {ch:["I'll get tickets for the 8:50 show and find somewhere to eat.","I'll get tickets for the 8:15 show and find somewhere to eat.","I'll get tickets for the 6:40 show and wait for you inside.","I'll cancel the tickets and we can meet another day."],
+   ex:"数字の訂正に注意。8:15 は「週末だけ」で、今夜は 8:50 と言い直している。リナの「先に夕食を」という提案にも合うのは 8:50 の選択肢。6:40 にはもう間に合わず、「別の日に」は直後の Perfect. と矛盾。"}
+ ]},
+ {id:"I-7", title:"グループ発表の役割分担", text:
+"Kenta: OK, everyone. Our presentation is next Friday, so let's decide who does what.\nSara: I can make the slides. I'm pretty good with computers.\nKenta: Great, thanks. Mai, could you do the research on the history part again?\nMai: Well... ( 1 ) I did almost all the research for our last project, too.\nKenta: Oh, I didn't realize that. Sorry. So what would you like to do?\nMai: I'd like to try speaking this time. I get nervous in front of people, but I need the practice.\nSara: But Kenta always does the speaking. He's the best at it, and we want a good grade.\nKenta: ( 2 ) Mai deserves a chance. I'll take care of the research instead.\nMai: Are you sure? Thanks, Kenta. I'll do my best.\nSara: OK, OK. But let's meet at least once before Friday to practice together.\nKenta: Good idea. ( 3 )\nMai: That works for me. I'll bring my notes so we can check the timing.",
+ qs:[
+  {ch:["I'd rather do something different this time.","I'd be happy to do the same thing this time.","I'd rather not be in this group anymore.","I've never done any research before."],
+   ex:"「前回もほぼ全部リサーチをやった」と続き、ケンタが「気づかなかった、ごめん」と謝っているので、遠回しに断る「今回は別のことがしたい」が正解。I'd rather ～＝むしろ～したい。「喜んで同じことを」は謝罪と合わず、「リサーチ経験がない」は後ろの文と矛盾。"},
+  {ch:["Thanks, but that's not really the point.","You're right, so I'll do it again.","I know, and I'd like to keep doing it.","I agree, so Mai should do the research."],
+   ex:"気持ち・含みを読む問題。サラの「ケンタが一番うまい」というほめ言葉を受け流し、直後で「マイにチャンスを」と言っているので「ありがとう、でもそういうことじゃない」が正解。他の3つはどれもサラに賛成していて、後ろの「僕がリサーチをやる」と矛盾。"},
+  {ch:["How about Wednesday after school?","How about we each practice at home?","How about meeting after the presentation?","How about we skip the slides this time?"],
+   ex:"サラが「金曜の前に一度集まって練習しよう」と提案→「水曜の放課後はどう？」と日時を出すのが自然。直後の That works for me.（それでいいよ）も日時の提案への返事。「各自家で」は集まる提案と逆、「発表の後」では練習にならない。"}
  ]}
 ],
 /* ---------- 大問II 中文空所補充（2題×6問） ---------- */
@@ -711,7 +751,7 @@ const SEC = {
   VI: {name:"語句整序",     desc:"2つの位置に来る語を選ぶ（配点大）",color:"#d99a6c", mock:8},
   VII:{name:"長文読解",     desc:"400〜500語の英文・8問",            color:"#5fa8a0", mock:8}
 };
-const PRACTICE = {I:{g:1},II:{g:1},III:{n:8},IV:{n:5},V:{n:5},VI:{g:2},VII:{g:1}};
+const PRACTICE = {I:{g:2},II:{g:1},III:{n:8},IV:{n:5},V:{n:5},VI:{g:2},VII:{g:1}};
 const PROFILES = ["kota","naoki"];
 const STORE = "yurutto-kindai-eng-v1:";
 const LV = [0,100,250,450,700,1000,1400,1900,2500,3200];
@@ -1014,7 +1054,7 @@ function vSelect(){
   const list = SEC_ORDER.map(s => {
     const st = D.sec[s];
     const pl = PRACTICE[s];
-    const size = pl.g ? (s==="VI" ? pl.g+"文（"+pl.g*2+"マーク）" : "1題（"+G[SECG[s][0]].qids.length+"問）") : pl.n+"問";
+    const size = pl.g ? (s==="VI" ? pl.g+"文（"+pl.g*2+"マーク）" : (pl.g===1 ? "1題" : pl.g+"セット")+"（"+pl.g*G[SECG[s][0]].qids.length+"問）") : pl.n+"問";
     return "<button class='sec' onclick=\"startPractice('"+s+"')\"><span class='secno' style='background:"+SEC[s].color+"'>"+s+"</span>"+
       "<span class='meta'><b>"+SEC[s].name+"</b><small>"+SEC[s].desc+" · 1回 "+size+"</small></span>"+
       "<span class='acc'>"+(st.a ? pct(st.c,st.a)+"%" : "未挑戦")+"</span></button>";
