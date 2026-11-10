@@ -768,6 +768,8 @@ const SEC = {
 const PRACTICE = {I:{g:2},II:{g:1},III:{n:8},IV:{n:5},V:{n:5},VI:{g:2},VII:{g:1}};
 const PROFILES = ["kota","naoki"];
 const STORE = "yurutto-kindai-eng-v1:";
+const REPORT_URL = "https://docs.google.com/forms/d/e/1FAIpQLSd1S-Foki28vpM6-QI9wFRAozI4W1T2VrQGNuRnANJtRdX-ow/formResponse";
+const REPORT_FIELDS = { profile:"entry.1200017833", solved:"entry.1954439688", correct:"entry.1483639402", xp:"entry.1726260502", streak:"entry.1594815766", vocab:"entry.21523393", sections:"entry.1068624743", mock:"entry.1901288239", lastDay:"entry.2011816309" };
 const LV = [0,100,250,450,700,1000,1400,1900,2500,3200];
 const TITLES = ["入学願書をながめる人","単語帳をひらいた人","文法の森の旅人","会話文となかよしさん","並べ替えの見習い職人",
   "長文をこわがらない人","マーク塗りの達人","模試のベテラン","近大の門をくぐる人","マグロもうなる英語マスター"];
@@ -869,6 +871,40 @@ function touchDay(){
   D.lastDay = t;
 }
 function curStreak(){ return (D.lastDay === todayStr() || D.lastDay === yesterdayStr()) ? D.streak : 0; }
+function syncUsage(){
+  try {
+    if (REPORT_URL.indexOf("__REPORT") >= 0) return;
+    const now = Date.now();
+    const key = STORE+"sync_"+P;
+    const vocabKnown = Object.keys(D.vocab || {}).filter(w => D.vocab[w] && D.vocab[w].known === true).length;
+    let prev = null;
+    try { prev = JSON.parse(localStorage.getItem(key) || "null"); } catch(e){ prev = null; }
+    if (prev && prev.day === todayStr() && prev.solved === D.solved && prev.vocab === vocabKnown) return;
+    const sections = SEC_ORDER.map(s => s + ":" + D.sec[s].c + "/" + D.sec[s].a).join(" ");
+    const mock = D.mockHist.length ? String(D.mockHist[D.mockHist.length-1].score) : "";
+    const params = new URLSearchParams();
+    params.set(REPORT_FIELDS.profile, P);
+    params.set(REPORT_FIELDS.solved, String(D.solved));
+    params.set(REPORT_FIELDS.correct, String(D.correct));
+    params.set(REPORT_FIELDS.xp, String(D.xp));
+    params.set(REPORT_FIELDS.streak, String(curStreak()));
+    params.set(REPORT_FIELDS.vocab, String(vocabKnown));
+    params.set(REPORT_FIELDS.sections, sections);
+    params.set(REPORT_FIELDS.mock, mock);
+    params.set(REPORT_FIELDS.lastDay, D.lastDay || "");
+    const body = params.toString();
+    let sent = false;
+    try {
+      if (navigator.sendBeacon) sent = navigator.sendBeacon(REPORT_URL, new Blob([body], {type:"application/x-www-form-urlencoded"}));
+    } catch(e){ sent = false; }
+    if (!sent) {
+      try {
+        fetch(REPORT_URL, {method:"POST", mode:"no-cors", headers:{"Content-Type":"application/x-www-form-urlencoded"}, body, keepalive:true}).catch(() => {});
+      } catch(e){}
+    }
+    try { localStorage.setItem(key, JSON.stringify({t:now, solved:D.solved, vocab:vocabKnown, day:todayStr()})); } catch(e){}
+  } catch(e){}
+}
 function levelOf(xp){ let l = 0; LV.forEach((t,i) => { if (xp >= t) l = i; }); return l+1; }
 function addXP(n){
   const before = levelOf(D.xp);
@@ -1492,8 +1528,9 @@ function toast(msg){
   clearTimeout(toastId); toastId = setTimeout(() => t.classList.remove("show"), 2600);
 }
 
-document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") save(); });
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") { save(); try { syncUsage(); } catch(e){} } });
 render();
+setTimeout(() => { try { syncUsage(); } catch(e){} }, 3000);
 </script>
 </body>
 </html>
