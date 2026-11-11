@@ -181,40 +181,40 @@ details summary{cursor:pointer;padding:4px 0}
    ルール: ch[0] が常に正解（表示時にシャッフル）
    ============================================================ */
 const BANK = {
-/* ---------- 大問I 会話文（7セット×3問：I-1〜3標準 / I-4〜7発展） ---------- */
+/* ---------- 大問I 会話文（7セット×3問・全セット本番水準：本文185〜230語／途中訂正・婉曲な断り・細部矛盾） ---------- */
 I: [
- {id:"I-1", title:"図書館で", text:
-"Student: Excuse me. I'd like to borrow this book, but I left my student ID at home.\nLibrarian: I'm sorry, but ( 1 )\nStudent: Oh, no. My report is due tomorrow morning.\nLibrarian: Well, you can read it here until we close at eight. ( 2 )\nStudent: Really? That would help a lot. Can I copy a few pages, too?\nLibrarian: Sure. The copy machine is next to the entrance. ( 3 )\nStudent: Thanks. I'll make sure to bring my ID next time.",
+ {id:"I-1", title:"旅館の予約電話", text:
+"Staff: Good morning, Midori Inn. How may I help you?\nMr. Tanaka: Hi. I'd like to book a room for my family on the night of August 10th.\nStaff: Certainly. How many people will be staying with us?\nMr. Tanaka: Four. My wife, our two children, and me.\nStaff: Let me check... ( 1 ) We have just one room left that night, and it only sleeps three.\nMr. Tanaka: Oh, I see. Could you put an extra futon in it, then?\nStaff: I'm afraid that's against our fire safety rules. However, a large room for four is available on the 11th.\nMr. Tanaka: Hmm... Actually, my son just reminded me that his soccer game is on the 10th. So the 11th would be even better.\nStaff: Wonderful. Would you like to have dinner here as well? Our chef is famous for his river fish.\nMr. Tanaka: ( 2 ) We're planning to try a restaurant my friend recommended.\nStaff: Of course. Breakfast is included in the price anyway. Check-in is from three o'clock.\nMr. Tanaka: Great. Do you have a parking lot? We'll be coming by car.\nStaff: Yes, and it's free for our guests. Now, let me confirm your booking. ( 3 )\nMr. Tanaka: Yes, that's right. We're really looking forward to it.",
  qs:[
-  {ch:["we can't lend books without it.","you can take as many as you like.","the library is closed on Sundays.","I've never seen this book before."],
-   ex:"学生証を忘れた→「それがないと貸し出せない」が自然。直後の「レポートは明日締め切りなのに…」という困った反応にもつながる。it＝student ID。"},
-  {ch:["Just leave it on the desk when you're finished.","Nobody is allowed to read books in the library.","I'm afraid someone else has already borrowed it.","You should have returned it last week."],
-   ex:"「閉館まで館内で読んでいい」に続くのは「読み終わったら机に置いておいて」。本は今手元にあるので「もう貸し出し中」は矛盾。返却期限の話も無関係。"},
-  {ch:["It costs ten yen a page.","It's been broken since last year.","Copying isn't allowed at all.","I don't know where it is."],
-   ex:"直前で Sure.（いいですよ）と許可し、場所まで教えているので「1ページ10円です」が自然。「壊れている」「禁止」「場所がわからない」はすべて前の発言と矛盾。"}
+  {ch:["I'm sorry, but we're almost fully booked that night.","Good news. We have plenty of rooms that night.","I'm sorry, but we're closed for the whole of August.","Of course. Every room we have sleeps four."],
+   ex:"直後に「その夜は1部屋しか残っておらず、しかも3人用」と説明しているので「ほぼ満室です」が正解。「部屋はたくさんある」はこの説明と矛盾、「8月は休業」なら残り1部屋の話にならない。「全室4人用」は it only sleeps three と矛盾する。"},
+  {ch:["I think we'll pass this time, thanks.","Yes, for four people, please.","Yes, but just for three of us, please.","Could we have it served in our room?"],
+   ex:"推論＋婉曲な断り。直後に「友人が勧めたレストランに行く予定」と理由を言っているので、夕食は断る流れ。I think we'll pass（今回はやめておきます）は pass を使った遠回しな断り方。「3人分だけ」は前に出た three（3人部屋）を再利用したひっかけ。"},
+  {ch:["One large room for four on August 11th, with breakfast but no dinner.","One large room for four on August 10th, with breakfast but no dinner.","One room for three on August 11th, with an extra futon.","One large room for four on August 11th, with dinner and breakfast."],
+   ex:"内容一致（細部矛盾）の問題。日付は途中で10日→11日に変わり（息子の試合が10日）、部屋は4人用の大部屋、夕食は断り、朝食は料金込み。10日は訂正前の日付、「3人部屋＋布団追加」は防火規則で断られた案、「夕食付き」は (2) で断った内容と矛盾する。"}
  ]},
- {id:"I-2", title:"週末の予定", text:
-"Ken: Hey, Mika. Are you free this Saturday? A few of us are going to the aquarium.\nMika: That sounds fun, but ( 1 ) I have to work at the café until three.\nKen: No problem. ( 2 )\nMika: Perfect. Then I can join you after work. Should I bring anything?\nKen: ( 3 ) It's supposed to rain in the afternoon.\nMika: Got it. See you on Saturday!",
+ {id:"I-2", title:"部活のおそろいTシャツ", text:
+"Haruto: Emma, did you finish counting how many T-shirts we need for the dance club?\nEmma: Yes. Twenty-two members plus our two coaches, so twenty-four in total.\nHaruto: Great. By the way, the shop gives a discount if we order thirty or more.\nEmma: Really? How much is it?\nHaruto: Each shirt is usually 1,800 yen, but it's 1,500 yen with the discount.\nEmma: Then ( 1 ) We could give the extra ones to the students who help at our shows.\nHaruto: Good idea. Oh, wait. Ms. Ito just sent me a message. Three first-year students left the club last week, so we have nineteen members now, not twenty-two.\nEmma: So twenty-one including the coaches. We'd need nine extra shirts to get the discount, and that's too many to give away.\nHaruto: You're right. Let's just order the exact number, then. Could you pay the shop today? I'll collect the money from everyone later.\nEmma: ( 2 ) I only have about three thousand yen with me, and I need some of it for the train.\nHaruto: No problem. I'll ask Ms. Ito to pay first. And what about the color?\nEmma: Most members voted for navy blue. Only a few wanted white.\nHaruto: OK. So, ( 3 )\nEmma: Exactly. I'll tell everyone at practice tomorrow.",
  qs:[
-  {ch:["I'm not sure I can make it in the morning.","I'm free all day.","I've never wanted to go there.","I don't like going out with you."],
-   ex:"but のあとに「3時までバイト」と続くので、「午前中は行けるかわからない」が合う。make it＝都合をつけて行く。「一日中ひま」は but と矛盾。"},
-  {ch:["We're actually planning to meet at the station at four.","We'll be leaving at nine, so you can't come.","You should quit that job.","The aquarium closes at noon on Saturdays."],
-   ex:"直後にミカが「完璧！じゃあバイトの後に合流できる」と言っているので、3時以降の集合を伝える選択肢が正解。9時出発や正午閉館では合流できない。"},
-  {ch:["Just an umbrella, maybe.","Nothing. The weather will be perfect.","You need to buy tickets for everyone.","Bring your swimsuit."],
-   ex:"後ろの「午後は雨らしい」が理由になっているのは「傘くらいかな」。天気が完璧だという選択肢は次の文と矛盾する。"}
+  {ch:["why don't we order thirty and get the discount?","why don't we order only twenty to save money?","why don't we pay 1,800 yen and skip the discount?","why don't we cancel the order completely?"],
+   ex:"直前に「30枚以上で割引（1枚1,800円→1,500円）」、直後に「余った分はショーを手伝ってくれる生徒にあげられる」とあるので、「30枚頼んで割引を受けよう」が正解。余りが出る前提なので「20枚だけ」は合わず、「割引なしで1,800円」は extra ones（余りの分）につながらない。"},
+  {ch:["I'd like to help, but I'm afraid that's not possible.","Sure, I'll pay for all of them right now.","Of course. I have plenty of money with me today.","I already paid the shop for them yesterday."],
+   ex:"婉曲な断り。直後に「手持ちは3,000円くらいで、電車代も要る」と理由を述べ、ハルトも「大丈夫、伊藤先生に頼む」と引き下がっているので、「手伝いたいけど無理そう」が正解。I'd like to ～, but I'm afraid ...＝丁寧に断るときの定番の形。"},
+  {ch:["we'll order twenty-one navy blue shirts at the normal price.","we'll order twenty-four navy blue shirts at the normal price.","we'll order thirty navy blue shirts at the discount price.","we'll order twenty-one white shirts at the discount price."],
+   ex:"内容一致（細部矛盾）の問題。部員は途中で22人→19人に訂正され、コーチ2人を足して21枚。割引に必要な9枚の追加は「多すぎる」としてやめ、ぴったりの数を通常価格で注文する。色は紺（navy blue）が多数派。24枚は訂正前の数字、30枚の割引案は取りやめた案、白は少数派で、21枚では割引にもならない。"}
  ]},
- {id:"I-3", title:"お店で返品", text:
-"Clerk: Good afternoon. How can I help you?\nCustomer: I bought this shirt here yesterday, but ( 1 )\nClerk: I see. Would you like to exchange it for a bigger one?\nCustomer: Yes, please. Do you have it in large?\nClerk: Let me check... ( 2 ) We have it in blue, though.\nCustomer: Hmm. Blue isn't really my color. ( 3 )\nClerk: Of course. Just show me the receipt, please.",
+ {id:"I-3", title:"市民マラソンのボランティア", text:
+"Ms. Ono: Thanks for signing up to volunteer at the city marathon, Sho. Is this your first time?\nSho: Yes, it is. What exactly will I be doing?\nMs. Ono: You'll be at the water station near the fifteen-kilometer point, handing out cups to the runners.\nSho: That sounds fun. What time should I get there?\nMs. Ono: The race starts at nine, so please be there by seven-thirty. Oh, sorry, I'm looking at last year's schedule. This year it starts at eight-thirty, so please come by seven.\nSho: ( 1 ) The first train from my town gets in at six-forty, so that's no problem.\nMs. Ono: Good. The water station is only a ten-minute walk from the station.\nSho: Should I bring my own lunch?\nMs. Ono: No, we'll provide lunch and a volunteer T-shirt. Just wear comfortable shoes, and bring a hat because there's no shade there at all.\nSho: Got it.\nMs. Ono: By the way, we're also short of people for the cleanup after the race. It should finish around four. Would you be interested?\nSho: ( 2 ) It's my sister's birthday that evening, and I promised to help cook dinner.\nMs. Ono: Of course. Family comes first. ( 3 )\nSho: Thanks. I'll put it in my bag tonight so I won't forget.",
  qs:[
-  {ch:["it's a little too small for me.","it's too expensive to buy.","my sister loved it so much.","I lost it on the train."],
-   ex:"店員が「大きいものと交換しますか」と返しているので「少し小さすぎる」が正解。lost（なくした）なら手元にシャツがないはず。"},
-  {ch:["I'm afraid the white ones in that size are sold out.","Here you are. A large white one.","We don't sell shirts here.","You can try it on over there."],
-   ex:"直後の though（でも）で「青ならあります」と続くので、「（白の）そのサイズは売り切れ」が自然。I'm afraid ～ は残念なことを伝える丁寧な言い方。"},
-  {ch:["Could I just get my money back instead?","I'll take two blue ones, then.","Could you make it smaller?","I'd like to buy another one in medium."],
-   ex:"青は好みでない→「代わりに返金してもらえますか」。店員が「レシートを見せて」と言っているのも返金の流れに合う。get one's money back＝返金してもらう。"}
+  {ch:["So I need to be there by seven, not seven-thirty.","So I need to be there by seven-thirty, as usual.","So the race itself starts at nine this year.","So I should arrive at eight-thirty, right?"],
+   ex:"途中訂正に注意。去年の予定表を見て「7時半」と言ったが、「今年は8時半スタートなので7時までに」と言い直している。直後の「始発が6時40分に着くから問題ない」とも合うのは「7時まで、7時半じゃなく」。7時半・9時は訂正前の数字を再利用したひっかけ、8時半はレースの開始時刻。"},
+  {ch:["I wish I could, but I already have plans that evening.","Sure, I'd love to stay until the very end.","Of course. I'm free for the whole day.","I can help, but only until six o'clock."],
+   ex:"婉曲な断り。後片付け（4時ごろまで）に誘われ、「その晩は姉（妹）の誕生日で夕食作りを手伝う約束」と理由を続け、小野さんも「家族が第一」と納得しているので「できればやりたいけど予定がある」が正解。I wish I could, but ～ は定番の断り方。「6時までなら」は4時に終わる片付けを引き受けることになり、後ろと矛盾する。"},
+  {ch:["Oh, and don't forget your hat.","Oh, and don't forget to bring your own lunch.","Oh, and please come back at four for the cleanup.","Oh, and remember to wear the shoes we'll give you."],
+   ex:"細部矛盾のひっかけ。ショウが「今夜カバンに入れておく」と答えているので持ち物の念押し。前に「日陰がまったくないから帽子を」と言われていた。昼食は用意される、片付けは (2) で断った、配られるのは靴ではなくTシャツなので、ほかの3つは本文と矛盾する。"}
  ]},
  {id:"I-4", title:"教授のオフィスアワー", text:
-"Professor Hill: Come in, Yuta. What can I do for you?\nYuta: I wanted to ask about my final report. I've been reading a lot of articles, but ( 1 )\nProfessor Hill: That's a common problem. What's your topic right now?\nYuta: Climate change and food. Honestly, it feels way too big.\nProfessor Hill: It is. Why not focus on one crop in one country? Rice in Japan, for example.\nYuta: That makes a lot of sense. But I'm also worried about time. The report is due next Friday, right?\nProfessor Hill: Actually, I changed that in class on Tuesday. It's now due the following Monday, so you have three extra days.\nYuta: ( 2 ) I must have missed that announcement. Should I send you an outline first?\nProfessor Hill: Yes, please. Email it to me by this Thursday, and I'll give you some feedback.\nYuta: Thank you so much. ( 3 )\nProfessor Hill: Good. And remember, my door is always open on Wednesday afternoons.",
+"Professor Hill: Come in, Yuta. What can I do for you?\nYuta: I wanted to ask about my final report. I've been reading a lot of articles, but ( 1 )\nProfessor Hill: That's a common problem. What's your topic right now?\nYuta: Climate change and food. Honestly, it feels way too big.\nProfessor Hill: It is. Why not focus on one crop in one country? Rice in Japan, for example.\nYuta: That makes a lot of sense. But I'm also worried about time. The report is due next Friday, right?\nProfessor Hill: Actually, I changed that in class on Tuesday. It's now due the following Monday, so you have three extra days.\nYuta: ( 2 ) I must have missed that announcement. Should I send you an outline first?\nProfessor Hill: Yes, please. Email it to me by this Thursday, and I'll give you some feedback.\nYuta: How long should the outline be? Just a list of my main points?\nProfessor Hill: One page is enough. Include your main question and three or four sources you plan to use.\nYuta: Thank you so much. ( 3 )\nProfessor Hill: Good. And remember, my door is always open on Wednesday afternoons.",
  qs:[
   {ch:["I can't seem to narrow down my topic.","I can't seem to find any articles on it.","I've already finished writing the first draft.","I'm not sure the deadline is fair to everyone."],
    ex:"教授が「よくある悩みだね。今のテーマは？」と聞き、ユウタが「大きすぎる」と答えているので「テーマを絞り込めない」が正解。narrow down＝絞り込む。「記事が見つからない」は直前の「たくさん記事を読んでいる」と矛盾するひっかけ。"},
@@ -224,7 +224,7 @@ I: [
    ex:"推論問題。教授の助言（1つの作物に絞る）を受けて「今夜から米に絞って始めます」が自然。締め切りは途中で「翌週の月曜」に訂正され、アウトラインは「今週木曜まで」なので、Friday・Monday の選択肢はどちらも数字のひっかけ。作物を増やすのは助言と逆。"}
  ]},
  {id:"I-5", title:"アルバイトの面接", text:
-"Manager: So, Aya, you'd like to work at our bakery. When are you usually available?\nAya: Weekdays after five, and all day on Sundays.\nManager: Hmm. To be honest, we really need someone on Saturday mornings. ( 1 )\nAya: I'm afraid not. I have a swimming lesson every Saturday until noon.\nManager: I see. Then how about Tuesday and Thursday evenings, from five to nine?\nAya: Thursday is fine, but on Tuesdays I have a club meeting until six.\nManager: OK, then Tuesday from six-thirty to nine... oh, wait. We close early on Tuesdays, at eight. Let's make it six to eight instead.\nAya: ( 2 ) The meeting room is only five minutes from here.\nManager: Great. The pay is 1,100 yen an hour, and you can take home any bread that's left at closing time.\nAya: That sounds wonderful. ( 3 )\nManager: Next Thursday. Come at a quarter to five so I can show you around before your shift.",
+"Manager: So, Aya, you'd like to work at our bakery. When are you usually available?\nAya: Weekdays after five, and all day on Sundays.\nManager: Hmm. To be honest, we really need someone on Saturday mornings. ( 1 )\nAya: I'm afraid not. I have a swimming lesson every Saturday until noon.\nManager: I see. Then how about Tuesday and Thursday evenings, from five to nine?\nAya: Thursday is fine, but on Tuesdays I have a club meeting until six.\nManager: OK, then Tuesday from six-thirty to nine... oh, wait. We close early on Tuesdays, at eight. Let's make it six to eight instead.\nAya: ( 2 ) The meeting room is only five minutes from here.\nManager: Great. The pay is 1,100 yen an hour, and you can take home any bread that's left at closing time.\nAya: That sounds wonderful. ( 3 )\nManager: Next Thursday. Come at a quarter to five so I can show you around before your shift.\nAya: A quarter to five. Got it. Should I bring anything with me?\nManager: Just a pair of comfortable shoes. We'll give you an apron and a hat on your first day.",
  qs:[
   {ch:["Is there any chance you could work then?","Have you ever worked at a bakery before?","Would you rather work on Sundays instead?","Do you live anywhere near the shop?"],
    ex:"直後に「残念ながら無理です。土曜は昼まで水泳がある」と答えているので、「（土曜の朝に）働ける可能性はある？」が正解。「パン屋の経験は？」も I'm afraid not. には続くが、その後の土曜の水泳の話とつながらない。"},
@@ -234,7 +234,7 @@ I: [
    ex:"店長が Next Thursday.（来週の木曜）と答えているので「いつから始めればいいですか」が正解。時給はすでに説明済み、土曜は無理だと話がついている。エプロンの質問に「来週木曜」では答えにならない。"}
  ]},
  {id:"I-6", title:"電車の遅延と約束の変更", text:
-"Rina: Hi, Daniel? It's Rina. I'm on the train, but it's stopped between two stations.\nDaniel: Oh, no. Was there an accident or something?\nRina: They said something about strong winds, but nobody knows any details yet. ( 1 )\nDaniel: Don't worry. The movie doesn't start until 6:40, so we still have plenty of time.\nRina: Actually, they just announced we'll be delayed about forty minutes. I won't get there until seven at the earliest.\nDaniel: Hmm, then we'll definitely miss the beginning, and that's the most important part. ( 2 )\nRina: Good idea. Is there one later tonight?\nDaniel: Let me check on my phone... There's one at 8:15. Wait, no, that's only on weekends. Tonight it's at 8:50.\nRina: That's a little late, but it's fine with me. We could have dinner first.\nDaniel: Sure. ( 3 )\nRina: Perfect. I'll text you as soon as the train starts moving again. Sorry about all this.",
+"Rina: Hi, Daniel? It's Rina. I'm on the train, but it's stopped between two stations.\nDaniel: Oh, no. Was there an accident or something?\nRina: They said something about strong winds, but nobody knows any details yet. ( 1 )\nDaniel: Don't worry. The movie doesn't start until 6:40, so we still have plenty of time.\nRina: Actually, they just announced we'll be delayed about forty minutes. I won't get there until seven at the earliest.\nDaniel: Hmm, then we'll definitely miss the beginning, and that's the most important part. ( 2 )\nRina: Good idea. Is there one later tonight?\nDaniel: Let me check on my phone... There's one at 8:15. Wait, no, that's only on weekends. Tonight it's at 8:50.\nRina: That's a little late, but it's fine with me. We could have dinner first.\nDaniel: Sure. ( 3 )\nRina: Perfect. I'll text you as soon as the train starts moving again. Sorry about all this.\nDaniel: No need to apologize. It's not your fault. Do you want me to wait for you in front of the theater?\nRina: That would be great. And this time, dinner is on me.",
  qs:[
   {ch:["I'm afraid I'm going to be late.","I'm afraid the movie has been canceled.","I'm glad I left home so early today.","I'm sorry I forgot to buy the tickets."],
    ex:"電車が止まっている→「遅れそう」。ダニエルの「心配しないで、まだ時間はたっぷりある」という返事にもぴったり合う。「映画が中止」なら上映時刻の話は続かないし、「早く出てよかった」は Don't worry とかみ合わない。"},
@@ -244,7 +244,7 @@ I: [
    ex:"数字の訂正に注意。8:15 は「週末だけ」で、今夜は 8:50 と言い直している。リナの「先に夕食を」という提案にも合うのは 8:50 の選択肢。6:40 にはもう間に合わず、「別の日に」は直後の Perfect. と矛盾。"}
  ]},
  {id:"I-7", title:"グループ発表の役割分担", text:
-"Kenta: OK, everyone. Our presentation is next Friday, so let's decide who does what.\nSara: I can make the slides. I'm pretty good with computers.\nKenta: Great, thanks. Mai, could you do the research on the history part again?\nMai: Well... ( 1 ) I did almost all the research for our last project, too.\nKenta: Oh, I didn't realize that. Sorry. So what would you like to do?\nMai: I'd like to try speaking this time. I get nervous in front of people, but I need the practice.\nSara: But Kenta always does the speaking. He's the best at it, and we want a good grade.\nKenta: ( 2 ) Mai deserves a chance. I'll take care of the research instead.\nMai: Are you sure? Thanks, Kenta. I'll do my best.\nSara: OK, OK. But let's meet at least once before Friday to practice together.\nKenta: Good idea. ( 3 )\nMai: That works for me. I'll bring my notes so we can check the timing.",
+"Kenta: OK, everyone. Our presentation is next Friday, so let's decide who does what.\nSara: I can make the slides. I'm pretty good with computers.\nKenta: Great, thanks. Mai, could you do the research on the history part again?\nMai: Well... ( 1 ) I did almost all the research for our last project, too.\nKenta: Oh, I didn't realize that. Sorry. So what would you like to do?\nMai: I'd like to try speaking this time. I get nervous in front of people, but I need the practice.\nSara: But Kenta always does the speaking. He's the best at it, and we want a good grade.\nKenta: ( 2 ) Mai deserves a chance. I'll take care of the research instead.\nMai: Are you sure? Thanks, Kenta. I'll do my best.\nSara: OK, OK. But let's meet at least once before Friday to practice together.\nKenta: Good idea. ( 3 )\nMai: That works for me. I'll bring my notes so we can check the timing.\nSara: And I'll have the slides ready by Tuesday night, so you can practice with them.\nKenta: Perfect. Let's try to keep the whole thing under ten minutes this time.",
  qs:[
   {ch:["I'd rather do something different this time.","I'd be happy to do the same thing this time.","I'd rather not be in this group anymore.","I've never done any research before."],
    ex:"「前回もほぼ全部リサーチをやった」と続き、ケンタが「気づかなかった、ごめん」と謝っているので、遠回しに断る「今回は別のことがしたい」が正解。I'd rather ～＝むしろ～したい。「喜んで同じことを」は謝罪と合わず、「リサーチ経験がない」は後ろの文と矛盾。"},
@@ -254,10 +254,10 @@ I: [
    ex:"サラが「金曜の前に一度集まって練習しよう」と提案→「水曜の放課後はどう？」と日時を出すのが自然。直後の That works for me.（それでいいよ）も日時の提案への返事。「各自家で」は集まる提案と逆、「発表の後」では練習にならない。"}
  ]}
 ],
-/* ---------- 大問II 中文空所補充（2題×6問） ---------- */
+/* ---------- 大問II 中文空所補充（3題×6問） ---------- */
 II: [
  {id:"II-1", title:"10代の睡眠", text:
-"Many high school students do not get enough sleep. Experts say that teenagers need about nine hours a night, but most of them sleep ( 1 ) seven hours or even less. One reason is that the body clock of teenagers naturally ( 2 ) later at night, so they do not feel sleepy until around eleven. ( 3 ), school starts early in the morning. As a result, many students go to class feeling tired, which makes it difficult for them to ( 4 ) on their lessons. Some schools in the United States have tried starting classes an hour later. Surprisingly, students at these schools not only slept longer but also got better grades and were ( 5 ) likely to be late. These results suggest that a small change in the school schedule can make a big ( 6 ) to students' health and learning.",
+"Many high school students do not get enough sleep. Experts say that teenagers need about nine hours a night, but most of them sleep ( 1 ) seven hours or even less. One reason is that the body clock of teenagers naturally ( 2 ) later at night, so they do not feel sleepy until around eleven. ( 3 ), school starts early in the morning. As a result, many students go to class feeling tired, which makes it difficult for them to ( 4 ) on their lessons. Some schools in the United States have tried starting classes an hour later. Surprisingly, students at these schools not only slept longer but also got better grades and were ( 5 ) likely to be late. These results suggest that a small change in the school schedule can make a big ( 6 ) to students' health and learning. At the same time, students themselves can also help. For example, putting away smartphones an hour before going to bed is a good idea, because the bright light from the screen tells the brain that it is still daytime. Small changes like these can greatly improve the quality of our sleep every night.",
  qs:[
   {ch:["only about","far more than","at least","no less than"],
    ex:"後ろに or even less（あるいはもっと少なく）とあるので「たった7時間ほど」。at least / no less than（少なくとも）は「もっと少なく」と矛盾する。"},
@@ -273,7 +273,7 @@ II: [
    ex:"make a difference (to ～)＝（～に）違いを生む・大きな効果がある。progress は不可算名詞で a big progress とは言えない。"}
  ]},
  {id:"II-2", title:"フードロス", text:
-"In Japan, millions of tons of food that could still be eaten are thrown away every year. This problem is called “food loss.” ( 1 ) half of it comes from homes, while the rest comes from restaurants, supermarkets, and factories. One cause is that shops often remove products from their shelves long before the “best-before” date. This date shows when food tastes best, but it does not mean the food becomes dangerous ( 2 ) after that. To reduce waste, some supermarkets now sell such products at lower prices, and a growing number of apps let customers ( 3 ) leftover food from bakeries and restaurants at a discount. At home, we can also take simple steps, ( 4 ) checking the refrigerator before shopping and buying only what we need. If each of us is ( 5 ) careful, the total amount of waste will decrease. After all, food loss is not just someone else's problem; it is something we are all ( 6 ) for.",
+"In Japan, millions of tons of food that could still be eaten are thrown away every year. This problem is called “food loss.” ( 1 ) half of it comes from homes, while the rest comes from restaurants, supermarkets, and factories. One cause is that shops often remove products from their shelves long before the “best-before” date. This date shows when food tastes best, but it does not mean the food becomes dangerous ( 2 ) after that. To reduce waste, some supermarkets now sell such products at lower prices, and a growing number of apps let customers ( 3 ) leftover food from bakeries and restaurants at a discount. At home, we can also take simple steps, ( 4 ) checking the refrigerator before shopping and buying only what we need. Freezing leftovers and planning meals for the week are also effective ways to make sure that nothing is forgotten at the back of the fridge. If each of us is ( 5 ) careful, the total amount of waste will decrease. After all, food loss is not just someone else's problem; it is something we are all ( 6 ) for. The first step is simply to think carefully before we buy.",
  qs:[
   {ch:["Nearly","Most","Almost of","Mostly"],
    ex:"Nearly half ＝ 半分近く。Most half / Almost of half は文法的に不可。almost は of を直接とらない（almost all of ～ ならOK）。"},
@@ -287,9 +287,25 @@ II: [
    ex:"「一人ひとりがもう少し気をつければ、全体の量は減る」。much less careful（ずっと不注意）では減らない。"},
   {ch:["responsible","proud","famous","absent"],
    ex:"be responsible for ～＝～に責任がある。something we are all responsible for で「みんなが責任を負うもの」。"}
+ ]},
+ {id:"II-3", title:"都市のヒートアイランド", text:
+"In summer, the center of a large city can be several degrees hotter than the surrounding countryside. This phenomenon is known as the “heat island” effect. It occurs mainly because concrete and asphalt ( 1 ) heat during the day and release it slowly at night, so the air never has a chance to cool down. Heat from air conditioners and cars makes the situation even worse. ( 2 ), the shortage of trees and open spaces means that there is little shade and few places for the wind to pass through. The effect is not merely uncomfortable; it can be ( 3 ) to health. Every year, many elderly people are taken to hospital with heatstroke. To ( 4 ) this problem, some cities have started covering the roofs of buildings with plants. These “green roofs” keep buildings cooler and reduce the need for air conditioning. Other cities are replacing dark roads with materials that ( 5 ) sunlight instead of absorbing it. No single measure is enough on its own, but together they can make a noticeable difference. Cooler cities, in turn, use less energy, which ( 6 ) benefits the planet as a whole. In this way, small local efforts can add up to real global change.",
+ qs:[
+  {ch:["store","lose","reduce","avoid"],
+   ex:"「昼に熱をため込み、夜にゆっくり放出する」→ store（蓄える）。release it（それを放出する）の it＝heat なので、先に熱を持っていないと話が通らない。lose（失う）は後半と矛盾。"},
+  {ch:["In addition","In contrast","Nevertheless","For instance"],
+   ex:"エアコンや車の排熱に続けて「木や空き地の不足」という別の原因を追加しているので In addition（さらに）。対比の In contrast、逆接の Nevertheless は流れに合わず、木の不足は排熱の「例」でもない。"},
+  {ch:["harmful","beneficial","resistant","grateful"],
+   ex:"not merely uncomfortable（単に不快なだけでない）→ 次文で熱中症の話が続くので be harmful to ～（～に有害だ）。beneficial（有益な）は正反対。"},
+  {ch:["tackle","cause","ignore","suffer"],
+   ex:"tackle a problem＝問題に取り組む（英検2級後半の頻出語）。屋上緑化は対策なので cause（引き起こす）・ignore（無視する）は逆。suffer は suffer from の形で使い、目的が合わない。"},
+  {ch:["reflect","absorb","collect","produce"],
+   ex:"instead of absorbing it（吸収する代わりに）とあるので、反対の動作 reflect（反射する）。absorb を選ぶと「吸収する代わりに吸収する」になってしまう。"},
+  {ch:["ultimately","barely","seldom","otherwise"],
+   ex:"「涼しい都市はエネルギー使用が減り、それが最終的に地球全体のためになる」→ ultimately（最終的に）。barely / seldom（ほとんど～ない）は否定の意味になり、in turn（今度はそれが）の流れと合わない。"}
  ]}
 ],
-/* ---------- 大問III 文法・語法（16問） ---------- */
+/* ---------- 大問III 文法・語法（24問） ---------- */
 III: [
  {id:"III-1", q:"If I ( ) more time yesterday, I would have finished the report.", ch:["had had","have had","would have","had"],
   ex:"yesterday＝過去の事実に反する仮定 → 仮定法過去完了〈If S had p.p., S would have p.p.〉。have の過去完了なので had had。"},
@@ -322,9 +338,25 @@ III: [
  {id:"III-15", q:"This is the town ( ) I was born.", ch:["where","which","what","when"],
   ex:"I was born in the town → 場所を表す関係副詞 where（＝in which）。which だけでは in が足りない。"},
  {id:"III-16", q:"( ) surprised me most was his calm voice.", ch:["What","That","Which","It"],
-  ex:"「私を最も驚かせたもの」＝先行詞を含む関係代名詞 What。文全体の主語になる名詞節をつくる。"}
+  ex:"「私を最も驚かせたもの」＝先行詞を含む関係代名詞 What。文全体の主語になる名詞節をつくる。"},
+ {id:"III-17", q:"This problem is ( ) serious than most people think.", ch:["less","little","least","fewer"],
+  ex:"〈less＋原級＋than ～〉＝～ほど…でない（劣勢比較）。serious は形容詞なので less。fewer は可算名詞の「数」に使う語、least は最上級で than と結びつかない。"},
+ {id:"III-18", q:"She has read as ( ) books as her teacher has.", ch:["many","much","more","most"],
+  ex:"〈as many＋可算名詞の複数形＋as ～〉＝～と同じくらい多くの…。books は数えられる名詞なので many（much は不可算名詞用）。as と as の間は原級なので more / most は入らない。"},
+ {id:"III-19", q:"( ) you told me about the sale earlier, I would have bought the jacket.", ch:["Had","If","Should","Were"],
+  ex:"仮定法過去完了の if の省略による倒置：If you had told → Had you told。If を入れると If you told（仮定法過去）になり、主節の would have bought と時制がかみ合わない。Should / Were の倒置は未来・現在の仮定。"},
+ {id:"III-20", q:"Without your advice last year, I ( ) the entrance exam.", ch:["could not have passed","could not pass","cannot have passed","had not passed"],
+  ex:"Without ～＝「～がなかったら」。last year（過去）の事実に反する仮定なので、主節は仮定法過去完了〈could not have p.p.〉。cannot have p.p. は「～したはずがない」という推量で意味が違う。"},
+ {id:"III-21", q:"( ) fine, we went on a picnic by the lake.", ch:["The weather being","Being","The weather was","The weather been"],
+  ex:"独立分詞構文。主節の主語（we）と分詞の意味上の主語（the weather）が違うときは、分詞の前に主語を残す（＝As the weather was fine）。Being だけだと「私たちが晴れていた」になる。The weather was では接続詞なしで2つの文がつながり誤り。"},
+ {id:"III-22", q:"This is the reason ( ) I was late for the meeting.", ch:["why","which","what","how"],
+  ex:"the reason を先行詞とする関係副詞 why。後ろの I was late for the meeting は欠けた要素のない完全な文なので、関係代名詞 which は入らない（for which なら可）。how は先行詞 the way と並べず単独で使う。"},
+ {id:"III-23", q:"When the teacher asked her a question in English, she was at a ( ) for words.", ch:["loss","lose","lost","losing"],
+  ex:"be at a loss (for words)＝途方に暮れる・（言葉に）詰まる。冠詞 a の後なので名詞 loss が入る。lost も「迷った」の意味で連想しやすいが、a の後には置けない。"},
+ {id:"III-24", q:"Please drop me a ( ) when you get settled in London.", ch:["line","mail","phone","talk"],
+  ex:"drop＋人＋a line＝人に短い便りを書く・ちょっと連絡する。mail は不可算名詞で a mail とは言わない。phone / talk は drop と結びつかない。"}
 ],
-/* ---------- 大問IV 同意文選択（10問） ---------- */
+/* ---------- 大問IV 同意文選択（12問） ---------- */
 IV: [
  {id:"IV-1", q:"I can't put up with this noise any longer.", ch:["I can't stand this noise any longer.","I can't hear this noise anymore.","I can't make this noise any louder.","I can't stop making this noise."],
   ex:"put up with ～＝～を我慢する（＝stand, tolerate, bear）。can't stand で「我慢できない」。"},
@@ -345,9 +377,13 @@ IV: [
  {id:"IV-9", q:"Please fill in this form.", ch:["Please complete this form.","Please read this form carefully.","Please make a copy of this form.","Please throw away this form."],
   ex:"fill in (out)＝（書類に）記入する → 書類を完成させる complete。"},
  {id:"IV-10", q:"He came up with a great idea.", ch:["He thought of a great idea.","He agreed with a great idea.","He heard about a great idea.","He gave up a great idea."],
-  ex:"come up with ～＝（考え・案を）思いつく＝think of。"}
+  ex:"come up with ～＝（考え・案を）思いつく＝think of。"},
+ {id:"IV-11", q:"He made up his mind to study abroad.", ch:["He decided to study abroad.","He changed his mind about studying abroad.","He pretended that he would study abroad.","He made an excuse for not studying abroad."],
+  ex:"make up one's mind to ～＝～しようと決心する＝decide to ～。change one's mind（気が変わる）は同じ mind を使った近い形のひっかけ。make up（でっちあげる）の連想で pretend / excuse を選ばないこと。"},
+ {id:"IV-12", q:"You don't have to hand in the report by Friday.", ch:["It isn't necessary for you to submit the report by Friday.","You must not submit the report by Friday.","You have to submit the report before Friday.","You don't need to write the report at all."],
+  ex:"don't have to ～＝～する必要はない（＝It isn't necessary / need not）。must not は「～してはいけない（禁止）」で意味がまったく違う定番のひっかけ。「レポート自体を書かなくてよい」とまでは言っていない。hand in＝submit。"}
 ],
-/* ---------- 大問V 定義指定語選択（12問） ---------- */
+/* ---------- 大問V 定義指定語選択（17問：V-13〜は英英定義の完全文＋空所つき例文） ---------- */
 V: [
  {id:"V-1", q:"to make pain, worry, or a problem less serious", ch:["relieve","reveal","retire","reject"],
   ex:"relieve＝和らげる（relief は名詞）。reveal＝明らかにする、reject＝拒絶する。"},
@@ -372,9 +408,19 @@ V: [
  {id:"V-11", q:"able to continue for a long time without harming the environment", ch:["sustainable","disposable","temporary","artificial"],
   ex:"sustainable＝持続可能な（SDGs の S）。disposable＝使い捨ての。"},
  {id:"V-12", q:"to pause before doing or saying something because you are not sure", ch:["hesitate","insist","persist","estimate"],
-  ex:"hesitate＝ためらう。insist＝主張する、persist＝固執する。"}
+  ex:"hesitate＝ためらう。insist＝主張する、persist＝固執する。"},
+ {id:"V-13", q:"This word means to officially end a law, system, or custom so that it no longer exists. ／ Example: The school finally decided to ( ) its strict rule about students' hair color.", ch:["abolish","absorb","adopt","admire"],
+  ex:"abolish＝（法律・制度・慣習を）廃止する。adopt（採用する）は反対の意味、absorb＝吸収する、admire＝称賛する。"},
+ {id:"V-14", q:"This word means to pay someone money or give them something because they have lost something or have been harmed. ／ Example: The airline promised to ( ) the passengers whose bags were lost.", ch:["compensate","complicate","compete","compose"],
+  ex:"compensate＝補償する・埋め合わせる（compensate for ～ の形も多い。名詞は compensation）。complicate＝複雑にする、compete＝競争する、compose＝構成する・作曲する。com- で始まる語のひっかけ。"},
+ {id:"V-15", q:"This is an official or accepted way of doing something, and it is usually made up of steps that must be followed in a fixed order. ／ Example: In case of fire, follow the safety ( ) shown on the sign by the door.", ch:["procedure","proportion","property","profession"],
+  ex:"procedure＝手順・手続き。proportion＝割合、property＝財産・特性、profession＝（専門的な）職業。pro- で始まる名詞のひっかけ。"},
+ {id:"V-16", q:"This word means to become worse in quality, condition, or strength as time passes. ／ Example: Without regular care, old wooden buildings will ( ) quickly.", ch:["deteriorate","decorate","dedicate","determine"],
+  ex:"deteriorate＝悪化する・劣化する（自動詞）。decorate（飾る）・dedicate（捧げる）・determine（決定する）は目的語が必要な他動詞としてよく使われ、例文の後ろに目的語がない点もヒント。"},
+ {id:"V-17", q:"This word describes something that is next to or very close to something else, often sharing a wall or a border with it. ／ Example: Our hotel is ( ) to the station, so you can walk there in a minute.", ch:["adjacent","adequate","ambitious","absurd"],
+  ex:"adjacent (to ～)＝（～に）隣接した。adequate＝十分な・適切な、ambitious＝野心的な、absurd＝ばかげた。"}
 ],
-/* ---------- 大問VI 語句整序（10文×2箇所） ---------- */
+/* ---------- 大問VI 語句整序（14文×2箇所） ---------- */
 VI: [
  {id:"VI-1", jp:"彼女は私に、そのコンピュータの使い方を教えてくれた。", pre:"She", post:"computer.", words:["showed","me","how","to","use","the"], pos:[2,5],
   ex:"〈show＋人＋how to ～〉＝人に～の仕方を（やって見せて）教える。"},
@@ -395,12 +441,20 @@ VI: [
  {id:"VI-9", jp:"外出するときは、窓を開けたままにしないでください。", pre:"Please", post:"go out.", words:["don't","leave","the","windows","open","when","you"], pos:[2,5],
   ex:"〈leave＋O＋形容詞〉＝Oを～のままにしておく。open はここでは形容詞「開いている」。"},
  {id:"VI-10", jp:"彼女が言ったことは本当だとわかった。", pre:"", post:"true.", words:["What","she","said","turned","out","to","be"], pos:[3,5],
-  ex:"What she said（彼女が言ったこと）が主語。turn out to be ～＝～だとわかる・判明する。"}
+  ex:"What she said（彼女が言ったこと）が主語。turn out to be ～＝～だとわかる・判明する。"},
+ {id:"VI-11", jp:"スマートフォンのおかげで、私たちはどこにいても情報を手に入れることができる。", pre:"Smartphones", post:"information wherever we are.", words:["make","it","possible","for","us","to","get"], pos:[2,5],
+  ex:"無生物主語＋形式目的語〈make it possible for＋人＋to ～〉＝人が～することを可能にする。it が後ろの to get ... を指す。"},
+ {id:"VI-12", jp:"彼女は、私が今まで会った中で最も親切な人の一人だ。", pre:"She is", post:"ever met.", words:["one","of","the","kindest","people","I","have"], pos:[3,6],
+  ex:"〈one of the＋最上級＋複数名詞〉＝最も～な…の一人。その後ろに目的格の関係代名詞が省略された I have ever met（今まで会った中で）が続く。"},
+ {id:"VI-13", jp:"この映画は、一度だけでなく何度も見る価値が十分にある。", pre:"This movie", post:"once.", words:["is","well","worth","watching","more","than"], pos:[3,6],
+  ex:"〈be worth ～ing〉＝～する価値がある。well は worth を強める副詞（十分に）。more than once＝一度より多く＝何度も。"},
+ {id:"VI-14", jp:"私が子どものころ住んでいた家は、今では図書館になっている。", pre:"The house", post:"become a library.", words:["where","I","lived","as","a","child","has"], pos:[1,7],
+  ex:"関係副詞 where（＝in which）で The house を説明し、主語のかたまり The house where I lived as a child の後に述語 has become が来る。主語は単数 house なので has。"}
 ],
-/* ---------- 大問VII 長文読解（2題×8問） ---------- */
+/* ---------- 大問VII 長文読解（3題×8問） ---------- */
 VII: [
  {id:"VII-1", title:"Talking to Strangers", text:
-"Every morning, millions of people ride crowded trains in silence. Most of them look at their smartphones and avoid eye contact with the people sitting next to them. Many people believe that talking to strangers would be awkward or even annoying. However, recent research in psychology suggests that this belief may be wrong, and that we are missing out on something valuable.\n\nIn one well-known experiment, researchers asked commuters in a large city to do one of three things on their way to work: talk to the person next to them, sit quietly, or do whatever they usually did. Before the experiment, most participants predicted that talking to a stranger would be the least pleasant choice. They worried that the other person would not want to talk, or that they would not know what to say. Surprisingly, the results showed the opposite. People who talked with a stranger reported having the most enjoyable journey, and almost no one was rejected.\n\nWhy do we misjudge these situations so badly? One explanation is that we underestimate how much other people want to connect with us. We tend to assume that others are less interested in us than they really are. Because everyone holds the same assumption, nobody makes the first move, and the silence continues. Researchers describe this as a kind of shared misunderstanding: each person is waiting for someone else to speak first. It is a little like a room full of people who all want to dance but are too shy to be the first one on the floor.\n\nSmall conversations with strangers may also have benefits beyond a pleasant moment. Sociologists point out that our social lives consist not only of “strong ties,” such as family members and close friends, but also of “weak ties,” such as the shop clerk we greet every day or a neighbor we chat with occasionally. These weak ties can give us a sense of belonging to a community. They can also bring us new information, such as job opportunities, that our close friends, who tend to know the same things we do, cannot provide.\n\nOf course, not every situation is suitable for a conversation. Some people need quiet time to rest or to prepare for the day, and it is important to respect that. Still, the next time you are waiting in line or sitting next to someone on a bench, you might try a simple comment about the weather. The other person may be just as glad to talk as you are, and that small exchange could brighten both of your days.",
+"Every morning, millions of people ride crowded trains in silence. Most of them look at their smartphones and avoid eye contact with the people sitting next to them. Many people believe that talking to strangers would be awkward or even annoying. However, recent research in psychology suggests that this belief may be wrong, and that we are missing out on something valuable.\n\nIn one well-known experiment, researchers asked commuters in a large city to do one of three things on their way to work: talk to the person next to them, sit quietly, or do whatever they usually did. Before the experiment, most participants predicted that talking to a stranger would be the least pleasant choice. They worried that the other person would not want to talk, or that they would not know what to say. Surprisingly, the results showed the opposite. People who talked with a stranger reported having the most enjoyable journey, and almost no one was rejected.\n\nWhy do we misjudge these situations so badly? One explanation is that we underestimate how much other people want to connect with us. We tend to assume that others are less interested in us than they really are. Because everyone holds the same assumption, nobody makes the first move, and the silence continues. Researchers describe this as a kind of shared misunderstanding: each person is waiting for someone else to speak first. It is a little like a room full of people who all want to dance but are too shy to be the first one on the floor.\n\nSmall conversations with strangers may also have benefits beyond a pleasant moment. Sociologists point out that our social lives consist not only of “strong ties,” such as family members and close friends, but also of “weak ties,” such as the shop clerk we greet every day or a neighbor we chat with occasionally. These weak ties can give us a sense of belonging to a community. They can also bring us new information, such as job opportunities, that our close friends, who tend to know the same things we do, cannot provide.\n\nOf course, not every situation is suitable for a conversation. Some people need quiet time to rest or to prepare for the day, and it is important to respect that. Still, the next time you are waiting in line or sitting next to someone on a bench, you might try a simple comment about the weather. The other person may be just as glad to talk as you are, and that small exchange could brighten both of your days.\n\nResearchers have also found that the benefits grow with practice. In another study, people who were encouraged to talk to strangers every day for a week became more confident and less worried about being rejected. Like many social skills, starting a conversation seems to become easier the more often we try it.",
  qs:[
   {q:"［第1段落］According to the first paragraph, many people on trains do not talk to strangers because", ch:["they think it would be uncomfortable or unwelcome.","they are not allowed to talk on trains.","they are too tired after work.","they cannot hear each other on crowded trains."],
    ex:"第1段落 Many people believe that talking to strangers would be awkward or even annoying. より。awkward＝気まずい、annoying＝迷惑な。"},
@@ -420,7 +474,7 @@ VII: [
    ex:"第5段落 Some people need quiet time ... it is important to respect that と一致。実験は large city、人は他人の関心を「過小評価」している。"}
  ]},
  {id:"VII-2", title:"A New Way to Support Rural Towns", text:
-"Many rural towns in Japan are facing a serious problem: their populations are shrinking and growing older. Young people move to big cities to study or work, and few of them come back. As a result, schools close, local shops disappear, and traditional festivals become difficult to continue. For a long time, the main solution was to encourage people to move permanently to the countryside, but this has proved to be difficult for many families.\n\nIn recent years, a different idea has attracted attention. Instead of counting only the people who live in a town, some local governments now pay attention to people who are involved with the town in various ways. These people may visit regularly, help with events, buy local products online, or work on projects with residents from a distance. This group is sometimes called the “related population,” and it lies somewhere between tourists, who visit only once, and residents, who live there all the time.\n\nOne example comes from a small mountain village that was famous for its rice terraces. Because the farmers were getting too old to take care of the fields, many terraces were abandoned. The village then started a program in which city people could become “owners” of a terrace. For a yearly fee, they visit several times a year to plant and harvest rice with local farmers, and they receive the rice they grow. The program has helped preserve the beautiful landscape, and some participants have become so attached to the village that they eventually moved there.\n\nThe internet has made this kind of involvement much easier. Thanks to video calls, a designer in Tokyo can help a fishing town create labels for its products without leaving her office. Online “hometown tax” donations also allow people to support a place they care about and receive local goods in return. Through these connections, people who have never lived in a town can still feel that they are part of it.\n\nCritics point out that the related population cannot completely replace residents. Someone still has to clear the snow from the roads in winter and take care of elderly neighbors every day. However, supporters argue that the goal is not to replace residents but to give them partners. When people from outside bring new skills and fresh ideas, residents often rediscover the value of their own community. In this sense, the future of rural towns may depend less on how many people live there and more on how many people care about them.",
+"Many rural towns in Japan are facing a serious problem: their populations are shrinking and growing older. Young people move to big cities to study or work, and few of them come back. As a result, schools close, local shops disappear, and traditional festivals become difficult to continue. For a long time, the main solution was to encourage people to move permanently to the countryside, but this has proved to be difficult for many families.\n\nIn recent years, a different idea has attracted attention. Instead of counting only the people who live in a town, some local governments now pay attention to people who are involved with the town in various ways. These people may visit regularly, help with events, buy local products online, or work on projects with residents from a distance. This group is sometimes called the “related population,” and it lies somewhere between tourists, who visit only once, and residents, who live there all the time.\n\nOne example comes from a small mountain village that was famous for its rice terraces. Because the farmers were getting too old to take care of the fields, many terraces were abandoned. The village then started a program in which city people could become “owners” of a terrace. For a yearly fee, they visit several times a year to plant and harvest rice with local farmers, and they receive the rice they grow. The program has helped preserve the beautiful landscape, and some participants have become so attached to the village that they eventually moved there.\n\nThe internet has made this kind of involvement much easier. Thanks to video calls, a designer in Tokyo can help a fishing town create labels for its products without leaving her office. Online “hometown tax” donations also allow people to support a place they care about and receive local goods in return. Through these connections, people who have never lived in a town can still feel that they are part of it.\n\nYoung people in particular seem to value this kind of loose connection. Many of them are interested in rural life but are not ready to give up their jobs or friends in the city. For them, spending a few weekends a year helping with a harvest or a local festival is a realistic first step, and some local governments now offer cheap places to stay for such visitors.\n\nCritics point out that the related population cannot completely replace residents. Someone still has to clear the snow from the roads in winter and take care of elderly neighbors every day. However, supporters argue that the goal is not to replace residents but to give them partners. When people from outside bring new skills and fresh ideas, residents often rediscover the value of their own community. In this sense, the future of rural towns may depend less on how many people live there and more on how many people care about them.",
  qs:[
   {q:"［第1段落］According to the first paragraph, which is a result of population decline in rural towns?", ch:["Traditional festivals become hard to continue.","More schools are built.","Many young people return from big cities.","Local shops become more popular."],
    ex:"As a result, schools close, local shops disappear, and traditional festivals become difficult to continue. と一致。"},
@@ -438,6 +492,26 @@ VII: [
    ex:"第3段落 some participants ... eventually moved there と一致。批判派は「完全には代われない」、寄付者は地元の品を受け取る、参加は For a yearly fee（年会費制）。"},
   {q:"［全体］Which best expresses the writer's main point?", ch:["A town's future may depend on how many people care about it, not only on how many live there.","Rural towns should give up their traditional festivals.","Everyone should move from big cities to the countryside.","The internet is the main cause of rural decline."],
    ex:"最終文 depend less on how many people live there and more on how many people care about them が筆者の主張。最終段落の「In this sense」以降は要旨になりやすい。"}
+ ]},
+ {id:"VII-3", title:"The Doctor Who Asked Everyone to Wash Their Hands", text:
+"Today, washing our hands before touching food or treating a patient seems like the most natural thing in the world. Yet less than two hundred years ago, even doctors did not think it was necessary. The story of Ignaz Semmelweis, a Hungarian doctor who tried to change this, shows how difficult it can be for a new idea to be accepted, even when it can save lives.\n\nIn 1846, Semmelweis began working at a large hospital in Vienna, which had two separate clinics for women giving birth. In the first clinic, babies were delivered by doctors and medical students; in the second, they were delivered by midwives. Strangely, far more mothers died of a disease called childbed fever in the first clinic than in the second. The difference was so widely known that some women begged on their knees to be taken to the second clinic instead. Semmelweis was deeply troubled by these deaths and decided to find out the cause.\n\nAt first, he examined every possible explanation, from the position of the mothers during birth to the effect of a priest walking through the wards ringing a bell, but none of the changes he tried made any difference. Then, in 1847, a close friend and fellow doctor died after accidentally cutting his finger with a knife that a student had been using to examine a dead body. His symptoms were almost identical to those of the mothers. Semmelweis realized that the doctors and students in the first clinic often came straight from examining dead bodies to delivering babies. He concluded that they were carrying some kind of invisible “particles” on their hands, while the midwives, who never did such work, were not.\n\nSemmelweis ordered everyone in his clinic to wash their hands in a chlorine solution before examining patients. The results were dramatic. Within months, the death rate in the first clinic fell to about the same level as in the second. However, instead of welcoming his discovery, many senior doctors reacted with anger. His theory suggested that they themselves had been causing the deaths of their patients, which was a painful idea for proud professionals to accept. Moreover, Semmelweis could not explain exactly what the particles were, and he was slow to publish his findings. When he finally did, he attacked his critics in harsh letters, even calling them murderers, which made them still less willing to listen.\n\nSemmelweis lost his position in Vienna and returned to Hungary, where he continued his work with little recognition. He died in 1865, at the age of forty-seven, in a mental hospital. Only a few years later, the work of scientists such as Louis Pasteur showed that diseases could be spread by tiny living things, and his ideas were finally proved correct. Today, he is remembered as a pioneer of hand washing in medicine, and his name is even used for the human tendency to reject new evidence simply because it goes against what we already believe.",
+ qs:[
+  {q:"［第1段落］What is the main purpose of the first paragraph?", ch:["To introduce a story about how hard it can be for a new idea to be accepted","To explain the correct way to wash our hands before eating","To argue that modern doctors are careless about hand washing","To describe Semmelweis's childhood in Hungary"],
+   ex:"第1段落最終文 shows how difficult it can be for a new idea to be accepted, even when it can save lives が導入の要点。手洗いの方法や現代の医師の批判、子ども時代の話は出てこない。"},
+  {q:"［第2段落］According to the second paragraph, what was strange about the two clinics?", ch:["More mothers died in the clinic run by doctors than in the one run by midwives.","More mothers died in the clinic run by midwives than in the one run by doctors.","Many women refused to be taken to the second clinic.","The death rates in the two clinics were exactly the same."],
+   ex:"far more mothers died ... in the first clinic than in the second と一致。第1クリニック＝医師と医学生、第2クリニック＝助産師。2つ目の選択肢は主語を入れ替えたひっかけ。女性たちは第2クリニックへ「行かせてほしい」と懇願したので3つ目も逆。"},
+  {q:"［第3段落］What gave Semmelweis the idea that led to his discovery?", ch:["The death of a friend whose symptoms were almost the same as the mothers'","A change in the position of mothers during birth","A priest who stopped ringing a bell in the wards","A report from midwives working in another hospital"],
+   ex:"in 1847, a close friend ... died ... His symptoms were almost identical to those of the mothers が転機。出産時の姿勢や司祭の鐘は「試したが効果がなかった」説明（none of the changes he tried made any difference）なので、本文に出てくる語句を使った細部のひっかけ。"},
+  {q:"［第3段落］What can be inferred about the mothers in the second clinic?", ch:["They were safer because the midwives did not handle dead bodies before delivering babies.","They were safer because the midwives already washed their hands in chlorine.","They were safer because the second clinic had far fewer patients.","They were safer because midwives had more medical knowledge than doctors."],
+   ex:"推論問題。医師・医学生は遺体の検査から直接お産に向かっていた一方、the midwives, who never did such work, were not（助産師は粒子を運んでいなかった）とある。塩素での手洗いはこの後にゼンメルワイスが始めたこと。患者数や知識量の比較は書かれていない。"},
+  {q:"［第4段落］The word “dramatic” is closest in meaning to", ch:["very large and sudden","related to the theater","slightly disappointing","difficult to measure"],
+   ex:"文脈語彙。直後に「数か月のうちに死亡率が第2クリニックと同程度まで下がった」とあるので、「劇的な（大きく急な）」の意味。drama から「演劇の」を連想させるのがひっかけ。"},
+  {q:"［第4段落］Why did many senior doctors react with anger?", ch:["His theory suggested that they themselves had caused their patients' deaths.","He refused to tell anyone how the death rate had changed.","The death rate in his clinic rose after his order.","Washing hands in chlorine was too expensive for the hospital."],
+   ex:"His theory suggested that they themselves had been causing the deaths of their patients より。本文は「発表が遅かった（slow to publish）」であって「誰にも教えなかった」ではないので2つ目は言い過ぎ。死亡率は下がっている。費用の話は出てこない。"},
+  {q:"［全体］Which of the following is true according to the passage?", ch:["Semmelweis's ideas were proved correct only after his death.","Semmelweis started working in Vienna in 1847, the year his friend died.","Semmelweis was able to explain exactly what the particles were.","Semmelweis's harsh letters persuaded many of his critics."],
+   ex:"第5段落 He died in 1865 ... Only a few years later ... his ideas were finally proved correct と一致。ウィーンで働き始めたのは1846年（1847年は友人が亡くなった年で、数字のひっかけ）。粒子の正体は説明できず、厳しい手紙は批判者をいっそう耳を貸さなくさせた。"},
+  {q:"［全体］Which best expresses the main idea of the passage?", ch:["Even a discovery that saves lives can be rejected when it challenges what people already believe.","Midwives in the 1800s were better trained than doctors.","Semmelweis failed because his discovery turned out to be wrong.","Chlorine is the most effective medicine against every disease."],
+   ex:"主題。第1段落の導入（新しい考えが受け入れられる難しさ）と最終文（自分の信じていることに反する証拠を退ける人間の傾向）が一貫した主張。発見は「正しかった」と証明されているので3つ目は逆。"}
  ]}
 ]
 };
@@ -758,12 +832,12 @@ const VOCAB = [
 const SEC_ORDER = ["I","II","III","IV","V","VI","VII"];
 const SEC = {
   I:  {name:"会話文",       desc:"会話の流れに合う発言を選ぶ",       color:"#f2a65a", mock:6},
-  II: {name:"中文空所補充", desc:"約150語の文の空所を埋める",        color:"#e88f8f", mock:6},
+  II: {name:"中文空所補充", desc:"約180語の文の空所を埋める",        color:"#e88f8f", mock:6},
   III:{name:"文法・語法",   desc:"仮定法・倒置・分詞構文・比較など", color:"#7bb38f", mock:8},
   IV: {name:"同意文選択",   desc:"句動詞・慣用表現の言いかえ",       color:"#6fa6d6", mock:4},
   V:  {name:"定義語選択",   desc:"英語の定義に合う単語を選ぶ",       color:"#a48ad1", mock:5},
   VI: {name:"語句整序",     desc:"2つの位置に来る語を選ぶ（配点大）",color:"#d99a6c", mock:8},
-  VII:{name:"長文読解",     desc:"400〜500語の英文・8問",            color:"#5fa8a0", mock:8}
+  VII:{name:"長文読解",     desc:"460〜500語の英文・8問",            color:"#5fa8a0", mock:8}
 };
 const PRACTICE = {I:{g:2},II:{g:1},III:{n:8},IV:{n:5},V:{n:5},VI:{g:2},VII:{g:1}};
 const PROFILES = ["kota","naoki"];
